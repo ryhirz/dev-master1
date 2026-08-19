@@ -100,6 +100,25 @@ def seed() -> None:
                 status="active",
             ))
             db.commit()
+
+        # 3.1) 三角色演示账号（editor / cs_hr，幂等；生产环境可删）
+        demo_accounts = [
+            ("editor", "editor123", "内容编辑", "editor"),
+            ("cs_hr", "cshr123", "客服/HR", "cs_hr"),
+        ]
+        for username, pwd, display, role_name in demo_accounts:
+            if db.query(AdminUser).filter(AdminUser.username == username).first() is None:
+                role = db.query(Role).filter(Role.name == role_name).first()
+                if role is not None:
+                    db.add(AdminUser(
+                        username=username,
+                        password_hash=hash_password(pwd),
+                        display_name=display,
+                        role_id=role.id,
+                        status="active",
+                    ))
+        db.commit()
+
         # 4) 演示目录数据（曲库灌库，支持无 key 演示）
         _seed_catalog(db)
 
