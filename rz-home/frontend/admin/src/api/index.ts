@@ -102,7 +102,7 @@ export const aboutApi = {
   section: (code: string) => unwrap<AboutSectionItem>(client.get(`/admin/about-sections/${code}`)),
   updateSection: (code: string, b: AboutSectionPayload) =>
     unwrap<AboutSectionItem>(client.put(`/admin/about-sections/${code}`, b)),
-  milestones: () => unwrap<MilestoneItem[]>(client.get("/admin/milestones")),
+  milestones: (p?: PageParams & { status?: string }) => list<MilestoneItem>("/admin/milestones", p),
   createMilestone: (b: MilestonePayload) => unwrap<MilestoneItem>(client.post("/admin/milestones", b)),
   updateMilestone: (id: number, b: Partial<MilestonePayload>) =>
     unwrap<MilestoneItem>(client.put(`/admin/milestones/${id}`, b)),

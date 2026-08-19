@@ -1,0 +1,34 @@
+/* 后台全局样式 */
+body {
+  font-family: "Noto Sans SC", system-ui, -apple-system, sans-serif;
+}
+
+/* Tiptap 富文本内容区 */
+.rz-rich-editor {
+  min-height: 160px;
+  outline: none;
+  padding: 8px 4px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #1f1b16;
+}
+.rz-rich-editor[data-placeholder]:empty::before {
+  content: attr(data-placeholder);
+  color: #bbb;
+  pointer-events: none;
+}
+.rz-rich-editor h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 12px 0 6px;
+}
+.rz-rich-editor ul,
+.rz-rich-editor ol {
+  padding-left: 20px;
+}
+.rz-rich-editor blockquote {
+  border-left: 3px solid #e5ddd2;
+  padding-left: 12px;
+  color: #574f45;
+  margin: 8px 0;
+}
