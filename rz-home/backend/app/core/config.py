@@ -32,8 +32,8 @@ class Settings(BaseModel):
         "CORS_ORIGINS", "http://localhost:5173,http://localhost:5174"
     )
 
-    # 上传
-    UPLOAD_DIR: str = os.path.join(os.path.dirname(__file__), "..", "app", "static", "uploads")
+    # 上传（config.py 位于 app/core/，.. 即 backend/app；uploads 落 backend/app/static/uploads）
+    UPLOAD_DIR: str = os.path.join(os.path.dirname(__file__), "..", "static", "uploads")
     MAX_UPLOAD_MB: int = 10
     ALLOWED_IMAGE_EXT: tuple = (".jpg", ".jpeg", ".png", ".webp", ".gif")
 
