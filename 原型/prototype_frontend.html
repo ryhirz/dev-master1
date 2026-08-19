@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rz家居 · 企业官网（交互式原型）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --cream:#FAF7F2; --ink:#1F1B16; --walnut:#6B4F3A; --walnut-d:#4A3728; --sand:#C8A97E; --muted:#574F45; --line:#E7E0D6;
+  --success:#2F6B4F; --warning:#B5852A; --danger:#B4423A;
+  --serif:"Noto Serif SC",serif; --sans:"Noto Sans SC",system-ui,sans-serif;
+  --shadow-sm:0 1px 2px rgba(31,27,22,.04); --shadow-md:0 4px 16px rgba(31,27,22,.08); --shadow-lg:0 12px 32px rgba(31,27,22,.12);
+  --maxw:1280px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.7;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:700;line-height:1.25;margin:0;color:var(--ink);}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;}
+:focus-visible{outline:2px solid var(--walnut);outline-offset:2px;border-radius:4px;}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 16px;}
+@media(min-width:640px){.container{padding:0 24px;}}
+.muted{color:var(--muted);}
+.walnut{color:var(--walnut);}
+.serif{font-family:var(--serif);}
+.eyebrow{letter-spacing:.3em;text-transform:uppercase;font-size:12px;color:var(--walnut);font-weight:500;}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 22px;border-radius:10px;font-size:15px;font-weight:500;border:1px solid transparent;transition:background .18s,color .18s,box-shadow .18s;cursor:pointer;white-space:nowrap;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-primary{background:var(--walnut);color:var(--cream);}
+.btn-primary:hover:not(:disabled){background:var(--walnut-d);}
+.btn-secondary{border-color:var(--walnut);color:var(--walnut);background:transparent;}
+.btn-secondary:hover:not(:disabled){background:rgba(231,224,214,.6);}
+.btn-ghost{background:transparent;color:var(--walnut);padding:0 12px;height:40px;}
+.btn-ghost:hover{background:rgba(231,224,214,.6);}
+.btn-sm{height:38px;padding:0 16px;font-size:14px;border-radius:8px;}
+
+/* ---------- Header / Nav ---------- */
+.site-header{position:sticky;top:0;z-index:50;background:rgba(250,247,242,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+.nav-wrap{display:flex;align-items:center;justify-content:space-between;height:80px;gap:16px;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-mark{width:40px;height:40px;border-radius:10px;background:var(--walnut);color:var(--cream);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:20px;}
+.brand-name{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--walnut-d);letter-spacing:.02em;}
+.nav{display:none;align-items:center;gap:4px;height:100%;}
+@media(min-width:1024px){.nav{display:flex;}}
+.nav-item{position:relative;height:100%;display:flex;align-items:center;}
+.nav-link{display:flex;align-items:center;gap:6px;height:100%;padding:0 16px;font-size:16px;color:var(--ink);transition:color .15s;}
+.nav-link:hover,.nav-item.open .nav-link{color:var(--walnut);}
+.nav-link .chev{width:16px;height:16px;transition:transform .2s;opacity:.6;}
+.nav-item.open .nav-link .chev{transform:rotate(180deg);}
+.dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(6px);opacity:0;visibility:hidden;transition:opacity .2s,transform .2s;background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border:1px solid var(--line);padding:10px;min-width:230px;z-index:60;}
+.nav-item:hover .dropdown,.nav-item.open .dropdown,.nav-item:focus-within .dropdown{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);}
+.dd-item{display:block;padding:12px 14px;border-radius:10px;transition:background .15s;}
+.dd-item:hover{background:var(--cream);}
+.dd-item .t{font-weight:500;color:var(--ink);}
+.dd-item .d{font-size:13px;color:var(--muted);margin-top:2px;}
+.nav-actions{display:flex;align-items:center;gap:8px;}
+.icon-btn{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--ink);transition:background .15s;}
+.icon-btn:hover{background:rgba(231,224,214,.6);}
+.hamburger{display:flex;}
+@media(min-width:1024px){.hamburger{display:none;}}
+.searchbar{display:none;border-top:1px solid var(--line);background:var(--cream);}
+.searchbar.open{display:block;}
+.searchbar .container{padding-top:12px;padding-bottom:12px;}
+.search-input{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:0 14px;height:46px;}
+.search-input input{flex:1;border:none;outline:none;font-size:15px;background:transparent;font-family:inherit;color:var(--ink);}
+/* mobile drawer */
+.drawer-backdrop{position:fixed;inset:0;background:rgba(31,27,22,.4);z-index:1100;opacity:0;visibility:hidden;transition:opacity .25s;}
+.drawer-backdrop.open{opacity:1;visibility:visible;}
+.drawer{position:fixed;top:0;right:0;height:100%;width:300px;max-width:88vw;background:var(--cream);z-index:1101;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-lg);display:flex;flex-direction:column;}
+.drawer.open{transform:translateX(0);}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line);}
+.drawer-body{flex:1;overflow-y:auto;padding:8px 12px;}
+.m-nav-item{border-bottom:1px solid var(--line);}
+.m-nav-head{display:flex;align-items:center;justify-content:space-between;width:100%;padding:16px 8px;background:none;border:none;font-size:17px;font-family:var(--serif);font-weight:600;color:var(--ink);}
+.m-nav-head .chev{width:18px;height:18px;transition:transform .2s;}
+.m-nav-item.open .m-nav-head .chev{transform:rotate(180deg);}
+.m-sub{padding:0 8px 12px;display:none;}
+.m-nav-item.open .m-sub{display:block;}
+.m-sub a{display:block;padding:10px 12px;border-radius:8px;color:var(--muted);font-size:15px;}
+.m-sub a:hover{background:rgba(231,224,214,.6);color:var(--walnut);}
+.drawer-foot{padding:16px 20px;border-top:1px solid var(--line);}
+.drawer-foot .btn{width:100%;}
+
+/* ---------- Hero / Banner ---------- */
+.hero{position:relative;height:560px;overflow:hidden;background:var(--walnut-d);}
+@media(max-width:768px){.hero{height:420px;}}
+.slides{height:100%;}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .6s ease;display:flex;align-items:center;}
+.slide.active{opacity:1;}
+.slide-bg{position:absolute;inset:0;}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(31,27,22,.7),rgba(31,27,22,.15));}
+.slide-content{position:relative;max-width:var(--maxw);margin:0 auto;padding:0 24px;color:#fff;width:100%;}
+.slide-content .eyebrow{color:var(--sand);}
+.slide-content h1{color:#fff;font-size:46px;margin:14px 0;max-width:620px;}
+@media(max-width:768px){.slide-content h1{font-size:32px;}}
+.slide-content p{font-size:18px;max-width:520px;opacity:.92;margin:0 0 22px;}
+.hero-dots{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:2;}
+.hero-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.5);border:none;cursor:pointer;padding:0;transition:background .2s,width .2s;}
+.hero-dot.active{background:#fff;width:26px;border-radius:6px;}
+.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.18);border:none;color:#fff;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.hero-arrow:hover{background:rgba(255,255,255,.32);}
+.hero-arrow.prev{left:18px;}.hero-arrow.next{right:18px;}
+
+/* ---------- Sections ---------- */
+section{padding:64px 0;}
+@media(max-width:768px){section{padding:44px 0;}}
+.section-head{text-align:center;margin-bottom:40px;}
+.section-head h2{font-size:30px;margin:10px 0 8px;}
+.section-head p{color:var(--muted);margin:0;}
+.link-more{display:inline-flex;align-items:center;gap:6px;color:var(--walnut);font-weight:500;margin-top:30px;}
+.link-more svg{width:16px;height:16px;transition:transform .2s;}
+.link-more:hover svg{transform:translateX(4px);}
+
+/* stats */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+@media(min-width:768px){.stats-grid{grid-template-columns:repeat(4,1fr);}}
+.stat-card{background:var(--sand);border-radius:16px;padding:28px 20px;text-align:center;color:var(--ink);}
+.stat-num{font-family:var(--serif);font-size:40px;font-weight:700;line-height:1;}
+.stat-label{margin-top:8px;font-size:14px;opacity:.85;}
+
+/* cards */
+.grid{display:grid;gap:24px;}
+.grid-2{grid-template-columns:repeat(2,1fr);}
+.grid-3{grid-template-columns:repeat(3,1fr);}
+.grid-4{grid-template-columns:repeat(4,1fr);}
+@media(max-width:1024px){.grid-3,.grid-4{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:640px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow .2s;height:100%;}
+.card.clickable{cursor:pointer;}
+.card.clickable:hover{box-shadow:var(--shadow-md);}
+.card.clickable:hover .card-title{color:var(--walnut);}
+.card-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:linear-gradient(135deg,#E9DFD2,#D8C7B2);display:flex;align-items:center;justify-content:center;color:var(--walnut-d);font-family:var(--serif);font-size:22px;}
+.card-img.r169{aspect-ratio:16/9;}
+.card-img.r32{aspect-ratio:3/2;}
+.card-body{padding:18px 18px 20px;}
+.card-title{font-size:18px;font-weight:600;transition:color .2s;margin-bottom:6px;}
+.card-meta{font-size:13px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.card-summary{font-size:14px;color:var(--muted);margin-top:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+
+/* tags */
+.tag{display:inline-flex;align-items:center;gap:4px;border-radius:9999px;padding:3px 10px;font-size:12px;font-weight:500;}
+.tag-neutral{background:var(--line);color:var(--muted);}
+.tag-brand{background:rgba(107,79,58,.1);color:var(--walnut);}
+.tag-new{background:rgba(181,133,42,.15);color:var(--warning);}
+.tag-success{background:rgba(47,107,79,.12);color:var(--success);}
+
+/* recruitment CTA */
+.cta-block{background:linear-gradient(120deg,var(--walnut),var(--walnut-d));border-radius:20px;padding:48px;color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;}
+.cta-block h2{color:#fff;font-size:28px;}
+.cta-block p{opacity:.9;margin:8px 0 0;max-width:480px;}
+
+/* breadcrumb */
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);padding:24px 0 0;}
+.breadcrumb a:hover{color:var(--walnut);}
+.breadcrumb .sep{opacity:.5;}
+
+/* filter bar */
+.filterbar{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-bottom:28px;}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{font-size:13px;color:var(--muted);}
+.select,.input{height:42px;border:1px solid var(--line);border-radius:10px;padding:0 12px;font-family:inherit;font-size:14px;background:#fff;color:var(--ink);min-width:150px;}
+.input:focus,.select:focus{outline:none;border-color:var(--walnut);box-shadow:0 0 0 3px rgba(107,79,58,.15);}
+.tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin-bottom:28px;}
+.tab{padding:12px 18px;border:none;background:none;font-size:16px;color:var(--muted);border-bottom:2px solid transparent;font-family:var(--serif);font-weight:600;}
+.tab.active{color:var(--walnut);border-bottom-color:var(--walnut);}
+
+/* pagination */
+.pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:34px;}
+.page-btn{width:42px;height:42px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.page-btn:hover:not(:disabled){background:rgba(231,224,214,.6);}
+.page-btn.active{background:var(--walnut);color:var(--cream);border-color:var(--walnut);}
+.page-btn:disabled{opacity:.4;cursor:not-allowed;}
+.page-ellipsis{padding:0 4px;color:var(--muted);}
+
+/* detail */
+.detail-hero{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+@media(max-width:900px){.detail-hero{grid-template-columns:1fr;gap:24px;}}
+.gallery-main{aspect-ratio:4/3;border-radius:16px;background:linear-gradient(135deg,#E9DFD2,#D8C7B2);display:flex;align-items:center;justify-content:center;color:var(--walnut-d);font-family:var(--serif);font-size:30px;overflow:hidden;}
+.thumbs{display:flex;gap:10px;margin-top:12px;}
+.thumb{width:72px;height:72px;border-radius:10px;background:linear-gradient(135deg,#E9DFD2,#D8C7B2);border:2px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--walnut-d);font-size:13px;}
+.thumb.active{border-color:var(--walnut);}
+.spec-list{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+.spec-list dt{background:var(--cream);padding:12px 16px;font-weight:500;color:var(--muted);border-bottom:1px solid var(--line);}
+.spec-list dd{margin:0;padding:12px 16px;border-bottom:1px solid var(--line);}
+.detail-title{font-size:32px;margin-bottom:6px;}
+.detail-tags{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0;}
+.prose{color:var(--muted);font-size:16px;line-height:1.85;}
+.prose p{margin:0 0 14px;}
+
+/* timeline */
+.timeline{position:relative;max-width:820px;margin:0 auto;padding-left:28px;}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line);}
+.tl-item{position:relative;padding:0 0 36px 28px;}
+.tl-item::before{content:"";position:absolute;left:-28px;top:4px;width:16px;height:16px;border-radius:50%;background:var(--walnut);border:3px solid var(--cream);}
+.tl-year{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--walnut);}
+.tl-title{font-size:17px;font-weight:600;margin:4px 0;}
+
+/* form */
+.form{display:flex;flex-direction:column;gap:18px;max-width:560px;}
+.form-row{display:flex;flex-direction:column;gap:6px;}
+.form-row label{font-size:14px;font-weight:500;}
+.form-row label .req{color:var(--danger);margin-left:2px;}
+.form input,.form textarea{height:46px;border:1px solid var(--line);border-radius:10px;padding:0 14px;font-family:inherit;font-size:15px;background:#fff;color:var(--ink);width:100%;}
+.form textarea{height:auto;padding:12px 14px;resize:vertical;min-height:110px;}
+.form input:focus,.form textarea:focus{outline:none;border-color:var(--walnut);box-shadow:0 0 0 3px rgba(107,79,58,.15);}
+.form input.invalid,.form textarea.invalid{border-color:var(--danger);}
+.err-msg{color:var(--danger);font-size:13px;display:none;}
+.err-msg.show{display:block;}
+
+/* footer */
+.site-footer{background:var(--cream);border-top:1px solid var(--line);padding:54px 0 24px;margin-top:30px;}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:24px;}}
+.footer-col h4{font-size:16px;margin-bottom:14px;}
+.footer-col a{display:block;color:var(--muted);font-size:14px;padding:4px 0;transition:color .15s;}
+.footer-col a:hover{color:var(--walnut);}
+.footer-contact p{margin:6px 0;font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.footer-bottom{border-top:1px solid var(--line);margin-top:36px;padding-top:18px;text-align:center;font-size:13px;color:var(--muted);}
+
+/* modal & toast */
+.modal-backdrop{position:fixed;inset:0;background:rgba(31,27,22,.4);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .2s;}
+.modal-backdrop.open{opacity:1;visibility:visible;}
+.modal{background:#fff;border-radius:16px;max-width:520px;width:100%;padding:28px;transform:translateY(12px);transition:transform .2s;box-shadow:var(--shadow-lg);max-height:90vh;overflow-y:auto;}
+.modal-backdrop.open .modal{transform:translateY(0);}
+.modal h3{font-size:22px;margin-bottom:6px;}
+.modal .modal-sub{color:var(--muted);font-size:14px;margin-bottom:20px;}
+.modal-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:24px;}
+.toast-wrap{position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:1200;display:flex;flex-direction:column;gap:10px;align-items:center;}
+.toast{display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;box-shadow:var(--shadow-lg);padding:13px 18px;font-size:14px;min-width:240px;border-left:4px solid var(--success);animation:toastIn .25s ease;}
+.toast.error{border-left-color:var(--danger);}
+.toast.warning{border-left-color:var(--warning);}
+@keyframes toastIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+
+/* states */
+.skeleton{background:linear-gradient(90deg,#EDE6DB 25%,#F5EFE6 50%,#EDE6DB 75%);background-size:200% 100%;animation:shimmer 1.3s infinite;border-radius:10px;}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.empty{text-align:center;padding:60px 20px;color:var(--muted);}
+.empty svg{width:64px;height:64px;color:var(--sand);margin-bottom:14px;}
+.empty p{margin:0 0 18px;}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;}
+.spinner.dark{border-color:rgba(107,79,58,.25);border-top-color:var(--walnut);}
+@keyframes spin{to{transform:rotate(360deg);}}
+.notfound{text-align:center;padding:90px 20px;}
+.notfound .code{font-family:var(--serif);font-size:90px;font-weight:700;color:var(--sand);line-height:1;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr;}}
+.info-list p{margin:0 0 14px;display:flex;gap:10px;align-items:flex-start;color:var(--muted);}
+.info-list svg{width:20px;height:20px;color:var(--walnut);flex-shrink:0;margin-top:3px;}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="#/" aria-label="Rz家居 首页">
+      <span class="brand-mark">Rz</span>
+      <span class="brand-name">Rz家居</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="主导航">
+      <div class="nav-item"><a class="nav-link" href="#/">首页</a></div>
+      <div class="nav-item" data-dd>
+        <a class="nav-link" href="#/products" aria-haspopup="true" aria-expanded="false">产品 <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></a>
+        <div class="dropdown" role="menu">
+          <a class="dd-item" href="#/products" role="menuitem"><div class="t">产品中心</div><div class="d">系列 / 空间分类 / 产品详情</div></a>
+          <a class="dd-item" href="#/cases" role="menuitem"><div class="t">新案例展示</div><div class="d">住宅 / 工程 / 商业</div></a>
+        </div>
+      </div>
+      <div class="nav-item" data-dd>
+        <a class="nav-link" href="#/news" aria-haspopup="true" aria-expanded="false">新闻 <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></a>
+        <div class="dropdown" role="menu">
+          <a class="dd-item" href="#/news?cat=company" role="menuitem"><div class="t">企业新闻</div><div class="d">品牌动态与企业大事</div></a>
+          <a class="dd-item" href="#/news?cat=industry" role="menuitem"><div class="t">行业资讯</div><div class="d">家居行业趋势与洞察</div></a>
+        </div>
+      </div>
+      <div class="nav-item" data-dd>
+        <a class="nav-link" href="#/jobs" aria-haspopup="true" aria-expanded="false">招聘入口 <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></a>
+        <div class="dropdown" role="menu">
+          <a class="dd-item" href="#/jobs?type=social" role="menuitem"><div class="t">社会招聘</div><div class="d">寻找有经验的你</div></a>
+          <a class="dd-item" href="#/jobs?type=campus" role="menuitem"><div class="t">校园招聘</div><div class="d">校园新星招募计划</div></a>
+        </div>
+      </div>
+      <div class="nav-item" data-dd>
+        <a class="nav-link" href="#/about" aria-haspopup="true" aria-expanded="false">关于我们 <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></a>
+        <div class="dropdown" role="menu">
+          <a class="dd-item" href="#/about" role="menuitem"><div class="t">关于Rz</div><div class="d">企业概况 / 公司简介</div></a>
+          <a class="dd-item" href="#/about/history" role="menuitem"><div class="t">发展历程</div><div class="d">关键里程碑时间轴</div></a>
+          <a class="dd-item" href="#/about/brand" role="menuitem"><div class="t">品牌介绍</div><div class="d">品牌理念与工艺</div></a>
+          <a class="dd-item" href="#/about/contact" role="menuitem"><div class="t">联系我们</div><div class="d">公司信息 / 在线留言</div></a>
+        </div>
+      </div>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="searchToggle" aria-label="搜索" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+      <a class="btn btn-primary btn-sm" href="#/about/contact" style="height:40px;">在线留言</a>
+      <button class="icon-btn hamburger" id="hamburger" aria-label="打开菜单" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="searchbar" id="searchbar">
+    <div class="container">
+      <div class="search-input">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="searchInput" type="text" placeholder="搜索产品（原型演示：回车跳转到产品中心）" aria-label="搜索产品" />
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- mobile drawer -->
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="drawer" aria-label="移动端导航">
+  <div class="drawer-head">
+    <span class="brand-name">导航</span>
+    <button class="icon-btn" id="drawerClose" aria-label="关闭菜单"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot"><a class="btn btn-primary" href="#/about/contact">在线留言</a></div>
+</aside>
+
+<!-- ============ MAIN VIEW ============ -->
+<main id="view" tabindex="-1"></main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="brand" style="margin-bottom:14px;"><span class="brand-mark">Rz</span><span class="brand-name">Rz家居</span></div>
+        <p class="eyebrow" style="margin-bottom:8px;">Rz HOME · 家居美学</p>
+        <p class="muted" style="font-size:14px;max-width:340px;">以匠心造物，以美学筑家。专注原创设计与智能生产，为每一个家庭带来温润可靠的家居体验。</p>
+      </div>
+      <div class="footer-col">
+        <h4>快速导航</h4>
+        <a href="#/products">产品中心</a>
+        <a href="#/cases">新案例展示</a>
+        <a href="#/news">新闻资讯</a>
+        <a href="#/jobs">招聘入口</a>
+        <a href="#/about/contact">联系我们</a>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>联系方式</h4>
+        <p><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 400-000-0000</p>
+        <p><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg> contact@rzhome.com</p>
+        <p><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> 河北省某市家居产业园 1 号</p>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Rz家居 · 冀ICP备00000000号 · <a href="#/" style="color:var(--muted);text-decoration:underline;">隐私政策</a></div>
+  </div>
+</footer>
+
+<!-- toast container -->
+<div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
+
+<script>
+/* ============ ICONS ============ */
+const I = {
+  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  arrowLeft:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>',
+  arrowRight:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>',
+  alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>',
+  empty:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg>',
+};
+
+/* ============ SAMPLE DATA ============ */
+const DATA = {
+  banners:[
+    {title:'以匠心，筑理想之家',sub:'72 年专注家居制造，原创设计 × 智能生产',cta:'探索产品',href:'#/products',c1:'#4A3728',c2:'#6B4F3A'},
+    {title:'实景案例 · 见生活的温度',sub:'住宅 / 工程 / 商业全场景落地',cta:'查看案例',href:'#/cases',c1:'#3a2a1f',c2:'#7a5a40'},
+    {title:'加入 Rz，与美同行',sub:'社会招聘与校园招聘进行中',cta:'查看职位',href:'#/jobs',c1:'#5a4326',c2:'#8a6a3a'},
+  ],
+  series:[
+    {id:'s1',name:'胡桃禮',count:3},{id:'s2',name:'如意春',count:2},
+    {id:'s3',name:'禧YUE',count:2},{id:'s4',name:'柏悦',count:1},{id:'s5',name:'蓝宝嘉',count:1},
+  ],
+  categories:[{id:'c1',name:'客厅'},{id:'c2',name:'卧室'},{id:'c3',name:'书房'},{id:'c4',name:'茶室'},{id:'c5',name:'餐厅'},{id:'c6',name:'办公'}],
+  products:[
+    {id:'p1',series:'s1',cat:'c2',name:'胡桃禮·眠云床',model:'HL-201',price:'8,800',rec:true,summary:'北美黑胡桃实木框架，低饱和度温润木纹，回归睡眠本真。'},
+    {id:'p2',series:'s1',cat:'c1',name:'胡桃禮·听风沙发',model:'HL-108',price:'16,800',rec:true,summary:'模块化三人位，可拆洗棉麻面料，承托贴合人体曲线。'},
+    {id:'p3',series:'s1',cat:'c3',name:'胡桃禮·砚书桌',model:'HL-305',price:'6,200',rec:false,summary:'整木书桌，隐藏走线，适合阅读与居家办公。'},
+    {id:'p4',series:'s2',cat:'c5',name:'如意春·和乐餐桌',model:'RY-220',price:'9,600',rec:true,summary:'圆角伸缩设计，容纳 6–8 人，寓意团圆。'},
+    {id:'p5',series:'s2',cat:'c4',name:'如意春·禅茶椅',model:'RY-417',price:'3,400',rec:false,summary:'人体工学椅背，适合茶室与冥想空间。'},
+    {id:'p6',series:'s3',cat:'c1',name:'禧YUE·云栖电视柜',model:'XY-510',price:'7,900',rec:true,summary:'悬浮式极简柜体，哑光烤漆，收纳与陈列兼顾。'},
+    {id:'p7',series:'s3',cat:'c3',name:'禧YUE·墨书架',model:'XY-330',price:'5,500',rec:false,summary:'开放与封闭组合，灵活分区，书香可触。'},
+    {id:'p8',series:'s4',cat:'c2',name:'柏悦·致柔床垫',model:'BP-001',price:'11,200',rec:true,summary:'独立袋装弹簧 + 天然乳胶，深睡支撑系统。'},
+    {id:'p9',series:'s5',cat:'c6',name:'蓝宝嘉·简界办公桌',model:'LB-910',price:'4,800',rec:false,summary:'商用级耐磨台面，简约线条，高效专注。'},
+  ],
+  cases:[
+    {id:'k1',cat:'住宅',title:'城央平层 · 胡桃叙事',is_new:true,summary:'以胡桃木系贯穿全屋，营造沉稳而温暖的居住叙事。'},
+    {id:'k2',cat:'工程',title:'精品酒店样板间',is_new:true,summary:'商用家具整体交付，统一调性下的空间表达。'},
+    {id:'k3',cat:'商业',title:'联合办公空间',is_new:false,summary:'模块化办公系统，平衡协作与专注。'},
+    {id:'k4',cat:'住宅',title:'庭院别墅 · 茶室一隅',is_new:false,summary:'茶室家具组合，留白即是生活。'},
+    {id:'k5',cat:'工程',title:'企业总部接待厅',is_new:false,summary:'接待与展示一体化家具方案。'},
+    {id:'k6',cat:'住宅',title:'loft 公寓改造',is_new:false,summary:'小户型的高坪效家具搭配。'},
+  ],
+  news:[
+    {id:'n1',cat:'company',title:'Rz家居 2026 春季新品发布会圆满落幕',date:'2026-08-10',top:true,summary:'本次发布围绕"家居美学"主题，推出三大系列新品。'},
+    {id:'n2',cat:'company',title:'Rz家居荣获年度绿色制造示范企业',date:'2026-07-22',top:false,summary:'以环保涂装与智能产线，践行可持续制造。'},
+    {id:'n3',cat:'company',title:'智能生产线二期正式投产',date:'2026-06-15',top:false,summary:'产能与品控再升级，交付周期进一步缩短。'},
+    {id:'n4',cat:'company',title:'Rz家居携手设计院校共建原创实验室',date:'2026-05-30',top:false,summary:'产学研联动，培育新生代家居设计力量。'},
+    {id:'n5',cat:'industry',title:'2026 家居消费趋势：情绪价值成关键',date:'2026-08-05',top:false,summary:'消费者更关注氛围、材质与长期陪伴感。'},
+    {id:'n6',cat:'industry',title:'实木家具养护指南（行业科普）',date:'2026-07-18',top:false,summary:'温湿度、清洁与保养的实用建议。'},
+    {id:'n7',cat:'industry',title:'小户型空间利用的 5 个原则',date:'2026-06-28',top:false,summary:'从动线到收纳，提升居家效率。'},
+    {id:'n8',cat:'industry',title:'可持续材料正在重塑家居供应链',date:'2026-05-12',top:false,summary:'环保板材与循环工艺成为行业焦点。'},
+  ],
+  jobs:[
+    {id:'j1',type:'social',title:'高级家具结构工程师',dept:'研发部',city:'河北',salary:'20–35K',head:2,summary:'负责实木/板木家具结构设计与打样验证。'},
+    {id:'j2',type:'social',title:'品牌视觉设计师',dept:'品牌部',city:'上海',salary:'15–25K',head:1,summary:'负责品牌视觉、电商与展会物料设计。'},
+    {id:'j3',type:'social',title:'区域销售经理',dept:'销售部',city:'全国',salary:'面议',head:5,summary:'负责区域渠道拓展与经销商管理。'},
+    {id:'j4',type:'social',title:'用户研究专员',dept:'产品部',city:'北京',salary:'12–20K',head:1,summary:'通过调研洞察居家场景与用户需求。'},
+    {id:'j5',type:'campus',title:'2026 校园招聘 · 管培生',dept:'综合管理',city:'河北',salary:'面议',head:10,summary:'面向应届生的轮岗培养计划，定向成长。'},
+    {id:'j6',type:'campus',title:'工业设计实习生',dept:'研发部',city:'河北',salary:'200/天',head:3,summary:'参与家具外观设计辅助与建模渲染。'},
+    {id:'j7',type:'campus',title:'新媒体运营实习生',dept:'品牌部',city:'上海',salary:'180/天',head:2,summary:'负责社媒内容策划与发布。'},
+  ],
+  milestones:[
+    {year:'1953',title:'品牌始创',desc:'以匠心起步，专注家具制造。'},
+    {year:'1985',title:'规模化生产',desc:'引入现代化木工产线，产能跃升。'},
+    {year:'2008',title:'原创设计体系',desc:'建立独立设计中心，走向原创。'},
+    {year:'2016',title:'智能工厂',desc:'智能制造升级，品控数字化。'},
+    {year:'2021',title:'绿色制造',desc:'环保涂装与可持续材料全面落地。'},
+    {year:'2026',title:'家居美学焕新',desc:'以 Rz家居 品牌全新出发。'},
+  ],
+  company:{founded:1953,honor:120,lines:8,address:'河北省某市家居产业园 1 号',phone:'400-000-0000',email:'contact@rzhome.com'},
+  aboutOverview:'Rz家居始创于 1953 年，是一家集研发、制造、销售于一体的家居企业。我们以"家居美学"为品牌主张，坚持原创设计与智能生产，致力于为每一个家庭带来温润、可靠、经得起时间的家居体验。',
+  aboutBrand:'我们相信，家具不仅是器物，更是生活的容器。从人体工程学到原创设计，从智能生产线到售后服务，Rz家居在每一个环节都倾注匠心——让美，可触可感，可陪伴长久。',
+};
+
+/* ============ HELPERS ============ */
+const $ = (s,r=document)=>r.querySelector(s);
+const view = $('#view');
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function ph(label,bg){return `<div class="card-img ${bg||''}">${esc(label)}</div>`;}
+function toast(msg,type){
+  const t=document.createElement('div');
+  t.className='toast'+(type?(' '+type):'');
+  t.innerHTML=(type==='error'?I.alert:type==='warning'?I.alert:I.check)+'<span>'+esc(msg)+'</span>';
+  $('#toastWrap').appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(-10px)';setTimeout(()=>t.remove(),250);},2600);
+}
+function tag(text,cls){return `<span class="tag ${cls||'tag-neutral'}">${esc(text)}</span>`;}
+function seriesName(id){const s=DATA.series.find(x=>x.id===id);return s?s.name:id;}
+function catName(id){const c=DATA.categories.find(x=>x.id===id);return c?c.name:id;}
+
+/* ============ ROUTER ============ */
+function parseHash(){
+  let h=location.hash.replace(/^#/,''); if(!h)h='/';
+  const [path,q]=h.split('?');
+  const params={}; if(q)q.split('&').forEach(p=>{const[k,v]=p.split('=');params[k]=decodeURIComponent(v||'');});
+  const parts=path.split('/').filter(Boolean);
+  return {path,parts,params};
+}
+function go(hash){location.hash=hash;}
+
+/* query string helper for in-page tabs */
+function setParam(key,val){
+  const {path,params}=parseHash(); params[key]=val;
+  const qs=Object.entries(params).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&');
+  location.hash=path+(qs?'?'+qs:'');
+}
+
+/* ============ HEADER INTERACTIONS ============ */
+// dropdown click toggle (for keyboard / tap)
+document.querySelectorAll('.nav-item[data-dd]').forEach(item=>{
+  const link=item.querySelector('.nav-link');
+  link.addEventListener('click',e=>{
+    // allow navigation but also toggle on second interaction; for prototype we let hover work, click navigates
+  });
+});
+// search toggle
+$('#searchToggle').addEventListener('click',()=>{
+  const sb=$('#searchbar'); const open=sb.classList.toggle('open');
+  $('#searchToggle').setAttribute('aria-expanded',open);
+  if(open)$('#searchInput').focus();
+});
+$('#searchInput')&&$('#searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){toast('原型演示：跳转到产品中心');go('#/products');$('#searchbar').classList.remove('open');}});
+// mobile drawer
+function buildDrawer(){
+  const items=[
+    {label:'首页',href:'#/'},
+    {label:'产品',href:'#/products',sub:[{t:'产品中心',h:'#/products'},{t:'新案例展示',h:'#/cases'}]},
+    {label:'新闻',href:'#/news',sub:[{t:'企业新闻',h:'#/news?cat=company'},{t:'行业资讯',h:'#/news?cat=industry'}]},
+    {label:'招聘入口',href:'#/jobs',sub:[{t:'社会招聘',h:'#/jobs?type=social'},{t:'校园招聘',h:'#/jobs?type=campus'}]},
+    {label:'关于我们',href:'#/about',sub:[{t:'关于Rz',h:'#/about'},{t:'发展历程',h:'#/about/history'},{t:'品牌介绍',h:'#/about/brand'},{t:'联系我们',h:'#/about/contact'}]},
+  ];
+  $('#drawerBody').innerHTML=items.map(it=>`
+    <div class="m-nav-item">
+      ${it.sub?`<button class="m-nav-head" aria-expanded="false">${it.label}<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+       <div class="m-sub">${it.sub.map(s=>`<a href="${s.h}">${s.t}</a>`).join('')}</div>`
+      :`<a class="m-nav-head" href="${it.href}" style="text-decoration:none;color:inherit;">${it.label}</a>`}
+    </div>`).join('');
+  $('#drawerBody').querySelectorAll('.m-nav-head').forEach(b=>{
+    if(b.nextElementSibling){
+      b.addEventListener('click',()=>{
+        const item=b.closest('.m-nav-item'); const open=item.classList.toggle('open');
+        b.setAttribute('aria-expanded',open);
+      });
+    }
+  });
+  $('#drawerBody').querySelectorAll('.m-sub a').forEach(a=>a.addEventListener('click',closeDrawer));
+}
+function openDrawer(){$('#drawer').classList.add('open');$('#drawerBackdrop').classList.add('open');$('#hamburger').setAttribute('aria-expanded','true');}
+function closeDrawer(){$('#drawer').classList.remove('open');$('#drawerBackdrop').classList.remove('open');$('#hamburger').setAttribute('aria-expanded','false');}
+$('#hamburger').addEventListener('click',openDrawer);
+$('#drawerClose').addEventListener('click',closeDrawer);
+$('#drawerBackdrop').addEventListener('click',closeDrawer);
+buildDrawer();
+
+/* ============ VIEWS ============ */
+function skeletonCards(n){let s='<div class="grid grid-3">';for(let i=0;i<n;i++)s+='<div class="card"><div class="skeleton" style="aspect-ratio:4/3"></div><div class="card-body"><div class="skeleton" style="height:18px;width:70%;margin-bottom:10px"></div><div class="skeleton" style="height:12px;width:100%"></div></div></div>';return s+'</div>';}
+
+/* ---- HOME ---- */
+function viewHome(){
+  const rec=DATA.products.filter(p=>p.rec).slice(0,4);
+  const cases=DATA.cases.slice(0,3);
+  const news=DATA.news.slice(0,3);
+  return `
+  <section class="hero" id="hero">
+    <div class="slides" id="slides">
+      ${DATA.banners.map((b,i)=>`<div class="slide ${i===0?'active':''}" data-i="${i}">
+        <div class="slide-bg" style="background:linear-gradient(120deg,${b.c1},${b.c2})"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <p class="eyebrow">Rz HOME · 家居美学</p>
+          <h1>${esc(b.title)}</h1>
+          <p>${esc(b.sub)}</p>
+          <a class="btn btn-primary" href="${b.href}">${esc(b.cta)} ${I.arrow}</a>
+        </div>
+      </div>`).join('')}
+    </div>
+    <button class="hero-arrow prev" id="heroPrev" aria-label="上一张">${I.arrowLeft}</button>
+    <button class="hero-arrow next" id="heroNext" aria-label="下一张">${I.arrowRight}</button>
+    <div class="hero-dots" id="heroDots">${DATA.banners.map((_,i)=>`<button class="hero-dot ${i===0?'active':''}" data-i="${i}" aria-label="第${i+1}张"></button>`).join('')}</div>
+  </section>
+
+  <section>
+    <div class="container" style="text-align:center;">
+      <p class="eyebrow">Rz HOME · 家居美学</p>
+      <h2 style="font-size:38px;margin:12px 0 14px;">以匠心，筑理想之家</h2>
+      <p class="muted" style="max-width:640px;margin:0 auto;font-size:17px;">72 年专注家居制造，原创设计 × 智能生产，让每一件家具都成为生活的注脚。</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num">${DATA.company.founded}</div><div class="stat-label">始创年份</div></div>
+        <div class="stat-card"><div class="stat-num">${DATA.company.honor}+</div><div class="stat-label">荣誉奖项</div></div>
+        <div class="stat-card"><div class="stat-num">${DATA.company.lines}</div><div class="stat-label">智能生产线</div></div>
+        <div class="stat-card"><div class="stat-num">72</div><div class="stat-label">载匠心传承</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">推荐产品</p><h2>精选之作</h2><p>来自各系列的口碑之选</p></div>
+      <div class="grid grid-4">
+        ${rec.map(p=>productCard(p)).join('')}
+      </div>
+      <div style="text-align:center;"><a class="link-more" href="#/products">查看全部产品 ${I.arrow}</a></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">新案例展示</p><h2>见生活的温度</h2><p>住宅 / 工程 / 商业全场景</p></div>
+      <div class="grid grid-3">
+        ${cases.map(c=>caseCard(c)).join('')}
+      </div>
+      <div style="text-align:center;"><a class="link-more" href="#/cases">查看全部案例 ${I.arrow}</a></div>
+    </div>
+  </section>
+
+  <section style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">最新动态</p><h2>新闻资讯</h2></div>
+      <div class="grid grid-3">
+        ${news.map(n=>newsCard(n)).join('')}
+      </div>
+      <div style="text-align:center;"><a class="link-more" href="#/news">查看全部新闻 ${I.arrow}</a></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="cta-block">
+        <div>
+          <p class="eyebrow" style="color:var(--sand)">加入我们</p>
+          <h2>与美同行，正在招募</h2>
+          <p>无论你是资深专家，还是校园新星，Rz家居都为你留有位置。</p>
+        </div>
+        <a class="btn" style="background:#fff;color:var(--walnut);" href="#/jobs">查看招聘职位 ${I.arrow}</a>
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ---- card builders ---- */
+function productCard(p){
+  return `<a class="card clickable" href="#/products/${p.id}">
+    ${ph(p.name.slice(0,2))}
+    <div class="card-body">
+      <div class="card-title">${esc(p.name)}</div>
+      <div class="card-meta"><span>型号 ${esc(p.model)}</span><span>¥ ${esc(p.price)}</span></div>
+      <div class="card-summary">${esc(p.summary)}</div>
+    </div></a>`;
+}
+function caseCard(c){
+  return `<a class="card clickable" href="#/cases/${c.id}">
+    <div class="card-img r169">${esc(c.cat)}</div>
+    <div class="card-body">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+        <div class="card-title" style="font-size:17px;">${esc(c.title)}</div>
+        ${c.is_new?tag('新','tag-new'):''}
+      </div>
+      <div class="card-summary">${esc(c.summary)}</div>
+    </div></a>`;
+}
+function newsCard(n){
+  return `<a class="card clickable" href="#/news/${n.id}">
+    <div class="card-img r32">${n.cat==='company'?'企业':'行业'}</div>
+    <div class="card-body">
+      <div class="card-title" style="font-size:17px;">${esc(n.title)}</div>
+      <div class="card-meta"><span>${esc(n.date)}</span>${n.top?tag('置顶','tag-brand'):''}</div>
+      <div class="card-summary">${esc(n.summary)}</div>
+    </div></a>`;
+}
+function jobCard(j){
+  return `<a class="card clickable" href="#/jobs/${j.id}">
+    <div class="card-body">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
+        <div class="card-title" style="font-size:18px;">${esc(j.title)}</div>
+        ${tag(j.type==='social'?'社会招聘':'校园招聘','tag-brand')}
+      </div>
+      <div class="card-meta" style="margin-top:10px;"><span>${esc(j.dept)}</span><span>${esc(j.city)}</span><span>${esc(j.salary)}</span></div>
+      <div class="card-summary">${esc(j.summary)}</div>
+    </div></a>`;
+}
+
+/* ---- PRODUCTS ---- */
+function viewProducts(){
+  const {params}=parseHash();
+  let list=DATA.products.slice();
+  const fSeries=params.series||'', fCat=params.cat||'', fKw=(params.kw||'').toLowerCase();
+  if(fSeries)list=list.filter(p=>p.series===fSeries);
+  if(fCat)list=list.filter(p=>p.cat===fCat);
+  if(fKw)list=list.filter(p=>p.name.toLowerCase().includes(fKw)||p.model.toLowerCase().includes(fKw));
+  const page=parseInt(params.page||'1',10); const size=6; const total=Math.ceil(list.length/size);
+  const pageList=list.slice((page-1)*size,page*size);
+  return `
+  <div class="container">
+    <div class="breadcrumb"><a href="#/">首页</a><span class="sep">›</span><span>产品中心</span></div>
+    <div class="section-head" style="text-align:left;margin:24px 0 8px;"><p class="eyebrow">产品</p><h2>产品中心</h2></div>
+    <div class="filterbar">
+      <div class="field"><label>系列</label><select class="select" id="fSeries">
+        <option value="">全部系列</option>${DATA.series.map(s=>`<option value="${s.id}" ${fSeries===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div>
+      <div class="field"><label>空间分类</label><select class="select" id="fCat">
+        <option value="">全部空间</option>${DATA.categories.map(c=>`<option value="${c.id}" ${fCat===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}</select></div>
+      <div class="field" style="flex:1;min-width:200px;"><label>关键词</label><input class="input" id="fKw" placeholder="产品名称 / 型号" value="${esc(params.kw||'')}"></div>
+      <button class="btn btn-secondary" id="fReset">重置</button>
+    </div>
+    ${list.length===0?emptyState('暂无符合条件的产品','调整筛选条件试试'):`
+    <div class="grid grid-3">${pageList.map(productCard).join('')}</div>
+    ${pager(page,total,'#/products')}`}
+    <p class="muted" style="margin-top:16px;font-size:14px;">共 ${list.length} 件产品${fSeries?' · 系列：'+seriesName(fSeries):''}${fCat?' · 空间：'+catName(fCat):''}</p>
+  </div>`;
+}
+function bindProducts(){
+  const sync=()=>{const s=$('#fSeries').value,c=$('#fCat').value,kw=$('#fKw').value;const p={};if(s)p.series=s;if(c)p.cat=c;if(kw)p.kw=kw;const qs=Object.entries(p).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&');go('#/products'+(qs?'?'+qs:''));};
+  $('#fSeries')&&$('#fSeries').addEventListener('change',sync);
+  $('#fCat')&&$('#fCat').addEventListener('change',sync);
+  $('#fKw')&&$('#fKw').addEventListener('keydown',e=>{if(e.key==='Enter')sync();});
+  $('#fReset')&&$('#fReset').addEventListener('click',()=>go('#/products'));
+}
+function viewProductDetail(id){
+  const p=DATA.products.find(x=>x.id===id);
+  if(!p)return notFound();
+  const related=DATA.products.filter(x=>x.series===p.series&&x.id!==p.id).slice(0,3);
+  return `
+  <div class="container" style="padding-top:24px;">
+    <div class="breadcrumb"><a href="#/">首页</a><span class="sep">›</span><a href="#/products">产品中心</a><span class="sep">›</span><span>${esc(p.name)}</span></div>
+    <div class="detail-hero" style="margin-top:20px;">
+      <div>
+        <div class="gallery-main">${esc(p.name.slice(0,2))}</div>
+        <div class="thumbs">${[0,1,2,3].map(i=>`<div class="thumb ${i===0?'active':''}">${i}</div>`).join('')}</div>
+      </div>
+      <div>
+        <h1 class="detail-title">${esc(p.name)}</h1>
+        <div class="detail-tags">${tag('系列 · '+seriesName(p.series),'tag-brand')}${tag('空间 · '+catName(p.cat))}${p.rec?tag('首页推荐','tag-new'):''}</div>
+        <p class="prose">${esc(p.summary)}</p>
+        <p class="walnut" style="font-size:22px;font-family:var(--serif);font-weight:700;">¥ ${esc(p.price)} <span class="muted" style="font-size:13px;font-weight:400;">（展示参考价，不参与交易）</span></p>
+        <dl class="spec-list" style="margin-top:18px;">
+          <dt>型号</dt><dd>${esc(p.model)}</dd>
+          <dt>所属系列</dt><dd>${esc(seriesName(p.series))}</dd>
+          <dt>适用空间</dt><dd>${esc(catName(p.cat))}</dd>
+          <dt>材质工艺</dt><dd>实木 / 环保涂装</dd>
+          <dt>尺寸</dt><dd>按需定制</dd>
+          <dt>质保</dt><dd>五年质保</dd>
+        </dl>
+        <div style="margin-top:24px;display:flex;gap:12px;">
+          <a class="btn btn-primary" href="#/about/contact">咨询这款产品</a>
+          <a class="btn btn-secondary" href="#/products">返回列表</a>
+        </div>
+      </div>
+    </div>
+    ${related.length?`<h3 style="margin:48px 0 20px;">同系列推荐</h3><div class="grid grid-3">${related.map(productCard).join('')}</div>`:''}
+  </div>`;
+}
+
+/* ---- CASES ---- */
+function viewCases(){
+  const {params}=parseHash();
+  let list=DATA.cases.slice();
+  const fCat=params.cat||'', fNew=params.new==='1';
+  if(fCat&&fCat!=='all')list=list.filter(c=>c.cat===fCat);
+  if(fNew)list=list.filter(c=>c.is_new);
+  if(fNew)list.sort((a,b)=>(b.is_new?1:0)-(a.is_new?1:0));
+  const page=parseInt(params.page||'1',10),size=6,total=Math.ceil(list.length/size);
+  const pageList=list.slice((page-1)*size,page*size);
+  const cats=['住宅','工程','商业'];
+  return `
+  <div class="container">
+    <div class="breadcrumb"><a href="#/">首页</a><span class="sep">›</span><a href="#/products">产品</a><span class="sep">›</span><span>新案例展示</span></div>
+    <div class="section-head" style="text-align:left;margin:24px 0 8px;"><p class="eyebrow">产品 / 新案例展示</p><h2>新案例展示</h2></div>
+    <div class="tabs">
+      <button class="tab ${!fCat||fCat==='all'?'active':''}" data-cat="all">全部</button>
+      ${cats.map(c=>`<button class="tab ${fCat===c?'active':''}" data-cat="${c}">${c}</button>`).join('')}
+      <button class="tab ${fNew?'active':''}" data-new="1">仅看"新"</button>
+    </div>
+    ${list.length===0?emptyState('暂无案例','稍后再来看看'):`
+    <div class="grid grid-3">${pageList.map(caseCard).join('')}</div>
+    ${pager(page,total,'#/cases')}`}
+  </div>`;
+}
+function bindCases(){
+  document.querySelectorAll('.tab[data-cat]').forEach(b=>b.addEventListener('click',()=>{const c=b.dataset.cat;go('#/cases'+(c&&c!=='all'?'?cat='+c:''));}));
+  const nb=document.querySelector('.tab[data-new]'); nb&&nb.addEventListener('click',()=>go('#/cases?new=1'));
+}
+function viewCaseDetail(id){
+  const c=DATA.cases.find(x=>x.id===id); if(!c)return notFound();
+  return `
+  <div class="container" style="padding-top:24px;">
+    <div class="breadcrumb"><a href="#/">首页</a><span class="sep">›</span><a href="#/cases">新案例展示</a><span class="sep">›</span><span>${esc(c.title)}</span></div>
+    <div class="detail-hero" style="margin-top:20px;">
+      <div class="gallery-main" style="aspect-ratio:16/9;">${esc(c.cat)}</div>
+      <div>
+        <h1 class="detail-title">${esc(c.title)}</h1>
+        <div class="detail-tags">${tag(c.cat,'tag-brand')}${c.is_new?tag('新案例','tag-new'):''}</div>
+        <p class="prose">${esc(c.summary)}</p>
+        <p class="prose">项目以"家居美学"为线索，统筹材质、动线与光影，呈现温润而克制的空间气质。从选料到落地，Rz家居提供从设计到交付的一体化方案。</p>
+        <dl class="spec-list" style="margin-top:18px;">
+          <dt>项目分类</dt><dd>${esc(c.cat)}</dd>
+          <dt>交付内容</dt><dd>家具整体方案</dd>
+          <dt>服务范围</dt><dd>设计 / 生产 / 安装</dd>
+          <dt>年份</dt><dd>2026</dd>
+        </dl>
+        <div style="margin-top:22px;"><a class="btn btn-secondary" href="#/cases">返回案例列表</a></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---- NEWS ---- */
+function viewNews(){
+  const {params}=parseHash();
+  const cat=params.cat||'all';
+  let list=DATA.news.slice().sort((a,b)=>(b.top?1:0)-(a.top?1:0));
+  if(cat!=='all')list=list.filter(n=>n.cat===cat);
+  const page=parseInt(params.page||'1',10),size=6,total=Math.ceil(list.length/size);
+  const pageList=list.slice((page-1)*size,page*size);
+  return `
+  <div class="container">
+    <div class="breadcrumb"><a href="#/">首页</a><span class="sep">›</span><span>新闻</span></div>
+    <div class="section-head" style="text-align:left;margin:24px 0 8px;"><p class="eyebrow">新闻</p><h2>新闻资讯</h2></div>
+    <div class="tabs">
+      <button class="tab ${cat==='all'?'active':''}" data-cat="all">全部</button>
+      <button class="tab ${cat==='company'?'active':''}" data-cat="company">企业新闻</button>
+      <button class="tab ${cat==='industry'?'active':''}" data-cat="industry">行业资讯</button>
+    </div>
+    ${list.length===0?emptyState('暂无新闻','敬请期待'):`
+    <div class="grid grid-3">${pageList.map(newsCard).join('')}</div>
+    ${pager(page,total,'#/news')}`}
+  </div>`;
+}
+function bindNews(){document.querySelectorAll('.tab[data-cat]').forEach(b=>b.addEventListener('click',()=>{const c=b.dataset.cat;go('#/news'+(c&&c!=='all'?'?cat='+c:''));}));}
+function viewNewsDetail(id){
+  const n=DATA.news.find(x=>x.id===id); if(!n)return notFound();
+  return `
+  <div class="container" style="padding-top:24px;max-width:860px;">
+    <div class="breadcrumb"><a href="#/">首页</a><span class="sep">›</span><a href="#/news">新闻</a><span class="sep">›</span><span>${esc(n.title)}</span></div>
+    <p class="eyebrow" style="margin:24px 0 8px;">${n.cat==='company'?'企业新闻':'行业资讯'}</p>
+    <h1 style="font-size:32px;line-height:1.3;">${esc(n.title)}</h1>
+    <div class="card-meta" style="margin:12px 0 24px;">${tag(n.cat==='company'?'企业新闻':'行业资讯','tag-brand')}<span>${esc(n.date)}</span>${n.top?tag('置顶','tag-brand'):''}</div>
+    <div class="prose">
+      <p>${esc(n.summary)}</p>
+      <p>本文为原型演示内容。实际交付时，此处将渲染后台维护的富文本正文，包含图文排版、引用与列表等元素，由内容编辑在后台「新闻资讯管理」中发布。</p>
+      <p>Rz家居持续以"家居美学"为品牌主张，在原创设计与智能生产之间寻找平衡，致力于为消费者带来更可信赖的家居体验。</p>
+    </div>
+    <div style="margin-top:30px;"><a class="btn btn-secondary" href="#/news">返回新闻列表</a></div>
+  </div>`;
+}
+
+/* ---- JOBS ---- */
+function viewJobs(){
+  const {params}=parseHash();
+  const type=params.type||'all';
+  let list=DATA.jobs.slice();
+  if(type!=='all')list=list.filter(j=>j.type===type);
+  const page=parseInt(params.page||'1',10),size=6,total=Math.ceil(list.length/size);
+  const pageList=list.slice((page-1)*size,page*size);
+  return `
+  <div class="container">
+    <div class="breadcrumb"><a href="#/">首页</a><span class="sep">›</span><span>招聘入口</span></div>
+    <div class="section-head" style="text-align:left;margin:24px 0 8px;"><p class="eyebrow">招聘入口</p><h2>加入 Rz家居</h2></div>
+    <div class="tabs">
+      <button class="tab ${type==='all'?'active':''}" data-type="all">全部</button>
+      <button class="tab ${type==='social'?'active':''}" data-type="social">社会招聘</button>
+      <button class="tab ${type==='campus'?'active':''}" data-type="campus">校园招聘</button>
+    </div>
+    ${list.length===0?emptyState('暂无职位','稍后再来看看'):`
+    <div class="grid grid-2">${pageList.map(jobCard).join('')}</div>
+    ${pager(page,total,'#/jobs')}`}
+  </div>`;
+}
+function bindJobs(){document.querySelectorAll('.tab[data-type]').forEach(b=>b.addEventListener('click',()=>{const t=b.dataset.type;go('#/jobs'+(t&&t!=='all'?'?type='+t:''));}));}
+function viewJobDetail(id){
+  const j=DATA.jobs.find(x=>x.id===id); if(!j)return notFound();
+  return `
+  <div class="container" style="padding-top:24px;max-width:860px;">
+    <div class="breadcrumb"><a href="#/">首页</a><span class="sep">›</span><a href="#/jobs">招聘入口</a><span class="sep">›</span><span>${esc(j.title)}</span></div>
+    <div class="detail-tags" style="margin:20px 0 6px;">${tag(j.type==='social'?'社会招聘':'校园招聘','tag-brand')}</div>
+    <h1 class="detail-title">${esc(j.title)}</h1>
+    <div class="card-meta" style="margin:10px 0 20px;"><span>${esc(j.dept)}</span><span>${esc(j.city)}</span><span>${esc(j.salary)}</span><span>招聘 ${esc(j.head)} 人</span></div>
+    <div class="prose">
+      <h3 style="font-size:20px;margin:18px 0 8px;">岗位职责</h3>
+      <p>${esc(j.summary)} 负责相关业务的推进与落地，协同跨部门团队达成目标，并持续优化工作方法与产出质量。</p>
+      <h3 style="font-size:20px;margin:18px 0 8px;">任职要求</h3>
+      <p>具备对应岗位的专业能力与经验，良好的沟通协作与学习能力，认同 Rz家居"家居美学"的品牌理念。</p>
+    </div>
+    <div style="margin:26px 0;display:flex;gap:12px;">
+      <button class="btn btn-primary" id="applyBtn">投递意向 ${I.arrow}</button>
+      <a class="btn btn-secondary" href="#/jobs">返回职位列表</a>
+    </div>
+  </div>`;
+}
+function bindJobDetail(id){
+  const j=DATA.jobs.find(x=>x.id===id);
+  $('#applyBtn')&&$('#applyBtn').addEventListener('click',()=>openApplyModal(j));
+}
+
+/* ---- ABOUT ---- */
+function aboutBread(sub){return `<div class="breadcrumb"><a href="#/">首页</a><span class="sep">›</span><a href="#/about">关于我们</a>${sub?`<span class="sep">›</span><span>${sub}</span>`:''}</div>`;}
+function viewAbout(){
+  return `
+  <div class="container">
+    ${aboutBread()}
+    <div class="section-head" style="text-align:left;margin:24px 0 8px;"><p class="eyebrow">关于我们</p><h2>关于 Rz</h2></div>
+    <div class="prose" style="max-width:820px;">${esc(DATA.aboutOverview)}</div>
+    <div class="stats-grid" style="margin-top:40px;">
+      <div class="stat-card"><div class="stat-num">${DATA.company.founded}</div><div class="stat-label">始创年份</div></div>
+      <div class="stat-card"><div class="stat-num">${DATA.company.honor}+</div><div class="stat-label">荣誉奖项</div></div>
+      <div class="stat-card"><div class="stat-num">${DATA.company.lines}</div><div class="stat-label">智能生产线</div></div>
+      <div class="stat-card"><div class="stat-num">72</div><div class="stat-label">载匠心传承</div></div>
+    </div>
+    <div style="margin-top:30px;display:flex;gap:12px;flex-wrap:wrap;">
+      <a class="btn btn-secondary" href="#/about/history">发展历程</a>
+      <a class="btn btn-secondary" href="#/about/brand">品牌介绍</a>
+      <a class="btn btn-primary" href="#/about/contact">联系我们</a>
+    </div>
+  </div>`;
+}
+function viewHistory(){
+  return `
+  <div class="container">
+    ${aboutBread('发展历程')}
+    <div class="section-head" style="text-align:left;margin:24px 0 8px;"><p class="eyebrow">关于我们</p><h2>发展历程</h2></div>
+    <div class="timeline">
+      ${DATA.milestones.map(m=>`<div class="tl-item"><div class="tl-year">${esc(m.year)}</div><div class="tl-title">${esc(m.title)}</div><p class="muted">${esc(m.desc)}</p></div>`).join('')}
+    </div>
+  </div>`;
+}
+function viewBrand(){
+  return `
+  <div class="container">
+    ${aboutBread('品牌介绍')}
+    <div class="section-head" style="text-align:left;margin:24px 0 8px;"><p class="eyebrow">关于我们</p><h2>品牌介绍</h2></div>
+    <div class="prose" style="max-width:820px;">${esc(DATA.aboutBrand)}</div>
+    <div class="grid grid-2" style="margin-top:36px;">
+      ${[['人体工程学','贴合身形与使用习惯，久坐不累。'],['原创设计','独立设计中心，持续输出新品。'],['智能生产线','数字化品控，稳定交付。'],['售后服务','五年质保，贴心陪伴。']].map(b=>`<div class="card"><div class="card-body"><div class="card-title">${b[0]}</div><p class="muted" style="margin:0;font-size:15px;">${b[1]}</p></div></div>`).join('')}
+    </div>
+  </div>`;
+}
+function viewContact(){
+  return `
+  <div class="container">
+    ${aboutBread('联系我们')}
+    <div class="section-head" style="text-align:left;margin:24px 0 8px;"><p class="eyebrow">关于我们</p><h2>联系我们</h2></div>
+    <div class="contact-grid">
+      <div class="info-list">
+        <h3 style="font-size:20px;margin:0 0 8px;">公司信息</h3>
+        <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${esc(DATA.company.address)}</p>
+        <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> ${esc(DATA.company.phone)}</p>
+        <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg> ${esc(DATA.company.email)}</p>
+        <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="M4 8h4M16 8h4"/></svg> 微信：RzHome2026（占位）</p>
+        <div style="margin-top:16px;"><div id="mapPlaceholder" style="height:180px;border-radius:12px;background:linear-gradient(135deg,#E9DFD2,#D8C7B2);display:flex;align-items:center;justify-content:center;color:var(--walnut-d);font-family:var(--serif);">地图占位</div></div>
+      </div>
+      <div>
+        <h3 style="font-size:20px;margin:0 0 14px;">在线留言</h3>
+        <form class="form" id="contactForm" novalidate>
+          <div class="form-row"><label>姓名<span class="req">*</span></label><input name="name" aria-describedby="err-name"><div class="err-msg" id="err-name">请填写姓名</div></div>
+          <div class="form-row"><label>电话<span class="req">*</span></label><input name="phone" aria-describedby="err-phone"><div class="err-msg" id="err-phone">请填写有效的 11 位手机号</div></div>
+          <div class="form-row"><label>邮箱</label><input name="email"><div class="err-msg" id="err-email">邮箱格式不正确</div></div>
+          <div class="form-row"><label>内容<span class="req">*</span></label><textarea name="content" aria-describedby="err-content"></textarea><div class="err-msg" id="err-content">请填写留言内容</div></div>
+          <button class="btn btn-primary" type="submit" style="align-self:flex-start;">提交留言</button>
+        </form>
+      </div>
+    </div>
+  </div>`;
+}
+function bindContact(){
+  const form=$('#contactForm'); if(!form)return;
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    let ok=true;
+    const name=form.name.value.trim(),phone=form.phone.value.trim(),email=form.email.value.trim(),content=form.content.value.trim();
+    const setErr=(f,msg,show)=>{const el=document.getElementById('err-'+f);el.textContent=msg;el.classList.toggle('show',show);form[f].classList.toggle('invalid',show);if(show)ok=false;};
+    setErr('name','请填写姓名',!name);
+    setErr('phone','请填写有效的 11 位手机号',!/(^1[3-9]\d{9}$)/.test(phone));
+    setErr('email','邮箱格式不正确',email&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email));
+    setErr('content','请填写留言内容',!content);
+    if(!ok){toast('请检查表单填写','error');return;}
+    const btn=form.querySelector('button[type=submit]');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> 提交中';
+    setTimeout(()=>{btn.disabled=false;btn.innerHTML='提交留言';form.reset();toast('留言已提交，我们会尽快与您联系');},900);
+  });
+}
+
+/* ---- MODALS / STATES ---- */
+function openApplyModal(job){
+  const back=document.createElement('div');back.className='modal-backdrop';back.innerHTML=`
+    <div class="modal" role="dialog" aria-modal="true" aria-label="投递意向">
+      <h3>投递意向 · ${esc(job.title)}</h3>
+      <p class="modal-sub">${esc(job.dept)} · ${esc(job.city)} · ${esc(job.salary)}</p>
+      <form class="form" id="applyForm" novalidate>
+        <div class="form-row"><label>姓名<span class="req">*</span></label><input name="name" aria-describedby="a-err-name"><div class="err-msg" id="a-err-name">请填写姓名</div></div>
+        <div class="form-row"><label>电话<span class="req">*</span></label><input name="phone" aria-describedby="a-err-phone"><div class="err-msg" id="a-err-phone">请填写有效的 11 位手机号</div></div>
+        <div class="form-row"><label>邮箱</label><input name="email"><div class="err-msg" id="a-err-email">邮箱格式不正确</div></div>
+        <div class="form-row"><label>内容（选填）</label><textarea name="content" placeholder="简单介绍一下你自己"></textarea></div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="applyCancel">取消</button>
+          <button type="submit" class="btn btn-primary" id="applySubmit">提交投递</button>
+        </div>
+      </form>
+    </div>`;
+  document.body.appendChild(back);
+  requestAnimationFrame(()=>back.classList.add('open'));
+  const close=()=>{back.classList.remove('open');setTimeout(()=>back.remove(),200);};
+  back.addEventListener('click',e=>{if(e.target===back)close();});
+  $('#applyCancel',back).addEventListener('click',close);
+  $('#applyForm',back).addEventListener('submit',e=>{
+    e.preventDefault();let ok=true;
+    const f=$('#applyForm',back);
+    const name=f.name.value.trim(),phone=f.phone.value.trim(),email=f.email.value.trim();
+    const setErr=(k,msg,show)=>{const el=document.getElementById('a-err-'+k);el.textContent=msg;el.classList.toggle('show',show);f[k].classList.toggle('invalid',show);if(show)ok=false;};
+    setErr('name','请填写姓名',!name);
+    setErr('phone','请填写有效的 11 位手机号',!/^1[3-9]\d{9}$/.test(phone));
+    setErr('email','邮箱格式不正确',email&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email));
+    if(!ok){toast('请检查表单填写','error');return;}
+    const btn=$('#applySubmit',back);btn.disabled=true;btn.innerHTML='<span class="spinner"></span> 提交中';
+    setTimeout(()=>{close();toast('投递意向已提交，HR 将尽快与您联系');},900);
+  });
+}
+function emptyState(title,sub){return `<div class="empty">${I.empty}<p>${esc(title)}</p>${sub?`<button class="btn btn-secondary btn-sm" onclick="go('#/')">${esc(sub)}</button>`:''}</div>`;}
+function notFound(){
+  return `<div class="container notfound"><div class="code">404</div><h2 style="margin:10px 0;">页面走丢了</h2><p class="muted">您访问的页面不存在或已下架。</p><a class="btn btn-primary" href="#/">返回首页</a></div>`;
+}
+function pager(page,total,base){
+  if(total<=1)return '';
+  let s='<div class="pagination">';
+  s+=`<button class="page-btn" ${page===1?'disabled':''} data-pg="${page-1}" aria-label="上一页">${I.arrowLeft}</button>`;
+  for(let i=1;i<=total;i++){s+=`<button class="page-btn ${i===page?'active':''}" data-pg="${i}">${i}</button>`;}
+  s+=`<button class="page-btn" ${page===total?'disabled':''} data-pg="${page+1}" aria-label="下一页">${I.arrowRight}</button>`;
+  s+='</div>';
+  return s;
+}
+function bindPager(){
+  document.querySelectorAll('.page-btn[data-pg]').forEach(b=>b.addEventListener('click',()=>{
+    if(b.disabled)return;
+    const {path,params}=parseHash();const pg=b.dataset.pg;params.page=pg;
+    const qs=Object.entries(params).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&');
+    go(path+(qs?'?'+qs:''));
+  }));
+}
+
+/* ============ RENDER ============ */
+function render(){
+  const {path,parts,params}=parseHash();
+  let html='',bind=null,needTop=true;
+  if(path==='/'||path===''){html=viewHome();bind=()=>bindHero();}
+  else if(parts[0]==='products'){
+    if(parts[1]){html=viewProductDetail(parts[1]);}
+    else{html=viewProducts();bind=bindProducts;}
+  }
+  else if(parts[0]==='cases'){
+    if(parts[1]){html=viewCaseDetail(parts[1]);}
+    else{html=viewCases();bind=bindCases;}
+  }
+  else if(parts[0]==='news'){
+    if(parts[1]){html=viewNewsDetail(parts[1]);}
+    else{html=viewNews();bind=bindNews;}
+  }
+  else if(parts[0]==='jobs'){
+    if(parts[1]){html=viewJobDetail(parts[1]);bind=()=>bindJobDetail(parts[1]);}
+    else{html=viewJobs();bind=bindJobs;}
+  }
+  else if(parts[0]==='about'){
+    if(parts[1]==='history')html=viewHistory();
+    else if(parts[1]==='brand')html=viewBrand();
+    else if(parts[1]==='contact'){html=viewContact();bind=bindContact;}
+    else html=viewAbout();
+  }
+  else {html=notFound();}
+  view.innerHTML=html;
+  view.scrollIntoView?window.scrollTo(0,0):0;
+  window.scrollTo(0,0);
+  if(bind)bind();
+  bindPager();
+  setActiveNav(path,parts);
+  closeDrawer();
+}
+function bindHero(){
+  const slides=[...document.querySelectorAll('.slide')];
+  const dots=[...document.querySelectorAll('.hero-dot')];
+  if(!slides.length)return;
+  let cur=0,timer;
+  const show=i=>{cur=(i+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===cur));dots.forEach((d,k)=>d.classList.toggle('active',k===cur));};
+  const next=()=>show(cur+1),prev=()=>show(cur-1);
+  const start=()=>{timer=setInterval(next,4500);};
+  const stop=()=>clearInterval(timer);
+  $('#heroNext')&&$('#heroNext').addEventListener('click',()=>{next();});
+  $('#heroPrev')&&$('#heroPrev').addEventListener('click',()=>{prev();});
+  dots.forEach(d=>d.addEventListener('click',()=>show(parseInt(d.dataset.i))));
+  const hero=$('#hero'); hero&&hero.addEventListener('mouseenter',stop); hero&&hero.addEventListener('mouseleave',start);
+  start();
+}
+function setActiveNav(path,parts){
+  document.querySelectorAll('.nav-link').forEach(l=>l.removeAttribute('aria-current'));
+  const map={'/':'#/','products':'#/products','cases':'#/cases','news':'#/news','jobs':'#/jobs','about':'#/about'};
+  const key=parts[0]||'/';
+  const sel=document.querySelector(`.nav-link[href="${map[key]||''}"]`);
+  if(sel)sel.setAttribute('aria-current','page');
+}
+
+window.addEventListener('hashchange',render);
+render();
+</script>
+</body>
+</html>

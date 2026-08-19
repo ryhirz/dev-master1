@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 1028" font-family="sans-serif">
+<rect x="0" y="0" width="680" height="1028" fill="#FBF8F2"/>
+<style>
+  .hdr-t{fill:#fff;font-size:13px;font-weight:700;text-anchor:middle;}
+  .attr{fill:#1F1B16;font-size:11px;}
+  .pk{fill:#6B4F3A;font-weight:700;}
+  .fk{fill:#3B6EA5;font-weight:600;}
+  .dom-t{fill:#fff;font-size:13px;font-weight:700;text-anchor:middle;}
+  .lbl{fill:#574F45;font-size:11px;font-weight:700;}
+  .leg{fill:#574F45;font-size:11px;}
+</style>
+<defs>
+  <marker id="many" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" refX="12" refY="7" orient="auto">
+    <path d="M12,7 L2,2 M12,7 L2,12" fill="none" stroke="#574F45" stroke-width="1.4"/>
+  </marker>
+</defs>
+<rect x="12" y="8" width="204" height="34" rx="8" fill="#6B4F3A"/>
+<text class="dom-t" x="114.0" y="30">业务核心域</text>
+<rect x="240" y="8" width="204" height="34" rx="8" fill="#3B6EA5"/>
+<text class="dom-t" x="342.0" y="30">互动与内容域</text>
+<rect x="468" y="8" width="204" height="34" rx="8" fill="#7A5B92"/>
+<text class="dom-t" x="570.0" y="30">权限与安全域</text>
+<rect x="14" y="56" width="200" height="132" rx="6" fill="#fff" stroke="#6B4F3A" stroke-width="1.2"/>
+<rect x="14" y="56" width="200" height="26" rx="6" fill="#6B4F3A"/>
+<rect x="14" y="76" width="200" height="6" fill="#6B4F3A"/>
+<text class="hdr-t" x="114.0" y="74">product_series</text>
+<text class="pk" x="26" y="102">id PK</text>
+<text class="attr" x="26" y="118">name</text>
+<text class="attr" x="26" y="134">slug UK</text>
+<text class="attr" x="26" y="150">status</text>
+<rect x="14" y="210" width="200" height="132" rx="6" fill="#fff" stroke="#6B4F3A" stroke-width="1.2"/>
+<rect x="14" y="210" width="200" height="26" rx="6" fill="#6B4F3A"/>
+<rect x="14" y="230" width="200" height="6" fill="#6B4F3A"/>
+<text class="hdr-t" x="114.0" y="228">product</text>
+<text class="pk" x="26" y="256">id PK</text>
+<text class="fk" x="26" y="272">series_id FK</text>
+<text class="fk" x="26" y="288">category_id FK</text>
+<text class="attr" x="26" y="304">name / model_no</text>
+<text class="attr" x="26" y="320">price</text>
+<text class="attr" x="26" y="336">status</text>
+<rect x="14" y="364" width="200" height="132" rx="6" fill="#fff" stroke="#6B4F3A" stroke-width="1.2"/>
+<rect x="14" y="364" width="200" height="26" rx="6" fill="#6B4F3A"/>
+<rect x="14" y="384" width="200" height="6" fill="#6B4F3A"/>
+<text class="hdr-t" x="114.0" y="382">category</text>
+<text class="pk" x="26" y="410">id PK</text>
+<text class="attr" x="26" y="426">name</text>
+<text class="fk" x="26" y="442">parent_id FK</text>
+<text class="attr" x="26" y="458">status</text>
+<rect x="14" y="518" width="200" height="132" rx="6" fill="#fff" stroke="#6B4F3A" stroke-width="1.2"/>
+<rect x="14" y="518" width="200" height="26" rx="6" fill="#6B4F3A"/>
+<rect x="14" y="538" width="200" height="6" fill="#6B4F3A"/>
+<text class="hdr-t" x="114.0" y="536">cases</text>
+<text class="pk" x="26" y="564">id PK</text>
+<text class="attr" x="26" y="580">title</text>
+<text class="attr" x="26" y="596">category</text>
+<text class="attr" x="26" y="612">status</text>
+<rect x="14" y="672" width="200" height="132" rx="6" fill="#fff" stroke="#6B4F3A" stroke-width="1.2"/>
+<rect x="14" y="672" width="200" height="26" rx="6" fill="#6B4F3A"/>
+<rect x="14" y="692" width="200" height="6" fill="#6B4F3A"/>
+<text class="hdr-t" x="114.0" y="690">news</text>
+<text class="pk" x="26" y="718">id PK</text>
+<text class="attr" x="26" y="734">title</text>
+<text class="attr" x="26" y="750">category</text>
+<text class="attr" x="26" y="766">status</text>
+<rect x="242" y="56" width="200" height="132" rx="6" fill="#fff" stroke="#3B6EA5" stroke-width="1.2"/>
+<rect x="242" y="56" width="200" height="26" rx="6" fill="#3B6EA5"/>
+<rect x="242" y="76" width="200" height="6" fill="#3B6EA5"/>
+<text class="hdr-t" x="342.0" y="74">job</text>
+<text class="pk" x="254" y="102">id PK</text>
+<text class="attr" x="254" y="118">title</text>
+<text class="attr" x="254" y="134">type</text>
+<text class="attr" x="254" y="150">status</text>
+<rect x="242" y="210" width="200" height="132" rx="6" fill="#fff" stroke="#3B6EA5" stroke-width="1.2"/>
+<rect x="242" y="210" width="200" height="26" rx="6" fill="#3B6EA5"/>
+<rect x="242" y="230" width="200" height="6" fill="#3B6EA5"/>
+<text class="hdr-t" x="342.0" y="228">message</text>
+<text class="pk" x="254" y="256">id PK</text>
+<text class="attr" x="254" y="272">type</text>
+<text class="fk" x="254" y="288">ref_id FK</text>
+<text class="attr" x="254" y="304">name</text>
+<rect x="242" y="364" width="200" height="132" rx="6" fill="#fff" stroke="#3B6EA5" stroke-width="1.2"/>
+<rect x="242" y="364" width="200" height="26" rx="6" fill="#3B6EA5"/>
+<rect x="242" y="384" width="200" height="6" fill="#3B6EA5"/>
+<text class="hdr-t" x="342.0" y="382">banner</text>
+<text class="pk" x="254" y="410">id PK</text>
+<text class="attr" x="254" y="426">title</text>
+<text class="attr" x="254" y="442">image</text>
+<text class="attr" x="254" y="458">status</text>
+<rect x="242" y="518" width="200" height="132" rx="6" fill="#fff" stroke="#3B6EA5" stroke-width="1.2"/>
+<rect x="242" y="518" width="200" height="26" rx="6" fill="#3B6EA5"/>
+<rect x="242" y="538" width="200" height="6" fill="#3B6EA5"/>
+<text class="hdr-t" x="342.0" y="536">company_info</text>
+<text class="attr" x="254" y="564">id PK (单行)</text>
+<text class="attr" x="254" y="580">name</text>
+<text class="attr" x="254" y="596">founded_year</text>
+<rect x="242" y="672" width="200" height="132" rx="6" fill="#fff" stroke="#3B6EA5" stroke-width="1.2"/>
+<rect x="242" y="672" width="200" height="26" rx="6" fill="#3B6EA5"/>
+<rect x="242" y="692" width="200" height="6" fill="#3B6EA5"/>
+<text class="hdr-t" x="342.0" y="690">about_section</text>
+<text class="pk" x="254" y="718">id PK</text>
+<text class="attr" x="254" y="734">code</text>
+<text class="attr" x="254" y="750">title</text>
+<rect x="242" y="826" width="200" height="132" rx="6" fill="#fff" stroke="#3B6EA5" stroke-width="1.2"/>
+<rect x="242" y="826" width="200" height="26" rx="6" fill="#3B6EA5"/>
+<rect x="242" y="846" width="200" height="6" fill="#3B6EA5"/>
+<text class="hdr-t" x="342.0" y="844">milestone</text>
+<text class="pk" x="254" y="872">id PK</text>
+<text class="attr" x="254" y="888">year</text>
+<text class="attr" x="254" y="904">title</text>
+<rect x="470" y="56" width="200" height="132" rx="6" fill="#fff" stroke="#7A5B92" stroke-width="1.2"/>
+<rect x="470" y="56" width="200" height="26" rx="6" fill="#7A5B92"/>
+<rect x="470" y="76" width="200" height="6" fill="#7A5B92"/>
+<text class="hdr-t" x="570.0" y="74">role</text>
+<text class="pk" x="482" y="102">id PK</text>
+<text class="attr" x="482" y="118">name UK</text>
+<text class="attr" x="482" y="134">permissions(json)</text>
+<rect x="470" y="210" width="200" height="132" rx="6" fill="#fff" stroke="#7A5B92" stroke-width="1.2"/>
+<rect x="470" y="210" width="200" height="26" rx="6" fill="#7A5B92"/>
+<rect x="470" y="230" width="200" height="6" fill="#7A5B92"/>
+<text class="hdr-t" x="570.0" y="228">admin_user</text>
+<text class="pk" x="482" y="256">id PK</text>
+<text class="attr" x="482" y="272">username UK</text>
+<text class="fk" x="482" y="288">role_id FK</text>
+<text class="attr" x="482" y="304">status</text>
+<rect x="470" y="364" width="200" height="132" rx="6" fill="#fff" stroke="#7A5B92" stroke-width="1.2"/>
+<rect x="470" y="364" width="200" height="26" rx="6" fill="#7A5B92"/>
+<rect x="470" y="384" width="200" height="6" fill="#7A5B92"/>
+<text class="hdr-t" x="570.0" y="382">audit_log</text>
+<text class="pk" x="482" y="410">id PK</text>
+<text class="fk" x="482" y="426">admin_id FK</text>
+<text class="attr" x="482" y="442">action</text>
+<text class="attr" x="482" y="458">target_type</text>
+<line x1="114.0" y1="188" x2="114.0" y2="210" stroke="#574F45" stroke-width="1.4" marker-end="url(#many)"/>
+<text class="lbl" x="122.0" y="200">1</text>
+<text class="lbl" x="122.0" y="204">N</text>
+<line x1="114.0" y1="364" x2="114.0" y2="342" stroke="#574F45" stroke-width="1.4" marker-end="url(#many)"/>
+<text class="lbl" x="122.0" y="358">1</text>
+<text class="lbl" x="122.0" y="354">N</text>
+<path d="M214,406 C236,406 236,448 214,448" fill="none" stroke="#574F45" stroke-width="1.4" marker-end="url(#many)"/>
+<text class="lbl" x="220" y="431.0">1 / N</text>
+<line x1="342.0" y1="188" x2="342.0" y2="210" stroke="#574F45" stroke-width="1.4" marker-end="url(#many)"/>
+<text class="lbl" x="350.0" y="200">1</text>
+<text class="lbl" x="350.0" y="204">N</text>
+<line x1="570.0" y1="188" x2="570.0" y2="210" stroke="#574F45" stroke-width="1.4" marker-end="url(#many)"/>
+<text class="lbl" x="578.0" y="200">1</text>
+<text class="lbl" x="578.0" y="204">N</text>
+<line x1="570.0" y1="342" x2="570.0" y2="364" stroke="#574F45" stroke-width="1.4" marker-end="url(#many)"/>
+<text class="lbl" x="578.0" y="354">1</text>
+<text class="lbl" x="578.0" y="358">N</text>
+<line x1="14" y1="980" x2="40" y2="980" stroke="#574F45" stroke-width="1.4" marker-end="url(#many)"/>
+<text class="leg" x="46" y="984">「多」端 (N)：crow's-foot</text>
+<text class="leg" x="214" y="984">「一」端 (1)</text>
+<text class="leg" x="14" y="1002">说明：cases / news / banner / company_info / about_section / milestone 为内容配置型表，无外键依赖（悬空）。</text>
+</svg>

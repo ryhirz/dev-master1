@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rz家居 · 前台顶部导航原型（依据 PRD v0.4）</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream:      '#FAF7F2',
+            walnut:     '#6B4F3A',
+            'walnut-d': '#4A3728',
+            sand:       '#C8A97E',
+            ink:        '#1F1B16',
+            muted:      '#574F45',
+            line:       '#E7E0D6',
+          },
+          fontFamily: {
+            serif: ['"Noto Serif SC"', 'serif'],
+            sans:  ['"Noto Sans SC"', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body { font-family: 'Noto Sans SC', system-ui, sans-serif; }
+    .font-display { font-family: 'Noto Serif SC', serif; }
+    /* 平滑滚动 & 减少动画偏好 */
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+    /* 桌面下拉：悬停/键盘聚焦均可见 */
+    .nav-item .nav-panel {
+      opacity: 0; visibility: hidden; transform: translateY(6px);
+      transition: opacity .2s ease, transform .2s ease, visibility .2s;
+    }
+    .nav-item:hover .nav-panel,
+    .nav-item:focus-within .nav-panel {
+      opacity: 1; visibility: visible; transform: translateY(0);
+    }
+    .nav-link { transition: color .2s ease; }
+    .nav-link:hover, .nav-link[aria-current="page"] { color: #6B4F3A; }
+  </style>
+</head>
+<body class="bg-cream text-ink antialiased">
+
+  <!-- ===================== 顶部导航 ===================== -->
+  <header class="sticky top-0 z-50 bg-cream/95 backdrop-blur border-b border-line">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-20">
+
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-3 cursor-pointer group" aria-label="Rz家居 首页">
+          <span class="inline-flex items-center justify-center w-10 h-10 rounded-md bg-walnut text-cream font-display text-xl font-bold select-none">Rz</span>
+          <span class="font-display text-xl font-semibold tracking-wide text-walnut-d group-hover:text-walnut transition-colors">Rz家居</span>
+        </a>
+
+        <!-- 桌面导航（隐藏二级抽屉逻辑见移动端） -->
+        <nav class="hidden lg:flex items-center" aria-label="主导航">
+          <ul class="flex items-center gap-1">
+
+            <!-- 首页：无二级 -->
+            <li class="nav-item">
+              <a href="/" class="nav-link inline-flex items-center px-4 py-2 text-[15px] font-medium rounded-md hover:bg-line/60" aria-current="page">首页</a>
+            </li>
+
+            <!-- 产品 -->
+            <li class="nav-item relative">
+              <a href="/products" class="nav-link inline-flex items-center gap-1 px-4 py-2 text-[15px] font-medium rounded-md hover:bg-line/60" aria-haspopup="true" aria-expanded="false">
+                产品
+                <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </a>
+              <div class="nav-panel absolute left-0 top-full pt-2 w-56" role="menu" aria-label="产品二级导航">
+                <div class="bg-white rounded-xl shadow-lg ring-1 ring-line p-2">
+                  <a href="/products" class="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-cream transition-colors cursor-pointer" role="menuitem">
+                    <span class="font-medium">产品中心</span>
+                    <span class="text-xs text-muted">系列 / 空间</span>
+                  </a>
+                  <a href="/cases" class="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-cream transition-colors cursor-pointer" role="menuitem">
+                    <span class="font-medium">新案例展示</span>
+                    <span class="text-xs text-muted">住宅/工程</span>
+                  </a>
+                </div>
+              </div>
+            </li>
+
+            <!-- 新闻 -->
+            <li class="nav-item relative">
+              <a href="/news" class="nav-link inline-flex items-center gap-1 px-4 py-2 text-[15px] font-medium rounded-md hover:bg-line/60" aria-haspopup="true" aria-expanded="false">
+                新闻
+                <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </a>
+              <div class="nav-panel absolute left-0 top-full pt-2 w-52" role="menu" aria-label="新闻二级导航">
+                <div class="bg-white rounded-xl shadow-lg ring-1 ring-line p-2">
+                  <a href="/news?category=company" class="flex items-center px-3 py-2.5 rounded-lg hover:bg-cream transition-colors cursor-pointer" role="menuitem">
+                    <span class="font-medium">企业新闻</span>
+                  </a>
+                  <a href="/news?category=industry" class="flex items-center px-3 py-2.5 rounded-lg hover:bg-cream transition-colors cursor-pointer" role="menuitem">
+                    <span class="font-medium">行业资讯</span>
+                  </a>
+                </div>
+              </div>
+            </li>
+
+            <!-- 招聘入口 -->
+            <li class="nav-item relative">
+              <a href="/jobs" class="nav-link inline-flex items-center gap-1 px-4 py-2 text-[15px] font-medium rounded-md hover:bg-line/60" aria-haspopup="true" aria-expanded="false">
+                招聘入口
+                <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </a>
+              <div class="nav-panel absolute left-0 top-full pt-2 w-52" role="menu" aria-label="招聘入口二级导航">
+                <div class="bg-white rounded-xl shadow-lg ring-1 ring-line p-2">
+                  <a href="/jobs?type=social" class="flex items-center px-3 py-2.5 rounded-lg hover:bg-cream transition-colors cursor-pointer" role="menuitem">
+                    <span class="font-medium">社会招聘</span>
+                  </a>
+                  <a href="/jobs?type=campus" class="flex items-center px-3 py-2.5 rounded-lg hover:bg-cream transition-colors cursor-pointer" role="menuitem">
+                    <span class="font-medium">校园招聘</span>
+                  </a>
+                </div>
+              </div>
+            </li>
+
+            <!-- 关于我们 -->
+            <li class="nav-item relative">
+              <a href="/about" class="nav-link inline-flex items-center gap-1 px-4 py-2 text-[15px] font-medium rounded-md hover:bg-line/60" aria-haspopup="true" aria-expanded="false">
+                关于我们
+                <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </a>
+              <div class="nav-panel absolute left-0 top-full pt-2 w-56" role="menu" aria-label="关于我们二级导航">
+                <div class="bg-white rounded-xl shadow-lg ring-1 ring-line p-2">
+                  <a href="/about" class="flex items-center px-3 py-2.5 rounded-lg hover:bg-cream transition-colors cursor-pointer" role="menuitem"><span class="font-medium">关于Rz</span></a>
+                  <a href="/about/history" class="flex items-center px-3 py-2.5 rounded-lg hover:bg-cream transition-colors cursor-pointer" role="menuitem"><span class="font-medium">发展历程</span></a>
+                  <a href="/about/brand" class="flex items-center px-3 py-2.5 rounded-lg hover:bg-cream transition-colors cursor-pointer" role="menuitem"><span class="font-medium">品牌介绍</span></a>
+                  <a href="/about/contact" class="flex items-center px-3 py-2.5 rounded-lg hover:bg-cream transition-colors cursor-pointer" role="menuitem"><span class="font-medium">联系我们</span></a>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+        </nav>
+
+        <!-- 右侧：搜索 + 留言 CTA + 移动端汉堡 -->
+        <div class="flex items-center gap-2">
+          <button class="hidden lg:inline-flex w-10 h-10 items-center justify-center rounded-md text-muted hover:text-walnut hover:bg-line/60 transition-colors cursor-pointer" aria-label="搜索">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          </button>
+          <a href="/about/contact" class="hidden lg:inline-flex items-center px-5 py-2.5 rounded-md bg-walnut text-cream text-[15px] font-medium hover:bg-walnut-d transition-colors cursor-pointer">在线留言</a>
+
+          <!-- 汉堡（移动端） -->
+          <button id="menuBtn" class="lg:hidden inline-flex w-11 h-11 items-center justify-center rounded-md text-walnut hover:bg-line/60 transition-colors cursor-pointer" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== 移动端抽屉 ===================== -->
+    <div id="mobileMenu" class="lg:hidden hidden border-t border-line bg-cream">
+      <nav class="max-w-7xl mx-auto px-4 py-3" aria-label="移动端导航">
+        <ul class="space-y-1">
+          <li><a href="/" class="block px-3 py-3 rounded-lg font-medium bg-line/50">首页</a></li>
+
+          <li>
+            <button class="acc-toggle w-full flex items-center justify-between px-3 py-3 rounded-lg font-medium hover:bg-line/40 transition-colors cursor-pointer" aria-expanded="false">
+              产品 <svg class="w-4 h-4 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <ul class="acc-panel hidden pl-4 mt-1 space-y-1">
+              <li><a href="/products" class="block px-3 py-2.5 rounded-lg hover:bg-line/40">产品中心</a></li>
+              <li><a href="/cases" class="block px-3 py-2.5 rounded-lg hover:bg-line/40">新案例展示</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <button class="acc-toggle w-full flex items-center justify-between px-3 py-3 rounded-lg font-medium hover:bg-line/40 transition-colors cursor-pointer" aria-expanded="false">
+              新闻 <svg class="w-4 h-4 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <ul class="acc-panel hidden pl-4 mt-1 space-y-1">
+              <li><a href="/news?category=company" class="block px-3 py-2.5 rounded-lg hover:bg-line/40">企业新闻</a></li>
+              <li><a href="/news?category=industry" class="block px-3 py-2.5 rounded-lg hover:bg-line/40">行业资讯</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <button class="acc-toggle w-full flex items-center justify-between px-3 py-3 rounded-lg font-medium hover:bg-line/40 transition-colors cursor-pointer" aria-expanded="false">
+              招聘入口 <svg class="w-4 h-4 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <ul class="acc-panel hidden pl-4 mt-1 space-y-1">
+              <li><a href="/jobs?type=social" class="block px-3 py-2.5 rounded-lg hover:bg-line/40">社会招聘</a></li>
+              <li><a href="/jobs?type=campus" class="block px-3 py-2.5 rounded-lg hover:bg-line/40">校园招聘</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <button class="acc-toggle w-full flex items-center justify-between px-3 py-3 rounded-lg font-medium hover:bg-line/40 transition-colors cursor-pointer" aria-expanded="false">
+              关于我们 <svg class="w-4 h-4 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <ul class="acc-panel hidden pl-4 mt-1 space-y-1">
+              <li><a href="/about" class="block px-3 py-2.5 rounded-lg hover:bg-line/40">关于Rz</a></li>
+              <li><a href="/about/history" class="block px-3 py-2.5 rounded-lg hover:bg-line/40">发展历程</a></li>
+              <li><a href="/about/brand" class="block px-3 py-2.5 rounded-lg hover:bg-line/40">品牌介绍</a></li>
+              <li><a href="/about/contact" class="block px-3 py-2.5 rounded-lg hover:bg-line/40">联系我们</a></li>
+            </ul>
+          </li>
+
+          <li class="pt-2"><a href="/about/contact" class="block text-center px-3 py-3 rounded-md bg-walnut text-cream font-medium">在线留言</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===================== 占位 Hero（仅用于展示导航上下文） ===================== -->
+  <main>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-20 pb-24 text-center">
+      <p class="text-sm tracking-[0.3em] text-walnut uppercase mb-4">Rz HOME · 家居美学</p>
+      <h1 class="font-display text-4xl sm:text-5xl font-bold text-walnut-d mb-6">以匠心，筑理想之家</h1>
+      <p class="text-muted max-w-2xl mx-auto leading-relaxed">本页面为「前台顶部导航」原型预览。导航结构与二级菜单严格依据 PRD v0.4 第 3.1 节前台站点地图生成，可缩放窗口查看桌面下拉与移动抽屉两种形态。</p>
+    </section>
+  </main>
+
+  <script>
+    // 移动端：汉堡开合
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('hidden') === false;
+      menuBtn.setAttribute('aria-expanded', String(open));
+    });
+    // 移动端：二级手风琴
+    document.querySelectorAll('.acc-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panel = btn.nextElementSibling;
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        panel.classList.toggle('hidden');
+        btn.querySelector('svg').classList.toggle('rotate-180', !expanded);
+      });
+    });
+    // 同步桌面 aria-expanded（键盘可达性）
+    document.querySelectorAll('.nav-item > a[aria-haspopup]').forEach(a => {
+      a.addEventListener('focus', () => a.setAttribute('aria-expanded', 'true'));
+      a.addEventListener('blur', () => a.setAttribute('aria-expanded', 'false'));
+    });
+  </script>
+</body>
+</html>

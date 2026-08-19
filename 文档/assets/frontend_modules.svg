@@ -1,0 +1,57 @@
+<svg viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+  <style>
+    .title{font-size:15px;font-weight:bold;fill:#1F1B16;text-anchor:middle}
+    .band{fill:#faf7f2;stroke:#C8A97E;stroke-width:1.2;stroke-dasharray:5,3}
+    .bandlabel{font-size:11px;fill:#574F45;font-weight:bold}
+    .box{stroke-width:1.5}
+    .b1{fill:#4a90d9;stroke:#2f6db0}
+    .b2{fill:#9b59b6;stroke:#7d3c98}
+    .b3{fill:#e67e22;stroke:#ca6a14}
+    .bext{fill:#34495e;stroke:#222f3a}
+    .wlbl{font-size:12px;font-weight:bold;fill:#ffffff;text-anchor:middle}
+    .wlbls{font-size:10px;fill:#ffffff;text-anchor:middle}
+    .edge{stroke:#574F45;stroke-width:1.6;marker-end:url(#ar)}
+    .edash{stroke:#574F45;stroke-width:1.6;stroke-dasharray:5,3;marker-end:url(#ar)}
+  </style>
+  <defs><marker id="ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#574F45"/></marker></defs>
+
+  <text class="title" x="340" y="26">前台官网 · 模块架构图（React 18 + TS + Vite + Tailwind CSS）</text>
+
+  <!-- Layer 1: 页面模块 -->
+  <rect class="band" x="30" y="50" width="620" height="120" rx="8"/>
+  <text class="bandlabel" x="42" y="68">页面模块（5 主导航 + 二级，9 类页面）</text>
+  <rect class="box b1" x="44"  y="92" width="90" height="44" rx="6"/><text class="wlbl" x="89"  y="119">首页</text>
+  <rect class="box b1" x="144" y="92" width="90" height="44" rx="6"/><text class="wlbl" x="189" y="119">产品中心</text>
+  <rect class="box b1" x="244" y="92" width="90" height="44" rx="6"/><text class="wlbl" x="289" y="119">新案例</text>
+  <rect class="box b1" x="344" y="92" width="90" height="44" rx="6"/><text class="wlbl" x="389" y="119">新闻</text>
+  <rect class="box b1" x="444" y="92" width="90" height="44" rx="6"/><text class="wlbl" x="489" y="119">招聘入口</text>
+  <rect class="box b1" x="544" y="92" width="90" height="44" rx="6"/><text class="wlbl" x="589" y="119">关于我们</text>
+
+  <line class="edge" x1="340" y1="170" x2="340" y2="205"/>
+
+  <!-- Layer 2: 公共 / UI 层 -->
+  <rect class="band" x="30" y="205" width="620" height="110" rx="8"/>
+  <text class="bandlabel" x="42" y="223">公共与 UI 层</text>
+  <rect class="box b2" x="44"  y="240" width="138" height="46" rx="6"/><text class="wlbl" x="113" y="267">顶部导航 + 页脚</text>
+  <rect class="box b2" x="196" y="240" width="138" height="46" rx="6"/><text class="wlbl" x="265" y="267">路由 React Router</text>
+  <rect class="box b2" x="348" y="240" width="138" height="46" rx="6"/><text class="wlbl" x="417" y="267">设计令牌 · Tailwind</text>
+  <rect class="box b2" x="500" y="240" width="138" height="46" rx="6"/><text class="wlbl" x="569" y="267">UI 组件库</text>
+
+  <line class="edge" x1="265" y1="315" x2="265" y2="350"/>
+
+  <!-- Layer 3: 数据 / 服务层 -->
+  <rect class="band" x="30" y="350" width="470" height="110" rx="8"/>
+  <text class="bandlabel" x="42" y="368">数据与服务层</text>
+  <rect class="box b3" x="44"  y="385" width="138" height="46" rx="6"/><text class="wlbl" x="113" y="412">Zustand 状态</text>
+  <rect class="box b3" x="196" y="385" width="138" height="46" rx="6"/><text class="wlbl" x="265" y="412">Axios API 客户端</text>
+  <rect class="box b3" x="348" y="385" width="138" height="46" rx="6"/><text class="wlbl" x="417" y="412">401 续期拦截</text>
+
+  <!-- 后端 API（外部） -->
+  <rect class="box bext" x="520" y="370" width="130" height="70" rx="6"/>
+  <text class="wlbl"  x="585" y="400">后端 API</text>
+  <text class="wlbls" x="585" y="418">FastAPI</text>
+  <text class="wlbls" x="585" y="432">/api/* · /api/admin/*</text>
+
+  <line class="edash" x1="486" y1="408" x2="518" y2="408"/>
+  <text x="502" y="402" font-size="9" fill="#574F45" text-anchor="middle">HTTPS JSON</text>
+</svg>

@@ -1,0 +1,61 @@
+<svg viewBox="0 0 680 560" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+  <style>
+    .title{font-size:15px;font-weight:bold;fill:#1F1B16;text-anchor:middle}
+    .band{fill:#faf7f2;stroke:#C8A97E;stroke-width:1.2;stroke-dasharray:5,3}
+    .bandlabel{font-size:11px;fill:#574F45;font-weight:bold}
+    .box{stroke-width:1.5}
+    .b1{fill:#5ba55b;stroke:#3f8a3f}
+    .b2{fill:#9b59b6;stroke:#7d3c98}
+    .b3{fill:#e67e22;stroke:#ca6a14}
+    .bext{fill:#34495e;stroke:#222f3a}
+    .wlbl{font-size:12px;font-weight:bold;fill:#ffffff;text-anchor:middle}
+    .wlbls{font-size:10px;fill:#ffffff;text-anchor:middle}
+    .sub{font-size:9px;fill:#f3e5f5;text-anchor:middle}
+    .edge{stroke:#574F45;stroke-width:1.6;marker-end:url(#ar)}
+    .edash{stroke:#574F45;stroke-width:1.6;stroke-dasharray:5,3;marker-end:url(#ar)}
+  </style>
+  <defs><marker id="ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#574F45"/></marker></defs>
+
+  <text class="title" x="340" y="26">后台管理系统 · 模块架构图（React 18 + TS + Vite + Ant Design 5）</text>
+
+  <!-- Layer 1: 页面模块 -->
+  <rect class="band" x="30" y="50" width="620" height="165" rx="8"/>
+  <text class="bandlabel" x="42" y="68">页面模块（登录 + 三角色权限）</text>
+  <rect class="box b1" x="44"  y="82"  width="138" height="44" rx="6"/><text class="wlbl" x="113" y="109">登录</text>
+  <rect class="box b1" x="196" y="82"  width="138" height="44" rx="6"/><text class="wlbl" x="265" y="109">控制台</text>
+  <rect class="box b1" x="348" y="82"  width="138" height="44" rx="6"/><text class="wlbl" x="417" y="109">内容管理</text>
+  <rect class="box b1" x="500" y="82"  width="138" height="44" rx="6"/><text class="wlbl" x="569" y="109">招聘管理</text>
+  <text class="sub" x="417" y="134">系列/分类/产品/案例/新闻/关于我们配置</text>
+  <rect class="box b1" x="44"  y="146" width="138" height="44" rx="6"/><text class="wlbl" x="113" y="173">留言管理</text>
+  <rect class="box b1" x="196" y="146" width="138" height="44" rx="6"/><text class="wlbl" x="265" y="173">轮播管理</text>
+  <rect class="box b1" x="348" y="146" width="138" height="44" rx="6"/><text class="wlbl" x="417" y="173">系统管理</text>
+  <rect class="box b1" x="500" y="146" width="138" height="44" rx="6"/><text class="wlbl" x="569" y="173">数据统计</text>
+
+  <line class="edge" x1="265" y1="215" x2="265" y2="248"/>
+
+  <!-- Layer 2: 公共层 -->
+  <rect class="band" x="30" y="248" width="620" height="95" rx="8"/>
+  <text class="bandlabel" x="42" y="266">公共层</text>
+  <rect class="box b2" x="44"  y="282" width="138" height="46" rx="6"/><text class="wlbl" x="113" y="309">布局与角色菜单</text>
+  <rect class="box b2" x="196" y="282" width="138" height="46" rx="6"/><text class="wlbl" x="265" y="309">路由守卫</text>
+  <rect class="box b2" x="348" y="282" width="138" height="46" rx="6"/><text class="wlbl" x="417" y="309">AntD 主题</text>
+  <rect class="box b2" x="500" y="282" width="138" height="46" rx="6"/><text class="wlbl" x="569" y="309">通用 CRUD 组件</text>
+
+  <line class="edge" x1="265" y1="343" x2="265" y2="376"/>
+
+  <!-- Layer 3: 数据层 -->
+  <rect class="band" x="30" y="376" width="470" height="100" rx="8"/>
+  <text class="bandlabel" x="42" y="394">数据层</text>
+  <rect class="box b3" x="44"  y="410" width="138" height="46" rx="6"/><text class="wlbl" x="113" y="437">状态管理</text>
+  <rect class="box b3" x="196" y="410" width="138" height="46" rx="6"/><text class="wlbl" x="265" y="437">Axios API 客户端</text>
+  <rect class="box b3" x="348" y="410" width="138" height="46" rx="6"/><text class="wlbl" x="417" y="437">鉴权拦截器</text>
+
+  <!-- 后端 API（外部） -->
+  <rect class="box bext" x="520" y="392" width="130" height="74" rx="6"/>
+  <text class="wlbl"  x="585" y="422">后端 API</text>
+  <text class="wlbls" x="585" y="440">FastAPI</text>
+  <text class="wlbls" x="585" y="454">JWT · 限频 · 上传</text>
+
+  <line class="edash" x1="486" y1="433" x2="518" y2="433"/>
+  <text x="502" y="427" font-size="9" fill="#574F45" text-anchor="middle">HTTPS JSON</text>
+</svg>

@@ -1,0 +1,35 @@
+# Rz家居 本地一体化编排（开发可运行）
+# 启动：docker compose up --build
+# 后端 API: http://localhost:8000/docs
+# 前端（本地 dev 推荐直接 npm run dev）：web=5173, admin=5174
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: rz
+      POSTGRES_PASSWORD: rzpwd
+      POSTGRES_DB: rz_home
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    environment:
+      ENV: dev
+      DATABASE_URL: postgresql+psycopg2://rz:rzpwd@db:5432/rz_home
+      SECRET_KEY: dev-only-secret-change-me
+      CORS_ORIGINS: http://localhost:5173,http://localhost:5174
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata:

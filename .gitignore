@@ -1,0 +1,29 @@
+# ===== Python 虚拟环境 =====
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# ===== 环境变量 / 密钥 =====
+.env
+.env.*
+!.env.example
+
+# ===== Node 依赖与构建产物 =====
+node_modules/
+dist/
+build/
+.cache/
+.vite/
+
+# ===== WorkBuddy 内部数据（不要提交） =====
+.workbuddy/
+
+# ===== 操作系统 / 编辑器 =====
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

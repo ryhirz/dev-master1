@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rz家居 · 后台管理系统（交互式原型）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --cream:#FAF7F2; --ink:#1F1B16; --walnut:#6B4F3A; --walnut-d:#4A3728; --sand:#C8A97E; --muted:#574F45; --line:#E7E0D6;
+  --success:#2F6B4F; --warning:#B5852A; --danger:#B4423A;
+  --serif:"Noto Serif SC",serif; --sans:"Noto Sans SC",system-ui,sans-serif;
+  --sidebar:#4A3728; --sidebar-2:#3a2a1f;
+}
+*{box-sizing:border-box;} html,body{margin:0;padding:0;}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;font-size:14px;}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:700;margin:0;color:var(--ink);}
+a{color:inherit;text-decoration:none;} button{font-family:inherit;cursor:pointer;}
+:focus-visible{outline:2px solid var(--walnut);outline-offset:2px;border-radius:4px;}
+::-webkit-scrollbar{width:8px;height:8px;}::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px;}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;padding:0 18px;border-radius:8px;font-size:14px;font-weight:500;border:1px solid transparent;transition:.15s;white-space:nowrap;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-primary{background:var(--walnut);color:#fff;}
+.btn-primary:hover:not(:disabled){background:var(--walnut-d);}
+.btn-secondary{border-color:var(--line);background:#fff;color:var(--ink);}
+.btn-secondary:hover:not(:disabled){background:var(--cream);}
+.btn-danger{background:var(--danger);color:#fff;}
+.btn-danger:hover:not(:disabled){filter:brightness(.94);}
+.btn-sm{height:32px;padding:0 12px;font-size:13px;}
+.btn-ghost{background:transparent;color:var(--walnut);padding:0 10px;height:34px;}
+.btn-ghost:hover{background:rgba(107,79,58,.08);}
+
+/* login */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#4A3728,#6B4F3A);padding:20px;}
+.login-card{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.3);width:100%;max-width:400px;padding:36px 32px;}
+.login-brand{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:6px;}
+.login-mark{width:44px;height:44px;border-radius:10px;background:var(--walnut);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:22px;}
+.login-title{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--walnut-d);}
+.login-sub{text-align:center;color:var(--muted);font-size:13px;margin:6px 0 22px;}
+.login-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+.login-field label{font-size:13px;font-weight:500;}
+.login-field input{height:44px;border:1px solid var(--line);border-radius:10px;padding:0 14px;font-size:15px;font-family:inherit;}
+.login-field input:focus{outline:none;border-color:var(--walnut);box-shadow:0 0 0 3px rgba(107,79,58,.15);}
+.login-field input.invalid{border-color:var(--danger);}
+.role-pick{display:flex;gap:8px;margin-bottom:18px;}
+.role-pick button{flex:1;height:38px;border:1px solid var(--line);background:#fff;border-radius:8px;font-size:13px;color:var(--muted);transition:.15s;}
+.role-pick button.active{border-color:var(--walnut);background:rgba(107,79,58,.08);color:var(--walnut);font-weight:500;}
+.login-err{color:var(--danger);font-size:13px;margin-bottom:12px;display:none;}
+.login-err.show{display:block;}
+.login-hint{font-size:12px;color:var(--muted);text-align:center;margin-top:14px;}
+
+/* shell */
+.shell{display:flex;min-height:100vh;}
+.sidebar{width:232px;background:var(--sidebar);color:#EDE6DB;flex-shrink:0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;}
+.sidebar-head{display:flex;align-items:center;gap:10px;padding:18px 18px;border-bottom:1px solid rgba(255,255,255,.08);}
+.sidebar-head .login-mark{width:36px;height:36px;font-size:18px;}
+.sidebar-head .t{font-family:var(--serif);font-weight:700;color:#fff;font-size:16px;}
+.sidebar-nav{flex:1;overflow-y:auto;padding:10px 10px 20px;}
+.nav-group{font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.4);padding:14px 12px 6px;text-transform:uppercase;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(255,255,255,.78);font-size:14px;margin-bottom:2px;transition:.15s;cursor:pointer;border:none;background:none;width:100%;text-align:left;}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff;}
+.nav-item.active{background:var(--walnut);color:#fff;}
+.nav-item svg{width:18px;height:18px;flex-shrink:0;}
+.nav-sub{padding-left:14px;}
+.sidebar-foot{padding:14px 18px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:rgba(255,255,255,.55);}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;}
+.topbar{height:60px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:10;}
+.breadcrumb{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.breadcrumb .cur{color:var(--ink);font-weight:500;}
+.topbar-right{display:flex;align-items:center;gap:14px;}
+.admin-badge{display:flex;align-items:center;gap:8px;}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--walnut);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;}
+.role-tag{font-size:12px;padding:2px 8px;border-radius:9999px;background:rgba(107,79,58,.12);color:var(--walnut);}
+.content{padding:24px;max-width:1440px;width:100%;}
+@media(max-width:768px){.sidebar{display:none;} .content{padding:16px;} }
+
+/* page head */
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
+.page-head h2{font-size:24px;}
+.page-head .sub{color:var(--muted);font-size:14px;margin-top:4px;}
+
+/* card */
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(31,27,22,.04);}
+.card-pad{padding:18px;}
+
+/* filter bar */
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-bottom:16px;}
+.toolbar .field{display:flex;flex-direction:column;gap:5px;}
+.toolbar .field label{font-size:12px;color:var(--muted);}
+.toolbar select,.toolbar input{height:38px;border:1px solid var(--line);border-radius:8px;padding:0 12px;font-size:14px;font-family:inherit;background:#fff;min-width:140px;}
+.toolbar input:focus,.toolbar select:focus{outline:none;border-color:var(--walnut);box-shadow:0 0 0 3px rgba(107,79,58,.12);}
+.toolbar .spacer{flex:1;}
+
+/* table */
+.table-wrap{overflow-x:auto;}
+table.data{width:100%;border-collapse:collapse;font-size:14px;background:#fff;}
+table.data th{text-align:left;padding:12px 14px;background:var(--cream);color:var(--muted);font-weight:500;font-size:13px;border-bottom:1px solid var(--line);white-space:nowrap;position:sticky;top:0;}
+table.data td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle;}
+table.data tbody tr:hover{background:#FBF8F3;}
+table.data tbody tr:last-child td{border-bottom:none;}
+.row-actions{display:flex;gap:6px;}
+.mini-btn{height:30px;padding:0 10px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;color:var(--ink);display:inline-flex;align-items:center;gap:4px;transition:.15s;}
+.mini-btn:hover{background:var(--cream);}
+.mini-btn.danger{color:var(--danger);border-color:rgba(180,66,58,.3);}
+.mini-btn.danger:hover{background:rgba(180,66,58,.07);}
+
+/* tags */
+.tag{display:inline-flex;align-items:center;gap:4px;border-radius:9999px;padding:2px 9px;font-size:12px;font-weight:500;}
+.tag-neutral{background:var(--line);color:var(--muted);}
+.tag-brand{background:rgba(107,79,58,.1);color:var(--walnut);}
+.tag-new{background:rgba(181,133,42,.15);color:var(--warning);}
+.tag-success{background:rgba(47,107,79,.12);color:var(--success);}
+.tag-warning{background:rgba(181,133,42,.15);color:var(--warning);}
+.tag-danger{background:rgba(180,66,58,.12);color:var(--danger);}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;}
+
+/* pagination */
+.pagination{display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-top:16px;}
+.page-btn{min-width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;font-size:13px;transition:.15s;}
+.page-btn:hover:not(:disabled){background:var(--cream);}
+.page-btn.active{background:var(--walnut);color:#fff;border-color:var(--walnut);}
+.page-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* stat cards */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}
+@media(max-width:1024px){.stat-grid{grid-template-columns:repeat(2,1fr);}}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;}
+.stat .n{font-family:var(--serif);font-size:30px;font-weight:700;color:var(--walnut);}
+.stat .l{color:var(--muted);font-size:13px;margin-top:4px;}
+.stat .badge{font-size:11px;padding:2px 7px;border-radius:9999px;background:rgba(180,66,58,.12);color:var(--danger);margin-left:6px;}
+
+/* charts (css) */
+.bars{display:flex;align-items:flex-end;gap:10px;height:160px;padding:10px 0;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.bar{width:100%;max-width:34px;background:linear-gradient(180deg,var(--walnut),var(--walnut-d));border-radius:6px 6px 0 0;transition:height .4s;}
+.bar-label{font-size:11px;color:var(--muted);}
+
+/* drawer (admin) */
+.drawer-backdrop{position:fixed;inset:0;background:rgba(31,27,22,.4);z-index:1100;opacity:0;visibility:hidden;transition:opacity .25s;}
+.drawer-backdrop.open{opacity:1;visibility:visible;}
+.drawer{position:fixed;top:0;right:0;height:100%;width:480px;max-width:94vw;background:#fff;z-index:1101;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);box-shadow:-12px 0 40px rgba(31,27,22,.15);display:flex;flex-direction:column;}
+.drawer.open{transform:translateX(0);}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--line);}
+.drawer-head h3{font-size:18px;}
+.drawer-body{flex:1;overflow-y:auto;padding:22px;}
+.drawer-foot{padding:16px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px;}
+
+/* form */
+.form-row{margin-bottom:16px;display:flex;flex-direction:column;gap:6px;}
+.form-row label{font-size:13px;font-weight:500;}
+.form-row label .req{color:var(--danger);margin-left:2px;}
+.form-row input,.form-row textarea,.form-row select{height:42px;border:1px solid var(--line);border-radius:8px;padding:0 12px;font-size:14px;font-family:inherit;background:#fff;width:100%;}
+.form-row textarea{height:auto;padding:10px 12px;resize:vertical;min-height:90px;}
+.form-row input:focus,.form-row textarea:focus,.form-row select:focus{outline:none;border-color:var(--walnut);box-shadow:0 0 0 3px rgba(107,79,58,.12);}
+.form-row input.invalid,.form-row textarea.invalid,.form-row select.invalid{border-color:var(--danger);}
+.err-msg{color:var(--danger);font-size:12px;display:none;}
+.err-msg.show{display:block;}
+.switch{display:inline-flex;align-items:center;gap:8px;}
+.img-field{display:flex;align-items:center;gap:10px;}
+.img-thumb{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,#E9DFD2,#D8C7B2);display:flex;align-items:center;justify-content:center;color:var(--walnut-d);font-size:12px;overflow:hidden;}
+.upload-btn{height:34px;padding:0 12px;border:1px dashed var(--line);border-radius:8px;background:#fff;color:var(--walnut);font-size:13px;}
+
+/* sub tabs */
+.subtabs{display:flex;gap:6px;margin-bottom:18px;border-bottom:1px solid var(--line);}
+.subtab{padding:10px 16px;border:none;background:none;font-size:14px;color:var(--muted);border-bottom:2px solid transparent;font-family:var(--serif);font-weight:600;}
+.subtab.active{color:var(--walnut);border-bottom-color:var(--walnut);}
+
+/* confirm modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(31,27,22,.4);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .2s;}
+.modal-backdrop.open{opacity:1;visibility:visible;}
+.modal{background:#fff;border-radius:14px;max-width:420px;width:100%;padding:24px;transform:translateY(12px);transition:transform .2s;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+.modal h3{font-size:18px;margin-bottom:8px;}
+.modal p{color:var(--muted);font-size:14px;margin:0 0 20px;}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;}
+
+/* toast */
+.toast-wrap{position:fixed;top:20px;right:20px;z-index:1200;display:flex;flex-direction:column;gap:10px;}
+.toast{display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(31,27,22,.15);padding:12px 16px;font-size:14px;min-width:220px;border-left:4px solid var(--success);animation:toastIn .25s ease;}
+.toast.error{border-left-color:var(--danger);}
+.toast.warning{border-left-color:var(--warning);}
+@keyframes toastIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+
+/* states */
+.empty{text-align:center;padding:50px 20px;color:var(--muted);}
+.empty svg{width:54px;height:54px;color:var(--sand);margin-bottom:12px;}
+.skeleton{background:linear-gradient(90deg,#EDE6DB 25%,#F5EFE6 50%,#EDE6DB 75%);background-size:200% 100%;animation:shimmer 1.3s infinite;border-radius:8px;}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script>
+/* ============ ICONS ============ */
+const I = {
+  dashboard:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>',
+  series:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>',
+  category:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h18"/></svg>',
+  product:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9 12 4l9 5v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z"/><path d="M9 20v-6h6v6"/></svg>',
+  case:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 4v16"/></svg>',
+  news:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h13a2 2 0 0 1 2 2v14H6a2 2 0 0 1-2-2Z"/><path d="M8 8h7M8 12h7M8 16h4"/></svg>',
+  about:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+  recruit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+  message:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>',
+  display:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3Z"/></svg>',
+  system:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.4-2.3 1a7 7 0 0 0-1.7-1L14.5 3h-3l-.5 2.6a7 7 0 0 0-1.7 1l-2.3-1-2 3.4 2 1.5a7 7 0 0 0 0 2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 1.7 1l.5 2.6h3l.5-2.6a7 7 0 0 0 1.7-1l2.3 1 2-3.4-2-1.5a7 7 0 0 0 .1-1Z"/></svg>',
+  stats:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 4-5"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>',
+  alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>',
+  empty:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg>',
+  logout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>',
+  chevron:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>',
+};
+
+/* ============ DATA ============ */
+let DB = {
+  series:[{id:'s1',name:'胡桃禮',summary:'北美黑胡桃，沉稳温润',sort:1,status:'active'},{id:'s2',name:'如意春',summary:'团圆与暖意',sort:2,status:'active'},{id:'s3',name:'禧YUE',summary:'极简现代',sort:3,status:'active'},{id:'s4',name:'柏悦',summary:'舒压睡眠',sort:4,status:'active'},{id:'s5',name:'蓝宝嘉',summary:'商用办公',sort:5,status:'hidden'}],
+  categories:[{id:'c1',name:'客厅',sort:1,status:'active'},{id:'c2',name:'卧室',sort:2,status:'active'},{id:'c3',name:'书房',sort:3,status:'active'},{id:'c4',name:'茶室',sort:4,status:'active'},{id:'c5',name:'餐厅',sort:5,status:'active'},{id:'c6',name:'办公',sort:6,status:'active'}],
+  products:[
+    {id:'p1',series:'s1',cat:'c2',name:'胡桃禮·眠云床',model:'HL-201',price:'8,800',rec:true,status:'active'},
+    {id:'p2',series:'s1',cat:'c1',name:'胡桃禮·听风沙发',model:'HL-108',price:'16,800',rec:true,status:'active'},
+    {id:'p3',series:'s1',cat:'c3',name:'胡桃禮·砚书桌',model:'HL-305',price:'6,200',rec:false,status:'active'},
+    {id:'p4',series:'s2',cat:'c5',name:'如意春·和乐餐桌',model:'RY-220',price:'9,600',rec:true,status:'active'},
+    {id:'p5',series:'s2',cat:'c4',name:'如意春·禅茶椅',model:'RY-417',price:'3,400',rec:false,status:'active'},
+    {id:'p6',series:'s3',cat:'c1',name:'禧YUE·云栖电视柜',model:'XY-510',price:'7,900',rec:true,status:'active'},
+    {id:'p7',series:'s3',cat:'c3',name:'禧YUE·墨书架',model:'XY-330',price:'5,500',rec:false,status:'hidden'},
+    {id:'p8',series:'s4',cat:'c2',name:'柏悦·致柔床垫',model:'BP-001',price:'11,200',rec:true,status:'active'},
+    {id:'p9',series:'s5',cat:'c6',name:'蓝宝嘉·简界办公桌',model:'LB-910',price:'4,800',rec:false,status:'active'},
+  ],
+  cases:[
+    {id:'k1',title:'城央平层 · 胡桃叙事',cat:'住宅',is_new:true,status:'active'},
+    {id:'k2',title:'精品酒店样板间',cat:'工程',is_new:true,status:'active'},
+    {id:'k3',title:'联合办公空间',cat:'商业',is_new:false,status:'active'},
+    {id:'k4',title:'庭院别墅 · 茶室一隅',cat:'住宅',is_new:false,status:'active'},
+    {id:'k5',title:'企业总部接待厅',cat:'工程',is_new:false,status:'hidden'},
+  ],
+  news:[
+    {id:'n1',title:'2026 春季新品发布会圆满落幕',cat:'company',top:true,status:'published',date:'2026-08-10'},
+    {id:'n2',title:'荣获年度绿色制造示范企业',cat:'company',top:false,status:'published',date:'2026-07-22'},
+    {id:'n3',title:'智能生产线二期正式投产',cat:'company',top:false,status:'draft',date:'2026-06-15'},
+    {id:'n4',title:'携手设计院校共建原创实验室',cat:'company',top:false,status:'published',date:'2026-05-30'},
+    {id:'n5',title:'2026 家居消费趋势',cat:'industry',top:false,status:'published',date:'2026-08-05'},
+    {id:'n6',title:'实木家具养护指南',cat:'industry',top:false,status:'published',date:'2026-07-18'},
+    {id:'n7',title:'小户型空间利用的 5 个原则',cat:'industry',top:false,status:'draft',date:'2026-06-28'},
+  ],
+  jobs:[
+    {id:'j1',type:'social',title:'高级家具结构工程师',dept:'研发部',city:'河北',salary:'20–35K',head:2,status:'active'},
+    {id:'j2',type:'social',title:'品牌视觉设计师',dept:'品牌部',city:'上海',salary:'15–25K',head:1,status:'active'},
+    {id:'j3',type:'social',title:'区域销售经理',dept:'销售部',city:'全国',salary:'面议',head:5,status:'active'},
+    {id:'j4',type:'campus',title:'2026 校园招聘 · 管培生',dept:'综合管理',city:'河北',salary:'面议',head:10,status:'active'},
+    {id:'j5',type:'campus',title:'工业设计实习生',dept:'研发部',city:'河北',salary:'200/天',head:3,status:'hidden'},
+  ],
+  messages:[
+    {id:'m1',type:'contact',name:'王女士',phone:'13800000001',content:'想咨询胡桃禮眠云床的定制尺寸。',status:'new',created_at:'2026-08-16 10:21'},
+    {id:'m2',type:'contact',name:'李先生',phone:'13800000002',content:'请问北京有线下体验店吗？',status:'handled',created_at:'2026-08-15 14:03'},
+    {id:'m3',type:'job_application',ref_id:'j1',name:'张工',phone:'13800000003',content:'五年实木结构经验，意向结构工程师岗位。',status:'new',created_at:'2026-08-16 09:12'},
+    {id:'m4',type:'job_application',ref_id:'j4',name:'陈同学',phone:'13800000004',content:'应届生，应聘管培生。',status:'ignored',created_at:'2026-08-14 20:45'},
+  ],
+  banners:[
+    {id:'b1',title:'以匠心，筑理想之家',sort:1,status:'active',time:'2026-08-01 ~ 2026-12-31'},
+    {id:'b2',title:'实景案例 · 见生活的温度',sort:2,status:'active',time:'2026-08-01 ~ 2026-12-31'},
+    {id:'b3',title:'加入 Rz，与美同行',sort:3,status:'hidden',time:'—'},
+  ],
+  company:{name:'Rz家居',founded:1953,honor:120,lines:8,address:'河北省某市家居产业园 1 号',phone:'400-000-0000',email:'contact@rzhome.com',icp:'冀ICP备00000000号',intro:'Rz家居始创于 1953 年，集研发、制造、销售于一体。'},
+  aboutSections:[
+    {id:'a1',code:'overview',title:'关于Rz',status:'active'},
+    {id:'a2',code:'brand',title:'品牌介绍',status:'active'},
+  ],
+  milestones:[
+    {id:'ms1',year:'1953',title:'品牌始创',status:'active'},
+    {id:'ms2',year:'1985',title:'规模化生产',status:'active'},
+    {id:'ms3',year:'2008',title:'原创设计体系',status:'active'},
+    {id:'ms4',year:'2016',title:'智能工厂',status:'active'},
+    {id:'ms5',year:'2026',title:'家居美学焕新',status:'active'},
+  ],
+  admins:[
+    {id:'u1',username:'admin',display_name:'超级管理员',role:'超级管理员',status:'active',last_login:'2026-08-17 09:00'},
+    {id:'u2',username:'editor',display_name:'内容编辑',role:'内容编辑',status:'active',last_login:'2026-08-16 18:20'},
+    {id:'u3',username:'hr',display_name:'客服HR',role:'客服/HR',status:'disabled',last_login:'2026-08-15 11:05'},
+  ],
+  roles:[
+    {id:'r1',name:'超级管理员',perms:{series:['r','c','u','d'],categories:['r','c','u','d'],products:['r','c','u','d'],cases:['r','c','u','d'],news:['r','c','u','d'],about:['r','c','u','d'],banners:['r','c','u','d'],jobs:['r','c','u','d'],messages:['r','c','u','d'],admins:['r','c','u','d'],roles:['r','c','u','d'],stats:['r']}},
+    {id:'r2',name:'内容编辑',perms:{series:['r','c','u','d'],categories:['r','c','u','d'],products:['r','c','u','d'],cases:['r','c','u','d'],news:['r','c','u','d'],about:['r','c','u','d'],banners:['r','c','u','d']}},
+    {id:'r3',name:'客服/HR',perms:{jobs:['r','c','u','d'],messages:['r','c','u','d']}},
+  ],
+};
+
+/* ============ HELPERS ============ */
+const $=(s,r=document)=>r.querySelector(s);
+const root=$('#root');
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function toast(msg,type){const w=$('#toastWrap');if(!w)return;const t=document.createElement('div');t.className='toast'+(type?' '+type:'');t.innerHTML=(type==='error'?I.alert:type==='warning'?I.alert:I.check)+'<span>'+esc(msg)+'</span>';w.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(-10px)';setTimeout(()=>t.remove(),250);},2600);}
+function statusTag(s){const m={active:['tag-success','已上架/显示'],published:['tag-success','已发布'],handled:['tag-success','已处理'],hidden:['tag-neutral','已下架/隐藏'],draft:['tag-warning','草稿'],new:['tag-warning','未处理'],ignored:['tag-danger','已忽略']};const[v,c]=m[s]||['tag-neutral',s];return `<span class="tag ${v}"><span class="dot" style="background:currentColor"></span>${c}</span>`;}
+function seriesName(id){const s=DB.series.find(x=>x.id===id);return s?s.name:id;}
+function catName(id){const c=DB.categories.find(x=>x.id===id);return c?c.name:id;}
+function jobTitle(id){const j=DB.jobs.find(x=>x.id===id);return j?j.title:'—';}
+
+/* ============ STATE ============ */
+const ROLES={super:'超级管理员',editor:'内容编辑',hr:'客服/HR'};
+let state={loggedIn:false,role:'super',route:'dashboard',adminName:'超级管理员'};
+const crudStateStore={};
+function cs(key){return (crudStateStore[key]=crudStateStore[key]||{filters:{},page:1,search:''});}
+
+/* ============ LOGIN ============ */
+function renderLogin(){
+  root.innerHTML=`
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-brand"><span class="login-mark">Rz</span><span class="login-title">Rz家居</span></div>
+      <p class="login-sub">后台管理系统 · 管理者登录</p>
+      <div class="login-err" id="loginErr">请输入账号和密码</div>
+      <div class="login-field"><label>账号</label><input id="lu" placeholder="请输入管理员账号" autocomplete="username"></div>
+      <div class="login-field"><label>密码</label><input id="lp" type="password" placeholder="请输入密码" autocomplete="current-password"></div>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-bottom:16px;"><input type="checkbox" id="lrem" checked style="width:auto;height:auto;"> 记住登录（RefreshToken）</label>
+      <p style="font-size:12px;color:var(--muted);margin:0 0 8px;">演示角色（点击快速填充并登录）：</p>
+      <div class="role-pick" id="rolePick">
+        <button data-r="super" class="active">超级管理员</button>
+        <button data-r="editor">内容编辑</button>
+        <button data-r="hr">客服/HR</button>
+      </div>
+      <button class="btn btn-primary" id="loginBtn" style="width:100%;height:44px;">登录</button>
+      <p class="login-hint">原型演示：任意非空账号密码即可登录；不同角色菜单与权限不同。</p>
+    </div>
+  </div>
+  <div class="toast-wrap" id="toastWrap" aria-live="polite"></div>`;
+  let pick='super';
+  $('#rolePick').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+    pick=b.dataset.r;
+    $('#rolePick').querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));
+  }));
+  $('#loginBtn').addEventListener('click',()=>{
+    const u=$('#lu').value.trim(),p=$('#lp').value.trim();
+    if(!u||!p){$('#loginErr').classList.add('show');$('#lu').classList.toggle('invalid',!u);$('#lp').classList.toggle('invalid',!p);return;}
+    state.loggedIn=true;state.role=pick;
+    state.adminName={super:'超级管理员',editor:'内容编辑',hr:'客服/HR'}[pick];
+    state.route='dashboard';
+    toast('登录成功，欢迎回来');
+    renderApp();
+  });
+}
+
+/* ============ APP SHELL ============ */
+const MENU=[
+  {key:'dashboard',label:'控制台',icon:I.dashboard,roles:['super','editor','hr']},
+  {group:'内容管理',roles:['super','editor'],items:[
+    {key:'content/series',label:'产品系列',icon:I.series,roles:['super','editor']},
+    {key:'content/categories',label:'产品分类',icon:I.category,roles:['super','editor']},
+    {key:'content/products',label:'产品管理',icon:I.product,roles:['super','editor']},
+    {key:'content/cases',label:'案例管理',icon:I.case,roles:['super','editor']},
+    {key:'content/news',label:'新闻资讯',icon:I.news,roles:['super','editor']},
+    {key:'content/about',label:'关于我们配置',icon:I.about,roles:['super','editor']},
+  ]},
+  {group:'招聘管理',roles:['super','hr'],items:[
+    {key:'recruit/jobs',label:'职位管理',icon:I.recruit,roles:['super','hr']},
+  ]},
+  {group:'互动管理',roles:['super','hr'],items:[
+    {key:'interaction/messages',label:'留言管理',icon:I.message,roles:['super','hr']},
+  ]},
+  {group:'展示管理',roles:['super','editor'],items:[
+    {key:'display/banners',label:'首页轮播图',icon:I.display,roles:['super','editor']},
+  ]},
+  {group:'系统管理',roles:['super'],items:[
+    {key:'system/admins',label:'管理员管理',icon:I.system,roles:['super']},
+    {key:'system/roles',label:'角色与权限',icon:I.system,roles:['super']},
+  ]},
+  {key:'stats',label:'数据统计',icon:I.stats,roles:['super']},
+];
+function visibleMenu(){const r=state.role;const out=[];MENU.forEach(m=>{if(m.group){if(m.roles.includes(r)){const items=m.items.filter(i=>i.roles.includes(r));if(items.length)out.push({group:m.group,items});}}else{if(m.roles.includes(r))out.push(m);}});return out;}
+function renderApp(){
+  const nav=visibleMenu();
+  let navHtml='';
+  nav.forEach(m=>{
+    if(m.group){navHtml+=`<div class="nav-group">${m.group}</div>`;m.items.forEach(i=>navHtml+=navItem(i));}
+    else navHtml+=navItem(m);
+  });
+  root.innerHTML=`
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="sidebar-head"><span class="login-mark">Rz</span><span class="t">Rz家居</span></div>
+      <nav class="sidebar-nav" aria-label="后台导航">${navHtml}</nav>
+      <div class="sidebar-foot">Rz HOME · 家居美学<br>管理后台 v0.5</div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="breadcrumb" id="breadcrumb"></div>
+        <div class="topbar-right">
+          <div class="admin-badge">
+            <span class="avatar">${esc(state.adminName[0]||'A')}</span>
+            <div><div style="font-weight:500;">${esc(state.adminName)}</div><span class="role-tag">${ROLES[state.role]}</span></div>
+          </div>
+          <button class="btn btn-ghost btn-sm" id="logoutBtn">${I.logout} 退出</button>
+        </div>
+      </header>
+      <div class="content" id="content"></div>
+    </div>
+  </div>
+  <div class="toast-wrap" id="toastWrap" aria-live="polite"></div>`;
+  root.querySelectorAll('.nav-item').forEach(b=>b.addEventListener('click',()=>{state.route=b.dataset.route;renderContent();}));
+  $('#logoutBtn').addEventListener('click',()=>{state.loggedIn=false;toast('已退出登录');renderLogin();});
+  renderContent();
+}
+function navItem(i){const active=state.route===i.key?'active':'';return `<button class="nav-item ${active}" data-route="${i.key}">${i.icon}<span>${i.label}</span></button>`;}
+
+const ROUTE_META={
+  'dashboard':['控制台'],
+  'content/series':['内容管理','产品系列'],
+  'content/categories':['内容管理','产品分类'],
+  'content/products':['内容管理','产品管理'],
+  'content/cases':['内容管理','案例管理'],
+  'content/news':['内容管理','新闻资讯'],
+  'content/about':['内容管理','关于我们配置'],
+  'recruit/jobs':['招聘管理','职位管理'],
+  'interaction/messages':['互动管理','留言管理'],
+  'display/banners':['展示管理','首页轮播图'],
+  'system/admins':['系统管理','管理员管理'],
+  'system/roles':['系统管理','角色与权限'],
+  'stats':['数据统计'],
+};
+function renderContent(){
+  // refresh active highlight
+  root.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.route===state.route));
+  const meta=ROUTE_META[state.route]||['页面'];
+  $('#breadcrumb').innerHTML=`<span>Rz家居</span><span style="opacity:.5">/</span>`+meta.map((m,i)=>i===meta.length-1?`<span class="cur">${m}</span>`:`<span>${m}</span><span style="opacity:.5">/</span>`).join('');
+  const map={
+    'dashboard':viewDashboard,
+    'content/series':()=>crudSeries(),
+    'content/categories':()=>crudCategories(),
+    'content/products':()=>crudProducts(),
+    'content/cases':()=>crudCases(),
+    'content/news':()=>crudNews(),
+    'content/about':viewAboutConfig,
+    'recruit/jobs':()=>crudJobs(),
+    'interaction/messages':viewMessages,
+    'display/banners':()=>crudBanners(),
+    'system/admins':()=>crudAdmins(),
+    'system/roles':()=>crudRoles(),
+    'stats':viewStats,
+  };
+  const fn=map[state.route]||viewDashboard;
+  $('#content').innerHTML=fn();
+  // bind
+  const bindMap={
+    'content/series':bindSeries,'content/categories':bindCategories,'content/products':bindProducts,
+    'content/cases':bindCases,'content/news':bindNews,'content/about':bindAboutConfig,'recruit/jobs':bindJobs,
+    'interaction/messages':bindMessages,'display/banners':bindBanners,'system/admins':bindAdmins,'system/roles':bindRoles,
+    'dashboard':bindDashboard,'stats':bindStats,
+  };
+  if(bindMap[state.route])bindMap[state.route]();
+  window.scrollTo(0,0);
+}
+
+/* ============ SHARED CRUD ENGINE ============ */
+function toolbarHtml(cfg){
+  const st=cs(cfg.key);
+  let f='';
+  (cfg.filters||[]).forEach(fl=>{
+    f+=`<div class="field"><label>${fl.label}</label><select data-filter="${fl.field}"><option value="">全部</option>${fl.options.map(o=>`<option value="${o.value}" ${st.filters[fl.field]===o.value?'selected':''}>${esc(o.label)}</option>`).join('')}</select></div>`;
+  });
+  if(cfg.search){f+=`<div class="field" style="flex:1;min-width:180px;"><label>搜索</label><input data-search placeholder="${cfg.searchPlaceholder||'关键词'}"></div>`;}
+  return `<div class="toolbar">${f}<div class="spacer"></div><button class="btn btn-primary" data-add>${I.plus} ${cfg.addLabel||'新增'}</button></div>`;
+}
+function tableHtml(cfg,rows){
+  const cols=cfg.columns;
+  const head='<tr>'+cols.map(c=>`<th>${esc(c.label)}</th>`).join('')+'<th style="width:120px;">操作</th></tr>';
+  if(!rows.length){return `<div class="card"><div class="table-wrap"><table class="data"><thead>${head}</thead></table></div>${emptyState('暂无数据','点击右上角"'+cfg.addLabel+'”添加')}`;}
+  const body=rows.map(r=>{
+    const tds=cols.map(c=>`<td>${c.render(r)}</td>`).join('');
+    const acts=`<td><div class="row-actions"><button class="mini-btn" data-edit="${r.id}">${I.edit} 编辑</button><button class="mini-btn danger" data-del="${r.id}">${I.trash} 删除</button></div></td>`;
+    return `<tr>${tds}${acts}</tr>`;
+  }).join('');
+  return `<div class="card"><div class="table-wrap"><table class="data"><thead>${head}</thead><tbody>${body}</tbody></table></div></div>`;
+}
+function pagerHtml(cfg,total,page){
+  if(total<=1)return '';
+  let s='<div class="pagination">';
+  s+=`<button class="page-btn" ${page===1?'disabled':''} data-pg="${page-1}">‹</button>`;
+  for(let i=1;i<=total;i++)s+=`<button class="page-btn ${i===page?'active':''}" data-pg="${i}">${i}</button>`;
+  s+=`<button class="page-btn" ${page===total?'disabled':''} data-pg="${page+1}">›</button></div>`;
+  return s;
+}
+function emptyState(title,sub){return `<div class="empty">${I.empty}<p>${esc(title)}</p>${sub?`<button class="btn btn-secondary btn-sm" data-add>${esc(sub)}</button>`:''}</div>`;}
+
+function runCRUD(cfg,targetSel){
+  cfg._target=targetSel||'#content';
+  const root=$(cfg._target);
+  const st=cs(cfg.key);
+  let rows=cfg.data();
+  (cfg.filters||[]).forEach(fl=>{if(st.filters[fl.field])rows=rows.filter(r=>String(r[fl.field])===String(st.filters[fl.field]));});
+  if(cfg.search&&st.search){const q=st.search.toLowerCase();rows=rows.filter(r=>cfg.searchFields.some(f=>String(r[f]).toLowerCase().includes(q)));}
+  const size=cfg.pageSize||8;const total=Math.ceil(rows.length/size)||1;
+  if(st.page>total)st.page=total;
+  const pageRows=rows.slice((st.page-1)*size,st.page*size);
+  let html=`<div class="page-head"><div><h2>${cfg.title}</h2><div class="sub">${cfg.subtitle||''}</div></div></div>`;
+  html+=toolbarHtml(cfg);
+  html+=tableHtml(cfg,pageRows);
+  html+=pagerHtml(cfg,total,st.page);
+  root.innerHTML=html;
+  // bind
+  root.querySelectorAll('[data-filter]').forEach(s=>s.addEventListener('change',e=>{st.filters[e.target.dataset.filter]=e.target.value;st.page=1;runCRUD(cfg);}));
+  const si=root.querySelector('[data-search]'); if(si)si.addEventListener('input',e=>{st.search=e.target.value;st.page=1;runCRUD(cfg);});
+  root.querySelectorAll('[data-pg]').forEach(b=>b.addEventListener('click',()=>{if(b.disabled)return;st.page=parseInt(b.dataset.pg);runCRUD(cfg);}));
+  root.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>openForm(cfg,null)));
+  root.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>{const row=cfg.data().find(r=>r.id===b.dataset.edit);openForm(cfg,row);}));
+  root.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{
+    confirmDialog('确认删除该记录？删除后不可恢复。',()=>{cfg.onDelete(b.dataset.del);toast('已删除');runCRUD(cfg);});
+  }));
+}
+
+/* form drawer */
+function openForm(cfg,row){
+  const isEdit=!!row;
+  const fields=cfg.form.fields;
+  const init=cfg.form.initial?cfg.form.initial(row):{};
+  const body=fields.map(f=>{
+    let ctrl;
+    const val=init[f.name]!=null?init[f.name]:(f.default!=null?f.default:'');
+    if(f.type==='textarea')ctrl=`<textarea name="${f.name}" placeholder="${f.placeholder||''}">${esc(val)}</textarea>`;
+    else if(f.type==='select')ctrl=`<select name="${f.name}">${f.options.map(o=>`<option value="${o.value}" ${String(val)===String(o.value)?'selected':''}>${esc(o.label)}</option>`).join('')}</select>`;
+    else if(f.type==='switch')ctrl=`<label class="switch"><input type="checkbox" name="${f.name}" ${val?'checked':''}> ${val?'是':'否'}</label>`;
+    else if(f.type==='image')ctrl=`<div class="img-field"><div class="img-thumb" data-thumb>${val?'<img src="'+esc(val)+'" style="width:100%;height:100%;object-fit:cover;">':f.label.slice(0,2)}</div><button type="button" class="upload-btn" data-upload>上传图片</button><input type="file" accept="image/*" style="display:none" data-file></div>`;
+    else ctrl=`<input name="${f.name}" type="${f.type==='number'?'number':'text'}" value="${esc(val)}" placeholder="${f.placeholder||''}">`;
+    return `<div class="form-row"><label>${esc(f.label)}${f.required?'<span class="req">*</span>':''}</label>${ctrl}<div class="err-msg" id="fe-${f.name}">请填写${esc(f.label)}</div></div>`;
+  }).join('');
+  openDrawer(cfg.form.title(row),body,()=>{
+    const form=$('#drawerForm');
+    form.addEventListener('submit',e=>{
+      e.preventDefault();let ok=true;const vals={};
+      fields.forEach(f=>{
+        let v;
+        if(f.type==='switch')v=form[f.name].checked;
+        else if(f.type==='file'||f.type==='image')v=init[f.name]||'';
+        else v=form[f.name].value.trim();
+        vals[f.name]=v;
+        if(f.required&&!String(v)){ok=false;$('#fe-'+f.name).classList.add('show');form[f.name].classList.add('invalid');}
+        else{$('#fe-'+f.name).classList.remove('show');form[f.name].classList.remove('invalid');}
+      });
+      if(!ok){toast('请填写必填项','error');return;}
+      const btn=$('#drawerSubmit');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> 保存中';
+      setTimeout(()=>{
+        if(isEdit)cfg.onUpdate(row.id,vals);else cfg.onCreate(vals);
+        closeDrawer();toast(isEdit?'已保存修改':'已新增');
+        runCRUD(cfg);
+      },500);
+    });
+    form.querySelectorAll('[data-upload]').forEach(u=>u.addEventListener('click',()=>u.nextElementSibling.click()));
+    form.querySelectorAll('[data-file]').forEach(inp=>inp.addEventListener('change',e=>{
+      if(e.target.files[0]){const t=form.querySelector('[data-thumb]');if(t)t.innerHTML='<span style="font-size:12px;color:var(--walnut)">已选</span>';toast('已选择图片（原型模拟上传）');}
+    }));
+    form.querySelectorAll('input[name][type=checkbox]').forEach(c=>c.addEventListener('change',()=>{const span=c.closest('.switch');if(span)span.lastChild.textContent=c.checked?' 是':' 否';}));
+  });
+}
+
+/* drawer & confirm primitives */
+function openDrawer(title,bodyHtml,onMount){
+  const back=document.createElement('div');back.className='drawer-backdrop';
+  back.innerHTML=`<div class="drawer" role="dialog" aria-modal="true" aria-label="${esc(title)}">
+    <div class="drawer-head"><h3>${esc(title)}</h3><button class="icon-btn" id="drawerClose" aria-label="关闭" style="border:none;background:none;cursor:pointer;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <form class="drawer-body" id="drawerForm">${bodyHtml}
+      <div class="drawer-foot" style="position:sticky;bottom:0;background:#fff;"><button type="button" class="btn btn-secondary" id="drawerCancel">取消</button><button type="submit" class="btn btn-primary" id="drawerSubmit">保存</button></div>
+    </form></div>`;
+  document.body.appendChild(back);
+  requestAnimationFrame(()=>back.classList.add('open'));
+  const close=()=>{back.classList.remove('open');setTimeout(()=>back.remove(),250);};
+  back.addEventListener('click',e=>{if(e.target===back)close();});
+  $('#drawerClose',back).addEventListener('click',close);
+  $('#drawerCancel',back).addEventListener('click',close);
+  if(onMount)onMount();
+}
+function closeDrawer(){$('.drawer-backdrop')&&$('.drawer-backdrop').classList.remove('open');setTimeout(()=>{$('.drawer-backdrop')&&$('.drawer-backdrop').remove();},250);}
+function confirmDialog(msg,onYes){
+  const back=document.createElement('div');back.className='modal-backdrop';
+  back.innerHTML=`<div class="modal" role="alertdialog" aria-modal="true"><h3>确认操作</h3><p>${esc(msg)}</p><div class="modal-actions"><button class="btn btn-secondary" id="cno">取消</button><button class="btn btn-danger" id="cyes">确认删除</button></div></div>`;
+  document.body.appendChild(back);
+  requestAnimationFrame(()=>back.classList.add('open'));
+  const close=()=>{back.classList.remove('open');setTimeout(()=>back.remove(),200);};
+  $('#cno',back).addEventListener('click',close);
+  $('#cyes',back).addEventListener('click',()=>{close();onYes();});
+  back.addEventListener('click',e=>{if(e.target===back)close();});
+}
+
+/* ============ DASHBOARD ============ */
+function viewDashboard(){
+  const contactNew=DB.messages.filter(m=>m.type==='contact'&&m.status==='new').length;
+  const jobNew=DB.messages.filter(m=>m.type==='job_application'&&m.status==='new').length;
+  return `<div class="page-head"><div><h2>控制台</h2><div class="sub">运营数据概览</div></div></div>
+  <div class="stat-grid">
+    <div class="stat"><div class="n">${DB.products.filter(p=>p.status==='active').length}</div><div class="l">上架产品</div></div>
+    <div class="stat"><div class="n">${DB.cases.filter(c=>c.status==='active').length}</div><div class="l">展示案例</div></div>
+    <div class="stat"><div class="n">${DB.news.filter(n=>n.status==='published').length}</div><div class="l">已发布新闻</div></div>
+    <div class="stat"><div class="n">${DB.jobs.filter(j=>j.status==='active').length}<span class="badge">${contactNew+jobNew} 待处理</span></div><div class="l">招聘职位 / 新留言</div></div>
+  </div>
+  <div class="card card-pad" style="margin-bottom:18px;">
+    <h3 style="font-size:16px;margin-bottom:6px;">近 7 日留言趋势</h3>
+    <div class="bars">
+      ${[3,5,2,6,4,7,5].map((v,i)=>`<div class="bar-col"><div class="bar" style="height:${v*16}px"></div><div class="bar-label">${['一','二','三','四','五','六','日'][i]}</div></div>`).join('')}
+    </div>
+  </div>
+  <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px;">
+    <div class="card card-pad">
+      <h3 style="font-size:16px;margin-bottom:12px;">待处理留言 <span class="badge" style="..."></span></h3>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;justify-content:space-between;padding:10px;border:1px solid var(--line);border-radius:8px;"><span>联系留言（未处理）</span>${statusTag('new')} ${contactNew}</div>
+        <div style="display:flex;justify-content:space-between;padding:10px;border:1px solid var(--line);border-radius:8px;"><span>应聘留言（未处理）</span>${statusTag('new')} ${jobNew}</div>
+      </div>
+      ${state.role!=='editor'?`<a class="btn btn-secondary btn-sm" style="margin-top:14px;" href="javascript:void(0)" onclick="state.route='interaction/messages';renderContent();">前往处理</a>`:''}
+    </div>
+    <div class="card card-pad">
+      <h3 style="font-size:16px;margin-bottom:12px;">内容分布</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;color:var(--muted);">
+        <div style="display:flex;justify-content:space-between;"><span>产品系列</span><b style="color:var(--ink)">${DB.series.length}</b></div>
+        <div style="display:flex;justify-content:space-between;"><span>空间分类</span><b style="color:var(--ink)">${DB.categories.length}</b></div>
+        <div style="display:flex;justify-content:space-between;"><span>案例</span><b style="color:var(--ink)">${DB.cases.length}</b></div>
+        <div style="display:flex;justify-content:space-between;"><span>新闻（含草稿）</span><b style="color:var(--ink)">${DB.news.length}</b></div>
+        <div style="display:flex;justify-content:space-between;"><span>轮播图</span><b style="color:var(--ink)">${DB.banners.length}</b></div>
+      </div>
+    </div>
+  </div>`;
+}
+function bindDashboard(){}
+
+/* ============ CONTENT: SERIES ============ */
+const seriesCfg={
+  key:'content/series',title:'产品系列',subtitle:'管理产品系列（系列卡片、排序、上下架）',
+  columns:[
+    {label:'名称',render:r=>esc(r.name)},
+    {label:'简介',render:r=>esc(r.summary)},
+    {label:'排序',render:r=>esc(r.sort)},
+    {label:'状态',render:r=>statusTag(r.status)},
+  ],
+  data:()=>DB.series,
+  form:{title:r=>r?'编辑系列':'新增系列',fields:[
+    {name:'name',label:'系列名称',required:true},
+    {name:'summary',label:'简介',type:'textarea'},
+    {name:'sort',label:'排序',type:'number'},
+    {name:'status',label:'状态',type:'select',options:[{value:'active',label:'显示'},{value:'hidden',label:'隐藏'}]},
+  ],initial:r=>r?{name:r.name,summary:r.summary,sort:r.sort,status:r.status}:{sort:DB.series.length+1,status:'active'}},
+  onCreate:v=>{DB.series.push({id:'s'+(Date.now()),name:v.name,summary:v.summary,sort:parseInt(v.sort)||0,status:v.status});},
+  onUpdate:(id,v)=>{const r=DB.series.find(x=>x.id===id);Object.assign(r,v);},
+  onDelete:id=>{DB.series=DB.series.filter(x=>x.id!==id);},
+};
+function crudSeries(){runCRUD(seriesCfg);} function bindSeries(){}
+
+/* ============ CONTENT: CATEGORIES ============ */
+const catCfg={
+  key:'content/categories',title:'产品分类',subtitle:'空间/类型分类（客厅/卧室/书房/茶室/餐厅/办公）',
+  columns:[
+    {label:'名称',render:r=>esc(r.name)},
+    {label:'排序',render:r=>esc(r.sort)},
+    {label:'状态',render:r=>statusTag(r.status)},
+  ],
+  data:()=>DB.categories,
+  form:{title:r=>r?'编辑分类':'新增分类',fields:[
+    {name:'name',label:'分类名称',required:true},
+    {name:'sort',label:'排序',type:'number'},
+    {name:'status',label:'状态',type:'select',options:[{value:'active',label:'显示'},{value:'hidden',label:'隐藏'}]},
+  ],initial:r=>r?{name:r.name,sort:r.sort,status:r.status}:{sort:DB.categories.length+1,status:'active'}},
+  onCreate:v=>{DB.categories.push({id:'c'+(Date.now()),name:v.name,sort:parseInt(v.sort)||0,status:v.status});},
+  onUpdate:(id,v)=>{const r=DB.categories.find(x=>x.id===id);Object.assign(r,v);},
+  onDelete:id=>{DB.categories=DB.categories.filter(x=>x.id!==id);},
+};
+function crudCategories(){runCRUD(catCfg);} function bindCategories(){}
+
+/* ============ CONTENT: PRODUCTS ============ */
+const productCfg={
+  key:'content/products',title:'产品管理',subtitle:'产品 CRUD（系列/分类/型号/价格/推荐/状态）',
+  filters:[
+    {field:'series',label:'系列',options:DB.series.map(s=>({value:s.id,label:s.name}))},
+    {field:'status',label:'状态',options:[{value:'active',label:'上架'},{value:'hidden',label:'下架'}]},
+  ],
+  search:true,searchFields:['name','model'],searchPlaceholder:'产品名称 / 型号',
+  columns:[
+    {label:'名称',render:r=>esc(r.name)},
+    {label:'系列',render:r=>esc(seriesName(r.series))},
+    {label:'空间',render:r=>esc(catName(r.cat))},
+    {label:'型号',render:r=>esc(r.model)},
+    {label:'参考价',render:r=>'¥'+esc(r.price)},
+    {label:'推荐',render:r=>r.rec?tag('首页推荐','tag-new'):'—'},
+    {label:'状态',render:r=>statusTag(r.status)},
+  ],
+  data:()=>DB.products,
+  form:{title:r=>r?'编辑产品':'新增产品',fields:[
+    {name:'name',label:'产品名称',required:true},
+    {name:'series',label:'所属系列',type:'select',required:true,options:DB.series.map(s=>({value:s.id,label:s.name}))},
+    {name:'cat',label:'空间分类',type:'select',required:true,options:DB.categories.map(c=>({value:c.id,label:c.name}))},
+    {name:'model',label:'型号',required:true},
+    {name:'price',label:'展示参考价',placeholder:'如 8,800'},
+    {name:'summary',label:'简介',type:'textarea'},
+    {name:'rec',label:'首页推荐',type:'switch'},
+    {name:'cover',label:'封面图',type:'image'},
+    {name:'status',label:'状态',type:'select',options:[{value:'active',label:'上架'},{value:'hidden',label:'下架'}]},
+  ],initial:r=>r?{name:r.name,series:r.series,cat:r.cat,model:r.model,price:r.price,summary:r.summary,rec:r.rec,cover:r.cover,status:r.status}:{status:'active',rec:false}},
+  onCreate:v=>{DB.products.push({id:'p'+(Date.now()),series:v.series,cat:v.cat,name:v.name,model:v.model,price:v.price,summary:v.summary,rec:!!v.rec,status:v.status});},
+  onUpdate:(id,v)=>{const r=DB.products.find(x=>x.id===id);Object.assign(r,v);},
+  onDelete:id=>{DB.products=DB.products.filter(x=>x.id!==id);},
+};
+function crudProducts(){runCRUD(productCfg);} function bindProducts(){}
+
+/* ============ CONTENT: CASES ============ */
+const caseCfg={
+  key:'content/cases',title:'案例管理',subtitle:'案例 CRUD（分类：住宅/工程/商业；标记"新"）',
+  filters:[
+    {field:'cat',label:'分类',options:[{value:'住宅',label:'住宅'},{value:'工程',label:'工程'},{value:'商业',label:'商业'}]},
+    {field:'status',label:'状态',options:[{value:'active',label:'显示'},{value:'hidden',label:'隐藏'}]},
+  ],
+  columns:[
+    {label:'标题',render:r=>esc(r.title)},
+    {label:'分类',render:r=>tag(r.cat,'tag-brand')},
+    {label:'标记新',render:r=>r.is_new?tag('新','tag-new'):'—'},
+    {label:'状态',render:r=>statusTag(r.status)},
+  ],
+  data:()=>DB.cases,
+  form:{title:r=>r?'编辑案例':'新增案例',fields:[
+    {name:'title',label:'标题',required:true},
+    {name:'cat',label:'分类',type:'select',required:true,options:[{value:'住宅',label:'住宅'},{value:'工程',label:'工程'},{value:'商业',label:'商业'}]},
+    {name:'summary',label:'摘要',type:'textarea'},
+    {name:'is_new',label:'标记"新"',type:'switch'},
+    {name:'cover',label:'封面图',type:'image'},
+    {name:'status',label:'状态',type:'select',options:[{value:'active',label:'显示'},{value:'hidden',label:'隐藏'}]},
+  ],initial:r=>r?{title:r.title,cat:r.cat,summary:r.summary,is_new:r.is_new,cover:r.cover,status:r.status}:{status:'active',is_new:false}},
+  onCreate:v=>{DB.cases.push({id:'k'+(Date.now()),title:v.title,cat:v.cat,summary:v.summary,is_new:!!v.is_new,status:v.status});},
+  onUpdate:(id,v)=>{const r=DB.cases.find(x=>x.id===id);Object.assign(r,v);},
+  onDelete:id=>{DB.cases=DB.cases.filter(x=>x.id!==id);},
+};
+function crudCases(){runCRUD(caseCfg);} function bindCases(){}
+
+/* ============ CONTENT: NEWS ============ */
+const newsCfg={
+  key:'content/news',title:'新闻资讯',subtitle:'新闻 CRUD（企业新闻/行业资讯；置顶；草稿/发布）',
+  filters:[
+    {field:'cat',label:'分类',options:[{value:'company',label:'企业新闻'},{value:'industry',label:'行业资讯'}]},
+    {field:'status',label:'状态',options:[{value:'published',label:'已发布'},{value:'draft',label:'草稿'}]},
+  ],
+  search:true,searchFields:['title'],searchPlaceholder:'标题',
+  columns:[
+    {label:'标题',render:r=>esc(r.title)+(r.top?tag('置顶','tag-brand'):'')},
+    {label:'分类',render:r=>tag(r.cat==='company'?'企业新闻':'行业资讯','tag-brand')},
+    {label:'日期',render:r=>esc(r.date)},
+    {label:'状态',render:r=>statusTag(r.status)},
+  ],
+  data:()=>DB.news,
+  form:{title:r=>r?'编辑新闻':'新增新闻',fields:[
+    {name:'title',label:'标题',required:true},
+    {name:'cat',label:'分类',type:'select',required:true,options:[{value:'company',label:'企业新闻'},{value:'industry',label:'行业资讯'}]},
+    {name:'summary',label:'摘要',type:'textarea'},
+    {name:'top',label:'置顶',type:'switch'},
+    {name:'status',label:'状态',type:'select',options:[{value:'published',label:'发布'},{value:'draft',label:'草稿'}]},
+  ],initial:r=>r?{title:r.title,cat:r.cat,summary:r.summary,top:r.top,status:r.status}:{status:'draft',top:false}},
+  onCreate:v=>{DB.news.push({id:'n'+(Date.now()),title:v.title,cat:v.cat,summary:v.summary,top:!!v.top,status:v.status,date:new Date().toISOString().slice(0,10)});},
+  onUpdate:(id,v)=>{const r=DB.news.find(x=>x.id===id);Object.assign(r,v);},
+  onDelete:id=>{DB.news=DB.news.filter(x=>x.id!==id);},
+};
+function crudNews(){runCRUD(newsCfg);} function bindNews(){}
+
+/* ============ CONTENT: ABOUT CONFIG ============ */
+let aboutTab='company';
+function viewAboutConfig(){
+  return `<div class="page-head"><div><h2>关于我们配置</h2><div class="sub">维护前台"关于我们"四页内容（公司信息 / 区块 / 历程）</div></div></div>
+  <div class="subtabs" id="aboutTabs">
+    <button class="subtab ${aboutTab==='company'?'active':''}" data-t="company">公司信息</button>
+    <button class="subtab ${aboutTab==='sections'?'active':''}" data-t="sections">区块（关于Rz/品牌）</button>
+    <button class="subtab ${aboutTab==='milestone'?'active':''}" data-t="milestone">发展历程</button>
+  </div>
+  <div id="aboutPane"></div>`;
+}
+function renderAboutPane(){
+  const pane=$('#aboutPane');if(!pane)return;
+  if(aboutTab==='company'){
+    const c=DB.company;
+    pane.innerHTML=`<div class="card card-pad"><form id="companyForm">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="form-row"><label>公司名称</label><input name="name" value="${esc(c.name)}"></div>
+        <div class="form-row"><label>建厂年份</label><input name="founded" type="number" value="${esc(c.founded)}"></div>
+        <div class="form-row"><label>荣誉数</label><input name="honor" type="number" value="${esc(c.honor)}"></div>
+        <div class="form-row"><label>生产线数</label><input name="lines" type="number" value="${esc(c.lines)}"></div>
+        <div class="form-row"><label>地址</label><input name="address" value="${esc(c.address)}"></div>
+        <div class="form-row"><label>电话</label><input name="phone" value="${esc(c.phone)}"></div>
+        <div class="form-row"><label>邮箱</label><input name="email" value="${esc(c.email)}"></div>
+        <div class="form-row"><label>ICP 备案号</label><input name="icp" value="${esc(c.icp)}"></div>
+      </div>
+      <div class="form-row"><label>企业简介</label><textarea name="intro">${esc(c.intro)}</textarea></div>
+      <div style="text-align:right;margin-top:8px;"><button class="btn btn-primary" type="submit">保存公司信息</button></div>
+    </form></div>`;
+    $('#companyForm').addEventListener('submit',e=>{e.preventDefault();const f=e.target;Object.assign(DB.company,{name:f.name.value,founded:f.founded.value,honor:f.honor.value,lines:f.lines.value,address:f.address.value,phone:f.phone.value,email:f.email.value,icp:f.icp.value,intro:f.intro.value});toast('公司信息已保存');});
+  } else if(aboutTab==='sections'){
+    pane.innerHTML=`<div class="card"><div class="table-wrap"><table class="data"><thead><tr><th>区块</th><th>代码</th><th>状态</th><th style="width:120px;">操作</th></tr></thead><tbody>
+      ${DB.aboutSections.map(s=>`<tr><td>${esc(s.title)}</td><td><code>${esc(s.code)}</code></td><td>${statusTag(s.status)}</td><td><button class="mini-btn" data-sec="${s.id}">${I.edit} 编辑</button></td></tr>`).join('')}
+    </tbody></table></div></div>`;
+    pane.querySelectorAll('[data-sec]').forEach(b=>b.addEventListener('click',()=>{const s=DB.aboutSections.find(x=>x.id===b.dataset.sec);editSection(s);}));
+  } else {
+    // milestone CRUD via mini engine
+    const cfg={key:'about_milestone',title:'发展历程',subtitle:'',columns:[
+      {label:'年份',render:r=>esc(r.year)},{label:'标题',render:r=>esc(r.title)},{label:'状态',render:r=>statusTag(r.status)},
+    ],data:()=>DB.milestones,form:{title:r=>r?'编辑里程碑':'新增里程碑',fields:[
+      {name:'year',label:'年份',required:true},{name:'title',label:'标题',required:true},{name:'status',label:'状态',type:'select',options:[{value:'active',label:'显示'},{value:'hidden',label:'隐藏'}]},
+    ],initial:r=>r?{year:r.year,title:r.title,status:r.status}:{status:'active'}},
+    onCreate:v=>{DB.milestones.push({id:'ms'+(Date.now()),year:v.year,title:v.title,status:v.status});},
+    onUpdate:(id,v)=>{const r=DB.milestones.find(x=>x.id===id);Object.assign(r,v);},
+    onDelete:id=>{DB.milestones=DB.milestones.filter(x=>x.id!==id);}};
+    runCRUD(cfg,'#aboutPane');
+  }
+}
+function editSection(s){
+  const body=`<div class="form-row"><label>标题<span class="req">*</span></label><input name="title" value="${esc(s.title)}"><div class="err-msg" id="fe-title">请填写标题</div></div>
+  <div class="form-row"><label>富文本内容</label><textarea name="content" placeholder="（原型：富文本编辑区）">（原型：富文本编辑区）</textarea></div>
+  <div class="form-row"><label>状态</label><select name="status"><option value="active" ${s.status==='active'?'selected':''}>显示</option><option value="hidden" ${s.status==='hidden'?'selected':''}>隐藏</option></select></div>
+  <div class="drawer-foot" style="position:sticky;bottom:0;background:#fff;"><button type="button" class="btn btn-secondary" onclick="closeDrawer()">取消</button><button type="button" class="btn btn-primary" id="secSave">保存</button></div>`;
+  openDrawer('编辑区块 · '+s.title,body,()=>{
+    $('#secSave').addEventListener('click',()=>{
+      const f=$('#drawerForm');const t=f.title.value.trim();
+      if(!t){$('#fe-title').classList.add('show');f.title.classList.add('invalid');toast('请填写标题','error');return;}
+      const r=DB.aboutSections.find(x=>x.id===s.id);r.title=t;r.status=f.status.value;closeDrawer();toast('区块已保存');renderAboutPane();
+    });
+  });
+}
+function bindAboutConfig(){
+  $('#aboutTabs')&&$('#aboutTabs').querySelectorAll('.subtab').forEach(b=>b.addEventListener('click',()=>{aboutTab=b.dataset.t;viewAboutConfig();bindAboutConfig();}));
+  renderAboutPane();
+}
+
+/* ============ RECRUIT: JOBS ============ */
+const jobCfg={
+  key:'recruit/jobs',title:'职位管理',subtitle:'招聘职位 CRUD（社会/校园；上架/下架）',
+  filters:[
+    {field:'type',label:'类型',options:[{value:'social',label:'社会招聘'},{value:'campus',label:'校园招聘'}]},
+    {field:'status',label:'状态',options:[{value:'active',label:'上架'},{value:'hidden',label:'下架'}]},
+  ],
+  columns:[
+    {label:'职位',render:r=>esc(r.title)},
+    {label:'类型',render:r=>tag(r.type==='social'?'社会招聘':'校园招聘','tag-brand')},
+    {label:'部门',render:r=>esc(r.dept)},
+    {label:'城市',render:r=>esc(r.city)},
+    {label:'薪资',render:r=>esc(r.salary)},
+    {label:'状态',render:r=>statusTag(r.status)},
+  ],
+  data:()=>DB.jobs,
+  form:{title:r=>r?'编辑职位':'新增职位',fields:[
+    {name:'title',label:'职位标题',required:true},
+    {name:'type',label:'类型',type:'select',required:true,options:[{value:'social',label:'社会招聘'},{value:'campus',label:'校园招聘'}]},
+    {name:'dept',label:'部门',required:true},
+    {name:'city',label:'城市',required:true},
+    {name:'salary',label:'薪资',placeholder:'如 20–35K / 面议'},
+    {name:'head',label:'招聘人数',type:'number'},
+    {name:'description',label:'职责描述',type:'textarea'},
+    {name:'requirements',label:'任职要求',type:'textarea'},
+    {name:'status',label:'状态',type:'select',options:[{value:'active',label:'上架'},{value:'hidden',label:'下架'}]},
+  ],initial:r=>r?{title:r.title,type:r.type,dept:r.dept,city:r.city,salary:r.salary,head:r.head,description:'',requirements:'',status:r.status}:{status:'active',type:'social'}},
+  onCreate:v=>{DB.jobs.push({id:'j'+(Date.now()),title:v.title,type:v.type,dept:v.dept,city:v.city,salary:v.salary,head:parseInt(v.head)||null,status:v.status});},
+  onUpdate:(id,v)=>{const r=DB.jobs.find(x=>x.id===id);Object.assign(r,v);},
+  onDelete:id=>{DB.jobs=DB.jobs.filter(x=>x.id!==id);},
+};
+function crudJobs(){runCRUD(jobCfg);} function bindJobs(){}
+
+/* ============ INTERACTION: MESSAGES ============ */
+function viewMessages(){
+  const st=cs('interaction/messages');
+  let rows=DB.messages.slice();
+  if(st.filters.type)rows=rows.filter(m=>m.type===st.filters.type);
+  if(st.filters.status)rows=rows.filter(m=>m.status===st.filters.status);
+  const contactNew=DB.messages.filter(m=>m.type==='contact'&&m.status==='new').length;
+  const jobNew=DB.messages.filter(m=>m.type==='job_application'&&m.status==='new').length;
+  const html=`<div class="page-head"><div><h2>留言管理</h2><div class="sub">联系留言 / 应聘留言 · 查看、回复、标记</div></div></div>
+  <div class="toolbar">
+    <div class="field"><label>类型</label><select data-filter="type"><option value="">全部</option><option value="contact" ${st.filters.type==='contact'?'selected':''}>联系留言</option><option value="job_application" ${st.filters.type==='job_application'?'selected':''}>应聘留言</option></select></div>
+    <div class="field"><label>状态</label><select data-filter="status"><option value="">全部</option><option value="new" ${st.filters.status==='new'?'selected':''}>未处理</option><option value="handled" ${st.filters.status==='handled'?'selected':''}>已处理</option><option value="ignored" ${st.filters.status==='ignored'?'selected':''}>已忽略</option></select></div>
+    <div class="spacer"></div>
+    <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--muted);">
+      <span>联系未处理 ${statusTag('new')} ${contactNew}</span>
+      <span>应聘未处理 ${statusTag('new')} ${jobNew}</span>
+    </div>
+  </div>
+  <div class="card"><div class="table-wrap"><table class="data"><thead><tr><th>类型</th><th>姓名</th><th>电话</th><th>内容</th><th>关联职位</th><th>状态</th><th style="width:120px;">操作</th></tr></thead><tbody>
+    ${rows.map(m=>`<tr><td>${m.type==='contact'?tag('联系','tag-brand'):tag('应聘','tag-new')}</td><td>${esc(m.name)}</td><td>${esc(m.phone)}</td><td style="max-width:260px;">${esc(m.content)}</td><td>${m.type==='job_application'?esc(jobTitle(m.ref_id)):'—'}</td><td>${statusTag(m.status)}</td><td><button class="mini-btn" data-view="${m.id}">${I.message} 详情</button></td></tr>`).join('')}
+  </tbody></table></div></div>
+  ${rows.length?'':emptyState('暂无留言','调整筛选条件')}`;
+  $('#content').innerHTML=html;
+  $('#content').querySelectorAll('[data-filter]').forEach(s=>s.addEventListener('change',e=>{st.filters[e.target.dataset.filter]=e.target.value;viewMessages();}));
+  $('#content').querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>openMessageDrawer(b.dataset.view)));
+}
+function openMessageDrawer(id){
+  const m=DB.messages.find(x=>x.id===id);if(!m)return;
+  const body=`<div class="form-row"><label>类型</label><div>${m.type==='contact'?tag('联系留言','tag-brand'):tag('应聘留言','tag-new')}</div></div>
+  <div class="form-row"><label>姓名</label><input value="${esc(m.name)}" disabled></div>
+  <div class="form-row"><label>电话</label><input value="${esc(m.phone)}" disabled></div>
+  ${m.type==='job_application'?`<div class="form-row"><label>关联职位</label><input value="${esc(jobTitle(m.ref_id))}" disabled></div>`:''}
+  <div class="form-row"><label>内容</label><textarea disabled>${esc(m.content)}</textarea></div>
+  <div class="form-row"><label>提交时间</label><input value="${esc(m.created_at)}" disabled></div>
+  <div class="form-row"><label>状态</label><select id="mStatus"><option value="new" ${m.status==='new'?'selected':''}>未处理</option><option value="handled" ${m.status==='handled'?'selected':''}>已处理</option><option value="ignored" ${m.status==='ignored'?'selected':''}>已忽略</option></select></div>
+  <div class="form-row"><label>回复内容</label><textarea id="mReply" placeholder="输入回复内容…">${esc(m.reply||'')}</textarea></div>
+  <div class="drawer-foot" style="position:sticky;bottom:0;background:#fff;"><button type="button" class="btn btn-secondary" onclick="closeDrawer()">关闭</button><button type="button" class="btn btn-primary" id="mSave">保存</button></div>`;
+  openDrawer('留言详情 · '+m.name,body,()=>{
+    $('#mSave').addEventListener('click',()=>{m.status=$('#mStatus').value;m.reply=$('#mReply').value;if(m.reply)m.replied_at=new Date().toISOString().slice(0,16).replace('T',' ');closeDrawer();toast('已保存留言处理');viewMessages();});
+  });
+}
+function bindMessages(){}
+
+/* ============ DISPLAY: BANNERS ============ */
+const bannerCfg={
+  key:'display/banners',title:'首页轮播图',subtitle:'轮播 CRUD（排序、状态、生效时间）',
+  filters:[{field:'status',label:'状态',options:[{value:'active',label:'生效'},{value:'hidden',label:'停用'}]}],
+  columns:[
+    {label:'标题',render:r=>esc(r.title)},
+    {label:'排序',render:r=>esc(r.sort)},
+    {label:'生效时间',render:r=>esc(r.time)},
+    {label:'状态',render:r=>statusTag(r.status)},
+  ],
+  data:()=>DB.banners,
+  form:{title:r=>r?'编辑轮播':'新增轮播',fields:[
+    {name:'title',label:'标题',required:true},
+    {name:'link',label:'跳转链接',placeholder:'如 /products'},
+    {name:'sort',label:'排序',type:'number'},
+    {name:'image',label:'图片',type:'image'},
+    {name:'status',label:'状态',type:'select',options:[{value:'active',label:'生效'},{value:'hidden',label:'停用'}]},
+  ],initial:r=>r?{title:r.title,link:'',sort:r.sort,image:'',status:r.status}:{sort:DB.banners.length+1,status:'active'}},
+  onCreate:v=>{DB.banners.push({id:'b'+(Date.now()),title:v.title,link:v.link,sort:parseInt(v.sort)||0,status:v.status,time:v.status==='active'?'2026-08-01 ~ 2026-12-31':'—'});},
+  onUpdate:(id,v)=>{const r=DB.banners.find(x=>x.id===id);Object.assign(r,v);r.time=v.status==='active'?'2026-08-01 ~ 2026-12-31':'—';},
+  onDelete:id=>{DB.banners=DB.banners.filter(x=>x.id!==id);},
+};
+function crudBanners(){runCRUD(bannerCfg);} function bindBanners(){}
+
+/* ============ SYSTEM: ADMINS ============ */
+const adminCfg={
+  key:'system/admins',title:'管理员管理',subtitle:'管理员 CRUD（用户名/姓名/角色/状态/重置密码）',
+  filters:[{field:'status',label:'状态',options:[{value:'active',label:'启用'},{value:'disabled',label:'禁用'}]}],
+  columns:[
+    {label:'用户名',render:r=>esc(r.username)},
+    {label:'姓名',render:r=>esc(r.display_name)},
+    {label:'角色',render:r=>tag(r.role,'tag-brand')},
+    {label:'状态',render:r=>statusTag(r.status)},
+    {label:'最后登录',render:r=>esc(r.last_login)},
+  ],
+  data:()=>DB.admins,
+  form:{title:r=>r?'编辑管理员':'新增管理员',fields:[
+    {name:'username',label:'用户名',required:true},
+    {name:'display_name',label:'姓名',required:true},
+    {name:'role',label:'角色',type:'select',required:true,options:DB.roles.map(ro=>({value:ro.name,label:ro.name}))},
+    {name:'password',label:r=>r?'重置密码（留空不修改）':'初始密码',type:'text',required:!r},
+    {name:'status',label:'状态',type:'select',options:[{value:'active',label:'启用'},{value:'disabled',label:'禁用'}]},
+  ],initial:r=>r?{username:r.username,display_name:r.display_name,role:r.role,status:r.status}:{status:'active'}},
+  onCreate:v=>{DB.admins.push({id:'u'+(Date.now()),username:v.username,display_name:v.display_name,role:v.role,status:v.status,last_login:'—'});},
+  onUpdate:(id,v)=>{const r=DB.admins.find(x=>x.id===id);Object.assign(r,{username:v.username,display_name:v.display_name,role:v.role,status:v.status});if(v.password)toast('密码已重置');},
+  onDelete:id=>{DB.admins=DB.admins.filter(x=>x.id!==id);},
+};
+function crudAdmins(){runCRUD(adminCfg);} function bindAdmins(){}
+
+/* ============ SYSTEM: ROLES ============ */
+function viewRoles(){
+  const modules=[['series','产品系列'],['categories','产品分类'],['products','产品'],['cases','案例'],['news','新闻'],['about','关于我们配置'],['banners','轮播'],['jobs','招聘职位'],['messages','留言'],['admins','管理员'],['roles','角色权限'],['stats','数据统计']];
+  const acts=[['r','查看'],['c','新增'],['u','编辑'],['d','删除']];
+  const html=`<div class="page-head"><div><h2>角色与权限</h2><div class="sub">三角色预置，模块级增删改查权限（P1 可细化按钮级）</div></div></div>
+  <div class="card card-pad">
+    ${DB.roles.map(role=>{
+      const perms=role.perms;
+      return `<div style="margin-bottom:22px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <h3 style="font-size:17px;">${esc(role.name)}</h3>
+          <button class="btn btn-secondary btn-sm" data-role="${role.id}">编辑权限</button>
+        </div>
+        <div style="overflow-x:auto;"><table class="data"><thead><tr><th>模块</th>${acts.map(a=>`<th>${a[1]}</th>`).join('')}</tr></thead><tbody>
+          ${modules.map(m=>{const p=perms[m[0]]||[];return `<tr><td>${m[1]}</td>${acts.map(a=>`<td>${p.includes(a[0])?I.check:''}</td>`).join('')}</tr>`;}).join('')}
+        </tbody></table></div>
+      </div>`;
+    }).join('')}
+  </div>`;
+  $('#content').innerHTML=html;
+  $('#content').querySelectorAll('[data-role]').forEach(b=>b.addEventListener('click',()=>editRole(b.dataset.role)));
+}
+function editRole(id){
+  const role=DB.roles.find(x=>x.id===id);const perms=role.perms;
+  const modules=[['series','产品系列'],['categories','产品分类'],['products','产品'],['cases','案例'],['news','新闻'],['about','关于我们配置'],['banners','轮播'],['jobs','招聘职位'],['messages','留言'],['admins','管理员'],['roles','角色权限'],['stats','数据统计']];
+  const acts=[['r','查看'],['c','新增'],['u','编辑'],['d','删除']];
+  const body=`<p class="muted" style="font-size:13px;margin:0 0 14px;">勾选各模块的操作权限（原型演示，保存后即时反映到概览）。</p>
+  <div class="card" style="border:none;"><div class="table-wrap"><table class="data"><thead><tr><th>模块</th>${acts.map(a=>`<th>${a[1]}</th>`).join('')}</tr></thead><tbody>
+    ${modules.map(m=>`<tr><td>${m[1]}</td>${acts.map(a=>`<td><input type="checkbox" data-mod="${m[0]}" data-act="${a[0]}" ${perms[m[0]]&&perms[m[0]].includes(a[0])?'checked':''}></td>`).join('')}</tr>`).join('')}
+  </tbody></table></div></div>
+  <div class="drawer-foot" style="position:sticky;bottom:0;background:#fff;"><button class="btn btn-secondary" onclick="closeDrawer()">取消</button><button class="btn btn-primary" id="roleSave">保存</button></div>`;
+  openDrawer('编辑权限 · '+role.name,body,()=>{
+    $('#roleSave').addEventListener('click',()=>{
+      const np={};
+      modules.forEach(m=>{const actsArr=[];document.querySelectorAll(`input[data-mod="${m[0]}"]`).forEach(cb=>{if(cb.checked)actsArr.push(cb.dataset.act);});if(actsArr.length)np[m[0]]=actsArr;});
+      role.perms=np;closeDrawer();toast('权限已更新');viewRoles();
+    });
+  });
+}
+function bindRoles(){}
+
+/* ============ STATS ============ */
+function viewStats(){
+  const bars=[DB.products.length,DB.cases.length,DB.news.length,DB.jobs.length,DB.messages.length];
+  const labels=['产品','案例','新闻','职位','留言'];
+  return `<div class="page-head"><div><h2>数据统计</h2><div class="sub">内容与留言概览（实时聚合）</div></div></div>
+  <div class="stat-grid">
+    <div class="stat"><div class="n">${DB.products.length}</div><div class="l">产品总数</div></div>
+    <div class="stat"><div class="n">${DB.cases.length}</div><div class="l">案例总数</div></div>
+    <div class="stat"><div class="n">${DB.news.length}</div><div class="l">新闻总数</div></div>
+    <div class="stat"><div class="n">${DB.messages.length}</div><div class="l">留言总数</div></div>
+  </div>
+  <div class="card card-pad">
+    <h3 style="font-size:16px;margin-bottom:14px;">内容量分布</h3>
+    <div class="bars">${bars.map((v,i)=>`<div class="bar-col"><div class="bar" style="height:${Math.max(v*22,12)}px"></div><div class="bar-label">${labels[i]}<br>${v}</div></div>`).join('')}</div>
+  </div>`;
+}
+function bindStats(){}
+
+/* ============ INIT ============ */
+renderLogin();
+</script>
+</body>
+</html>
