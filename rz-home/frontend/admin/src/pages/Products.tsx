@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   Form,
+  Image,
   Input,
   InputNumber,
   Row,
@@ -130,6 +131,37 @@ export default function Products() {
 
   const columns: ColumnsType<ProductItem> = [
     { title: "ID", dataIndex: "id", width: 60 },
+    {
+      title: "封面",
+      width: 90,
+      render: (_, r) =>
+        r.images?.[0] ? (
+          <Image
+            src={r.images[0]}
+            alt={r.name}
+            width={56}
+            height={56}
+            style={{ objectFit: "cover", borderRadius: 6 }}
+          />
+        ) : (
+          <div
+            style={{
+              width: 56,
+              height: 56,
+              borderRadius: 6,
+              background: "#F2F8FF",
+              border: "1px solid #D7E9FA",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#9FB3C8",
+              fontSize: 12,
+            }}
+          >
+            无图
+          </div>
+        ),
+    },
     {
       title: "产品",
       dataIndex: "name",
