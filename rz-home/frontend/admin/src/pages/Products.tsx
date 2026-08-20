@@ -21,6 +21,7 @@ import { categoryApi, productApi, seriesApi } from "../api";
 import { errMsg } from "../api/client";
 import { DeleteButton, PageHeader, StatusTag } from "../components/common";
 import ImageUpload from "../components/ImageUpload";
+import RichTextEditor from "../components/RichTextEditor";
 import { useDelete, usePagedList } from "../hooks/useCrud";
 import type { CategoryItem, ProductItem, SeriesItem } from "../types";
 
@@ -270,8 +271,8 @@ export default function Products() {
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Form.Item name="description" label="详细描述">
-                  <Input.TextArea rows={4} />
+                <Form.Item name="description" label="产品描述（富文本）">
+                  <RichTextEditor placeholder="请输入产品详情，支持图片、标题、列表等富文本…" />
                 </Form.Item>
               </Col>
               <Col span={24}>

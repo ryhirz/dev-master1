@@ -82,6 +82,13 @@ export default function ProductDetail() {
         </div>
       </div>
 
+      {p.description && (
+        <div className="mt-14">
+          <SectionHeading align="left" title="产品详情" />
+          <div className="prose-rz mt-4" dangerouslySetInnerHTML={{ __html: p.description }} />
+        </div>
+      )}
+
       {data.related.length > 0 && (
         <div className="mt-14">
           <SectionHeading align="left" title="同系列推荐" />

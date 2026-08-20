@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
+    "@tiptap/extension-image": "^3.30.2",
     "@tiptap/pm": "^3.30.2",
     "@tiptap/react": "^3.30.2",
     "@tiptap/starter-kit": "^3.30.2",

@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import type { ReactNode } from "react";
-import { Button, Space, Tooltip } from "antd";
+import { Button, Space, Tooltip, Upload, message } from "antd";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
 import {
   BoldOutlined,
   ItalicOutlined,
@@ -11,7 +12,10 @@ import {
   UnorderedListOutlined,
   UndoOutlined,
   RedoOutlined,
+  PictureOutlined,
 } from "@ant-design/icons";
+import { uploadApi } from "../api";
+import { errMsg } from "../api/client";
 
 interface RichTextEditorProps {
   value?: string;
@@ -19,10 +23,17 @@ interface RichTextEditorProps {
   placeholder?: string;
 }
 
-// 富文本编辑器（Tiptap StarterKit）：产出 HTML，入库由后端 bleach 净化
+// 富文本编辑器（Tiptap StarterKit + Image）：产出 HTML，入库由后端 bleach 净化
+// 支持：加粗/斜体/删除线/H2/列表/引用/撤销/重做 + 图片上传（POST /api/admin/upload 后插入 src）
 export default function RichTextEditor({ value, onChange, placeholder }: RichTextEditorProps) {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      Image.configure({
+        inline: false,
+        allowBase64: false,
+      }),
+    ],
     content: value || "",
     editorProps: {
       attributes: {
@@ -94,6 +105,30 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
           <span style={{ fontSize: 13 }}>❝</span>,
           "引用",
         )}
+        <Tooltip title="插入图片（上传后自动插入）">
+          <Upload
+            showUploadList={false}
+            accept="image/*"
+            customRequest={async ({ file, onSuccess, onError }) => {
+              try {
+                const r = await uploadApi.upload(file as File);
+                editor.chain().focus().setImage({ src: r.url }).run();
+                message.success("图片已插入");
+                onSuccess?.(r);
+              } catch (e) {
+                message.error(errMsg(e, "图片上传失败"));
+                onError?.(e as Error);
+              }
+            }}
+          >
+            <Button
+              size="small"
+              type="text"
+              icon={<PictureOutlined />}
+              onMouseDown={(e) => e.preventDefault()}
+            />
+          </Upload>
+        </Tooltip>
         <span style={{ flex: 1 }} />
         {btn(false, () => editor.chain().focus().undo().run(), <UndoOutlined />, "撤销")}
         {btn(false, () => editor.chain().focus().redo().run(), <RedoOutlined />, "重做")}
