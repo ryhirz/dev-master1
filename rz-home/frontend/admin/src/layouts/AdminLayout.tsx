@@ -41,7 +41,7 @@ export default function AdminLayout() {
           style={{
             height: 48,
             margin: 16,
-            color: "#6B4F3A",
+            color: "#00B3FF",
             fontWeight: 700,
             fontSize: collapsed ? 14 : 18,
             whiteSpace: "nowrap",
@@ -57,7 +57,7 @@ export default function AdminLayout() {
               width: 28,
               height: 28,
               borderRadius: 6,
-              background: "#6B4F3A",
+              background: "#00B3FF",
               color: "#fff",
               alignItems: "center",
               justifyContent: "center",
@@ -84,7 +84,7 @@ export default function AdminLayout() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            borderBottom: "1px solid #E5DDD2",
+            borderBottom: "1px solid #D7E9FA",
           }}
         >
           <Button
@@ -104,7 +104,7 @@ export default function AdminLayout() {
               }}
             >
               <span style={{ cursor: "pointer" }}>
-                <Avatar size="small" icon={<UserOutlined />} style={{ background: "#6B4F3A" }} />
+                <Avatar size="small" icon={<UserOutlined />} style={{ background: "#00B3FF" }} />
                 <span style={{ marginLeft: 8 }}>{displayName}</span>
               </span>
             </Dropdown>

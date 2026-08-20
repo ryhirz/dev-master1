@@ -52,7 +52,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <Title level={4} style={{ marginTop: 0, color: "#1F1B16" }}>
+      <Title level={4} style={{ marginTop: 0, color: "#0E2A4A" }}>
         控制台
       </Title>
       {stats.messages.new > 0 && (
@@ -82,8 +82,8 @@ export default function Dashboard() {
             </div>
             <Progress
               percent={d.total === 0 ? 0 : Math.round((d.active / d.total) * 100)}
-              strokeColor="#6B4F3A"
-              trailColor="#F1E9E0"
+              strokeColor="#00B3FF"
+              trailColor="#E1F4FF"
             />
           </div>
         ))}

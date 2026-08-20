@@ -34,9 +34,9 @@ function Hero({ banners }: { banners: Banner[] }) {
           {isImg(s.image) ? (
             <img src={s.image} alt={s.title} className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full" style={{ background: "linear-gradient(120deg,#4A3728,#6B4F3A 60%,#C8A97E)" }} />
+            <div className="w-full h-full" style={{ background: "linear-gradient(120deg,#04101F,#0A2A4A 45%,#00B3FF)" }} />
           )}
-          <div className="absolute inset-0" style={{ background: "linear-gradient(90deg,rgba(31,27,22,.7),rgba(31,27,22,.15))" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(90deg,rgba(7,11,22,.75),rgba(7,11,22,.15))" }} />
         </div>
       ))}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center">
@@ -103,7 +103,7 @@ export default function Home() {
       <section className="py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
           <p className="text-walnut tracking-[0.3em] uppercase text-xs mb-3">{BRAND.enName} · {BRAND.slogan}</p>
-          <h2 className="font-serif text-[38px] text-ink">全屋智能，重新定义理想之家</h2>
+          <h2 className="font-serif text-[38px] glow-text">全屋智能，重新定义理想之家</h2>
           <p className="text-muted max-w-2xl mx-auto mt-4 text-[17px]">70+ 年匠心传承，2015 年智能转型——从灯光到安防，从影音到睡眠，一个中枢掌控全部。</p>
         </div>
       </section>

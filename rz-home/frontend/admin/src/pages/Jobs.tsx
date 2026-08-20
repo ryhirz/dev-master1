@@ -67,7 +67,7 @@ export default function Jobs() {
       render: (v: string, r) => (
         <Space direction="vertical" size={0}>
           <span>{v}</span>
-          <span style={{ color: "#8A7E72", fontSize: 12 }}>
+          <span style={{ color: "#7A8CA3", fontSize: 12 }}>
             {r.department ?? "—"} · {r.city ?? "—"} · {r.salary ?? "面议"}
           </span>
         </Space>

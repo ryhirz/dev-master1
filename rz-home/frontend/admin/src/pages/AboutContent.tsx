@@ -162,7 +162,7 @@ function SectionsPanel() {
       <Space direction="vertical" style={{ width: "100%" }} size={12}>
         {sections.map((s) => (
           <Card key={s.code} size="small" title={`${s.title}（code: ${s.code}）`} extra={<Button type="link" size="small" onClick={() => openEdit(s)}>编辑</Button>}>
-            <div style={{ color: "#574F45" }}>
+            <div style={{ color: "#5E7390" }}>
               <div style={{ marginBottom: 8, whiteSpace: "pre-wrap", maxHeight: 120, overflow: "hidden" }}>
                 {s.content || "（暂无内容）"}
               </div>

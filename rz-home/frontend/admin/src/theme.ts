@@ -1,13 +1,13 @@
 import type { ThemeConfig } from "antd";
 
-// AntD 主题（对齐 UI/UX §2.2 / §4.10）：主色胡桃棕、圆角 8、布局米色、Noto Sans SC
+// AntD 主题（M6 科技感：主色荧光蓝、圆角 8、浅色布局保持实用、Noto Sans SC）
 export const adminTheme: ThemeConfig = {
   token: {
-    colorPrimary: "#6B4F3A",
+    colorPrimary: "#00B3FF",
     borderRadius: 8,
-    colorBgLayout: "#FAF7F2",
+    colorBgLayout: "#F2F8FF",
     fontFamily: '"Noto Sans SC", system-ui, sans-serif',
-    colorLink: "#6B4F3A",
+    colorLink: "#0084C4",
   },
   components: {
     Layout: {
@@ -15,8 +15,8 @@ export const adminTheme: ThemeConfig = {
       headerBg: "#FFFFFF",
     },
     Menu: {
-      itemSelectedBg: "#F1E9E0",
-      itemSelectedColor: "#6B4F3A",
+      itemSelectedBg: "#E1F4FF",
+      itemSelectedColor: "#0084C4",
     },
   },
 };

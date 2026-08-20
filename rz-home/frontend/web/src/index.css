@@ -3,16 +3,16 @@
 @tailwind utilities;
 
 :root {
-  --rz-cream: #faf7f2;
-  --rz-ink: #1f1b16;
-  --rz-walnut: #6b4f3a;
-  --rz-walnut-d: #4a3728;
-  --rz-sand: #c8a97e;
-  --rz-muted: #574f45;
-  --rz-line: #e7e0d6;
-  --rz-success: #2f6b4f;
-  --rz-warning: #b5852a;
-  --rz-danger: #b4423a;
+  --rz-cream: #070b16;
+  --rz-ink: #e8f6ff;
+  --rz-walnut: #00b3ff;
+  --rz-walnut-d: #00e5cc;
+  --rz-sand: #7fb4e0;
+  --rz-muted: #9fb3c8;
+  --rz-line: #1e3a5f;
+  --rz-success: #00e5a8;
+  --rz-warning: #ffc24b;
+  --rz-danger: #ff5c7a;
 }
 
 html,
@@ -23,18 +23,55 @@ body,
 
 body {
   margin: 0;
-  background: var(--rz-cream);
   color: var(--rz-ink);
   font-family: "Noto Sans SC", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   line-height: 1.7;
+  background:
+    radial-gradient(1100px 480px at 12% -8%, rgba(0, 179, 255, 0.16) 0%, transparent 60%),
+    radial-gradient(900px 420px at 88% 12%, rgba(0, 229, 204, 0.12) 0%, transparent 55%),
+    linear-gradient(180deg, #070b16 0%, #0a1428 100%);
+  background-attachment: fixed;
 }
 
-/* 全局焦点环（无障碍，UI/UX §5） */
+/* 玻璃拟态卡片（科技感悬浮层） */
+.glass-card {
+  background: rgba(16, 32, 58, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 179, 255, 0.22);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 24px rgba(0, 179, 255, 0.08);
+}
+
+/* 荧光渐变按钮/强调（蓝→薄荷） */
+.glow-text {
+  background: linear-gradient(120deg, #00b3ff 0%, #00e5cc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 全局焦点环（无障碍） */
 *:focus-visible {
   outline: 2px solid var(--rz-walnut);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/* 滚动条（深色主题适配） */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a1428;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e3a5f;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00b3ff;
 }
 
 /* 尊重用户的减少动效偏好 */

@@ -53,8 +53,8 @@ export default function Stats() {
       render: (_, r) => (
         <Progress
           percent={r.total === 0 ? 0 : Math.round((r.active / r.total) * 100)}
-          strokeColor="#6B4F3A"
-          trailColor="#F1E9E0"
+          strokeColor="#00B3FF"
+          trailColor="#E1F4FF"
           size="small"
         />
       ),
@@ -70,7 +70,7 @@ export default function Stats() {
 
   return (
     <div>
-      <Title level={4} style={{ marginTop: 0, color: "#1F1B16" }}>
+      <Title level={4} style={{ marginTop: 0, color: "#0E2A4A" }}>
         数据统计
       </Title>
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>

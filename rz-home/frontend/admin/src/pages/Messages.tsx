@@ -149,7 +149,7 @@ export default function Messages() {
         }
       >
         {current && (
-          <div style={{ marginBottom: 16, padding: 12, background: "#FAF7F2", borderRadius: 8 }}>
+          <div style={{ marginBottom: 16, padding: 12, background: "#F2F8FF", borderRadius: 8 }}>
             <Paragraph style={{ margin: 0 }}>
               <b>{current.name}</b>（{current.phone}）
               {current.email ? ` · ${current.email}` : ""}

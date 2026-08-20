@@ -63,10 +63,10 @@ export function PageHeader({
       }}
     >
       <div>
-        <Title level={4} style={{ margin: 0, color: "#1F1B16" }}>
+        <Title level={4} style={{ margin: 0, color: "#0E2A4A" }}>
           {title}
         </Title>
-        {subtitle && <span style={{ color: "#8A7E72", fontSize: 13 }}>{subtitle}</span>}
+        {subtitle && <span style={{ color: "#7A8CA3", fontSize: 13 }}>{subtitle}</span>}
       </div>
       <Space>
         {extra}

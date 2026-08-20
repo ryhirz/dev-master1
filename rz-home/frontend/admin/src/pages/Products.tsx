@@ -121,7 +121,7 @@ export default function Products() {
       render: (v: string, r) => (
         <Space direction="vertical" size={0}>
           <span>{v}</span>
-          {r.model_no && <span style={{ color: "#8A7E72", fontSize: 12 }}>{r.model_no}</span>}
+          {r.model_no && <span style={{ color: "#7A8CA3", fontSize: 12 }}>{r.model_no}</span>}
         </Space>
       ),
     },

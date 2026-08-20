@@ -1,4 +1,4 @@
-import { Upload } from "antd";
+import { Upload, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd";
 import { uploadApi } from "../api";
@@ -13,12 +13,14 @@ interface ImageUploadProps {
   hint?: string;
 }
 
+const MAX_MB = 10; // 与后端 MAX_UPLOAD_MB 对齐
+
 // 图片上传组件：POST /api/admin/upload → 保存 /static/uploads/ 地址（多图存 JSON 数组，单图存字符串）
 export default function ImageUpload({ value, onChange, multiple = true, max = 9, hint }: ImageUploadProps) {
   const urls: string[] = Array.isArray(value) ? value : value ? [value] : [];
 
   const fileList: UploadFile[] = urls.map((u, i) => ({
-    uid: `-${i}`,
+    uid: `img-${i}`,
     name: `img-${i}`,
     status: "done",
     url: u,
@@ -36,20 +38,32 @@ export default function ImageUpload({ value, onChange, multiple = true, max = 9,
     }
   };
 
+  const beforeUpload = (file: File) => {
+    const isImage = file.type.startsWith("image/");
+    if (!isImage) {
+      message.error("仅支持图片文件（jpg/png/webp/gif）");
+      return Upload.LIST_IGNORE;
+    }
+    if (file.size > MAX_MB * 1024 * 1024) {
+      message.error(`图片不能超过 ${MAX_MB}MB`);
+      return Upload.LIST_IGNORE;
+    }
+    return true;
+  };
+
   const props: UploadProps = {
     listType: "picture-card",
     fileList,
     multiple,
     accept: "image/*",
+    beforeUpload,
     customRequest: async ({ file, onSuccess, onError }) => {
       try {
         const r = await uploadApi.upload(file as File);
         onSuccess?.(r);
       } catch (e) {
+        message.error(`上传失败：${errMsg(e, "请检查网络或文件大小")}`);
         onError?.(e as Error);
-        // 上传失败提示
-        // eslint-disable-next-line no-console
-        console.error("upload failed", errMsg(e));
       }
     },
     onChange: ({ fileList: next }) => emit(next),
@@ -71,7 +85,7 @@ export default function ImageUpload({ value, onChange, multiple = true, max = 9,
           </div>
         )}
       </Upload>
-      {hint && <div style={{ fontSize: 12, color: "#8A7E72", marginTop: 4 }}>{hint}</div>}
+      {hint && <div style={{ fontSize: 12, color: "#7A8CA3", marginTop: 4 }}>{hint}</div>}
     </div>
   );
 }

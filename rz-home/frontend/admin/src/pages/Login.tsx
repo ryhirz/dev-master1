@@ -35,7 +35,7 @@ export default function Login() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(135deg, #FAF7F2 0%, #F1E9E0 100%)",
+        background: "linear-gradient(135deg, #F2F8FF 0%, #E1F4FF 100%)",
       }}
     >
       <Card style={{ width: 380, borderRadius: 12, boxShadow: "0 4px 24px rgba(107,79,58,.12)" }}>
@@ -46,7 +46,7 @@ export default function Login() {
               width: 48,
               height: 48,
               borderRadius: 12,
-              background: "#6B4F3A",
+              background: "#00B3FF",
               color: "#fff",
               alignItems: "center",
               justifyContent: "center",
@@ -57,7 +57,7 @@ export default function Login() {
           >
             R
           </div>
-          <Title level={4} style={{ marginBottom: 4, color: "#1F1B16" }}>
+          <Title level={4} style={{ marginBottom: 4, color: "#0E2A4A" }}>
             Rz家居 后台管理系统
           </Title>
           <Text type="secondary">企业官网内容运营后台</Text>
