@@ -187,9 +187,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           </div>
           <div>
             <div className="text-ink font-medium mb-3">联系方式</div>
-            <p className="flex items-center gap-2 mb-2"><PhoneIcon className="w-4 h-4 text-walnut" /> 400-000-0000（占位）</p>
+            <p className="flex items-center gap-2 mb-2"><PhoneIcon className="w-4 h-4 text-walnut" /> 400-888-9999</p>
             <p className="flex items-center gap-2 mb-2"><MailIcon className="w-4 h-4 text-walnut" /> contact@rz-home.example</p>
-            <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-walnut" /> 河北省某市家居产业园 1 号（占位）</p>
+            <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-walnut" /> 广州市天河区珠江新城国际金融中心（ifc）</p>
           </div>
         </div>
         <div className="text-center text-xs text-muted py-4 border-t border-line">

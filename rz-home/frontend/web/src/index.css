@@ -28,9 +28,52 @@ body {
   -webkit-font-smoothing: antialiased;
   line-height: 1.7;
   background:
-    radial-gradient(900px 360px at 50% -6%, rgba(0, 179, 255, 0.07) 0%, transparent 60%),
+    radial-gradient(900px 480px at 8% -6%, rgba(0, 179, 255, 0.16) 0%, transparent 60%),
+    radial-gradient(820px 420px at 96% 18%, rgba(0, 229, 204, 0.12) 0%, transparent 55%),
+    radial-gradient(720px 380px at 50% 60%, rgba(0, 179, 255, 0.05) 0%, transparent 65%),
     linear-gradient(180deg, #ffffff 0%, #f6fbff 100%);
   background-attachment: fixed;
+}
+
+/* 区块层次：白底上各 section 用极浅色交替做视觉分段 */
+.section-tier-cool {
+  background: linear-gradient(180deg, rgba(0, 179, 255, 0.025) 0%, rgba(0, 229, 204, 0.03) 100%);
+}
+.section-tier-warm {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 179, 255, 0.04) 50%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* 装饰光斑（局部点缀：左上蓝光、右下薄荷光） */
+.glow-orb {
+  position: relative;
+  overflow: hidden;
+}
+.glow-orb::before,
+.glow-orb::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  z-index: 0;
+}
+.glow-orb::before {
+  width: 360px;
+  height: 360px;
+  top: -80px;
+  left: -80px;
+  background: rgba(0, 179, 255, 0.18);
+}
+.glow-orb::after {
+  width: 320px;
+  height: 320px;
+  bottom: -120px;
+  right: -100px;
+  background: rgba(0, 229, 204, 0.16);
+}
+.glow-orb > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* 科技卡片（白底浅蓝：浅蓝底+蓝边+轻辉光） */

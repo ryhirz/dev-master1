@@ -40,22 +40,27 @@ function Hero({ banners }: { banners: Banner[] }) {
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(90deg, rgba(7,18,32,.55) 0%, rgba(7,18,32,.35) 55%, rgba(7,18,32,0) 100%)",
+                "linear-gradient(90deg, rgba(7,18,32,.62) 0%, rgba(7,18,32,.42) 50%, rgba(7,18,32,0) 100%)",
             }}
           />
         </div>
       ))}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center">
         <div className="max-w-2xl" style={{ color: "#0E2A4A" }}>
-          <p className="text-[12px] tracking-[0.3em] uppercase mb-3 font-semibold" style={{ color: "#005FA0" }}>
+          <p
+            className="text-[12px] tracking-[0.35em] uppercase mb-4 font-bold"
+            style={{ color: "#005FA0", textShadow: "0 1px 6px rgba(255,255,255,.7)" }}
+          >
             {BRAND.enName} · {BRAND.slogan}
           </p>
           <h1
-            className="font-serif font-bold leading-[1.15] tracking-tight"
+            className="font-serif font-black leading-[1.1] tracking-tight"
             style={{
-              fontSize: "clamp(28px, 4.5vw, 52px)",
-              color: "#0A1F38",
-              textShadow: "0 2px 12px rgba(255,255,255,.65), 0 0 1px rgba(255,255,255,.85)",
+              fontSize: "clamp(32px, 5.2vw, 64px)",
+              color: "#061528",
+              fontWeight: 900,
+              textShadow:
+                "0 2px 16px rgba(255,255,255,.85), 0 4px 24px rgba(255,255,255,.6), 0 0 2px rgba(255,255,255,.95)",
             }}
           >
             {b.title}
@@ -118,10 +123,10 @@ export default function Home() {
     <>
       <Hero banners={banners} />
 
-      <section className="py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+      <section className="py-14 section-tier-cool">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center glow-orb">
           <p className="text-walnut tracking-[0.3em] uppercase text-xs mb-3">{BRAND.enName} · {BRAND.slogan}</p>
-          <h2 className="font-serif text-[38px] glow-text">全屋智能，重新定义理想之家</h2>
+          <h2 className="font-serif text-[42px] glow-text">全屋智能，重新定义理想之家</h2>
           <p className="text-muted max-w-2xl mx-auto mt-4 text-[17px]">70+ 年匠心传承，2015 年智能转型——从灯光到安防，从影音到睡眠，一个中枢掌控全部。</p>
         </div>
       </section>
@@ -141,7 +146,7 @@ export default function Home() {
         </section>
       )}
 
-      <section className="py-14 bg-white border-y border-line">
+      <section className="py-14 bg-white border-y border-line section-tier-warm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading eyebrow="推荐产品" title="精选之作" subtitle="来自各系列的口碑之选" />
           {loading ? (
