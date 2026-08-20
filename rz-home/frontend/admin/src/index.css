@@ -3,7 +3,7 @@ body {
   font-family: "Noto Sans SC", system-ui, -apple-system, sans-serif;
 }
 
-/* Tiptap 富文本内容区 */
+/* ===== Tiptap 富文本内容区 ===== */
 .rz-rich-editor {
   min-height: 160px;
   outline: none;
@@ -31,4 +31,44 @@ body {
   padding-left: 12px;
   color: #574f45;
   margin: 8px 0;
+}
+
+/* ===== AntD Modal：固定视口、自身滚动、禁页面级滚动 ===== */
+/* body 加 .rz-modal-open 时锁定（Modal 打开时 AntD 会给 body 加 overflow:hidden 兜底；此处强化） */
+body.rz-modal-open {
+  overflow: hidden !important;
+}
+
+/* Modal 容器：贴顶、内容区可滚、底部按钮粘住 */
+.ant-modal {
+  max-width: calc(100vw - 32px);
+}
+.ant-modal-content {
+  display: flex !important;
+  flex-direction: column !important;
+  max-height: calc(100vh - 32px) !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+.ant-modal-header {
+  flex: 0 0 auto;
+  padding: 16px 24px !important;
+  border-bottom: 1px solid #f0f0f0;
+}
+.ant-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  padding: 20px 24px !important;
+  /* 让 Form 表单内容随内容自然增长，滚动交给 .ant-modal-body */
+}
+.ant-modal-footer {
+  flex: 0 0 auto;
+  padding: 12px 24px !important;
+  border-top: 1px solid #f0f0f0;
+}
+.ant-modal-confirm .ant-modal-body,
+.ant-modal-confirm .ant-modal-confirm-body {
+  overflow: visible !important;
 }

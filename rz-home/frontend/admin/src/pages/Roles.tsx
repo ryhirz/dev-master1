@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Checkbox, Drawer, Form, Input, Space, Table, Tag, message } from "antd";
+import { Button, Checkbox, Modal, Form, Input, Space, Table, Tag, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { roleApi } from "../api";
 import { errMsg } from "../api/client";
@@ -113,12 +113,12 @@ export default function Roles() {
           },
         }}
       />
-      <Drawer
+      <Modal
         title={editing ? `编辑角色：${editing.name}` : "新增角色"}
-        width={560}
+        
         open={open}
-        onClose={() => setOpen(false)}
-        extra={
+        onCancel={() => setOpen(false)}
+        footer={
           <Space>
             <Button onClick={() => setOpen(false)}>取消</Button>
             <Button type="primary" loading={saving} onClick={submit}>
@@ -139,7 +139,7 @@ export default function Roles() {
             <PermissionMatrix />
           </Form.Item>
         </Form>
-      </Drawer>
+      </Modal>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Button,
   Card,
-  Drawer,
+  Modal,
   Form,
   Input,
   InputNumber,
@@ -171,12 +171,12 @@ function SectionsPanel() {
           </Card>
         ))}
       </Space>
-      <Drawer
+      <Modal
         title={`编辑板块：${editing?.code ?? ""}`}
-        width={640}
+        
         open={open}
-        onClose={() => setOpen(false)}
-        extra={
+        onCancel={() => setOpen(false)}
+        footer={
           <Space>
             <Button onClick={() => setOpen(false)}>取消</Button>
             <Button type="primary" loading={saving} onClick={submit}>
@@ -204,7 +204,7 @@ function SectionsPanel() {
             />
           </Form.Item>
         </Form>
-      </Drawer>
+      </Modal>
     </div>
   );
 }
@@ -290,12 +290,12 @@ function MilestonesPanel() {
           },
         }}
       />
-      <Drawer
+      <Modal
         title={editing ? "编辑里程碑" : "新增里程碑"}
-        width={520}
+        
         open={open}
-        onClose={() => setOpen(false)}
-        extra={
+        onCancel={() => setOpen(false)}
+        footer={
           <Space>
             <Button onClick={() => setOpen(false)}>取消</Button>
             <Button type="primary" loading={saving} onClick={submit}>
@@ -331,7 +331,7 @@ function MilestonesPanel() {
             />
           </Form.Item>
         </Form>
-      </Drawer>
+      </Modal>
     </div>
   );
 }

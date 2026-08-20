@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Drawer, Form, Input, Select, Space, Table, Tag, Typography, message } from "antd";
+import { Button, Modal, Form, Input, Select, Space, Table, Tag, Typography, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
 import { messageApi } from "../api";
@@ -134,12 +134,12 @@ export default function Messages() {
           },
         }}
       />
-      <Drawer
+      <Modal
         title={`处理留言 #${current?.id ?? ""}`}
-        width={520}
+        
         open={open}
-        onClose={() => setOpen(false)}
-        extra={
+        onCancel={() => setOpen(false)}
+        footer={
           <Space>
             <Button onClick={() => setOpen(false)}>取消</Button>
             <Button type="primary" loading={saving} onClick={submit}>
@@ -173,7 +173,7 @@ export default function Messages() {
             <Input.TextArea rows={4} placeholder="输入回复内容…" />
           </Form.Item>
         </Form>
-      </Drawer>
+      </Modal>
     </div>
   );
 }

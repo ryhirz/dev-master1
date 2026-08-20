@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, DatePicker, Drawer, Form, Input, Select, Space, Switch, Table, Tag, message } from "antd";
+import { Button, DatePicker, Modal, Form, Input, Select, Space, Switch, Table, Tag, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
 import { newsApi } from "../api";
@@ -148,12 +148,12 @@ export default function News() {
           },
         }}
       />
-      <Drawer
+      <Modal
         title={editing ? "编辑新闻" : "新增新闻"}
-        width={760}
+        
         open={open}
-        onClose={() => setOpen(false)}
-        extra={
+        onCancel={() => setOpen(false)}
+        footer={
           <Space>
             <Button onClick={() => setOpen(false)}>取消</Button>
             <Button type="primary" loading={saving} onClick={submit}>
@@ -200,7 +200,7 @@ export default function News() {
             <Switch />
           </Form.Item>
         </Form>
-      </Drawer>
+      </Modal>
     </div>
   );
 }

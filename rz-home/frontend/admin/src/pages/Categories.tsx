@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Button, Drawer, Form, Input, InputNumber, Select, Space, Table, message } from "antd";
+import { Button, Modal, Form, Input, InputNumber, Select, Space, Table, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { categoryApi } from "../api";
 import { errMsg } from "../api/client";
@@ -101,12 +101,12 @@ export default function Categories() {
           },
         }}
       />
-      <Drawer
+      <Modal
         title={editing ? "编辑分类" : "新增分类"}
-        width={480}
+        
         open={open}
-        onClose={() => setOpen(false)}
-        extra={
+        onCancel={() => setOpen(false)}
+        footer={
           <Space>
             <Button onClick={() => setOpen(false)}>取消</Button>
             <Button type="primary" loading={saving} onClick={submit}>
@@ -141,7 +141,7 @@ export default function Categories() {
             />
           </Form.Item>
         </Form>
-      </Drawer>
+      </Modal>
     </div>
   );
 }

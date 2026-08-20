@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Drawer, Form, Input, InputNumber, Select, Space, Table, message } from "antd";
+import { Button, Modal, Form, Input, InputNumber, Select, Space, Table, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { seriesApi } from "../api";
 import { errMsg } from "../api/client";
@@ -8,7 +8,7 @@ import ImageUpload from "../components/ImageUpload";
 import { useDelete, usePagedList } from "../hooks/useCrud";
 import type { SeriesItem } from "../types";
 
-// 产品系列管理：通用 CRUD（Table + 分页 + Drawer 表单），对齐 prototype_admin.html 通用 CRUD 结构
+// 产品系列管理：通用 CRUD（Table + 分页 + Modal 表单），对齐 prototype_admin.html 通用 CRUD 结构
 export default function Series() {
   const { data, loading, page, setPage, pageSize, setPageSize, reload } = usePagedList((p) =>
     seriesApi.list(p),
@@ -89,12 +89,12 @@ export default function Series() {
           },
         }}
       />
-      <Drawer
+      <Modal
         title={editing ? "编辑系列" : "新增系列"}
-        width={480}
+        
         open={open}
-        onClose={() => setOpen(false)}
-        extra={
+        onCancel={() => setOpen(false)}
+        footer={
           <Space>
             <Button onClick={() => setOpen(false)}>取消</Button>
             <Button type="primary" loading={saving} onClick={submit}>
@@ -128,7 +128,7 @@ export default function Series() {
             />
           </Form.Item>
         </Form>
-      </Drawer>
+      </Modal>
     </div>
   );
 }

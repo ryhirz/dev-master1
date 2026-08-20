@@ -36,16 +36,34 @@ function Hero({ banners }: { banners: Banner[] }) {
           ) : (
             <div className="w-full h-full" style={{ background: "linear-gradient(135deg,#F8FBFF,#E1F4FF 50%,#BFE0FB)" }} />
           )}
-          <div className="absolute inset-0" style={{ background: "linear-gradient(90deg,rgba(255,255,255,.7),rgba(255,255,255,.15))" }} />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(7,18,32,.55) 0%, rgba(7,18,32,.35) 55%, rgba(7,18,32,0) 100%)",
+            }}
+          />
         </div>
       ))}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center">
-        <div className="text-cream max-w-2xl">
-          <p className="text-sand text-xs tracking-[0.3em] uppercase mb-3">{BRAND.enName} · {BRAND.slogan}</p>
-          <h1 className="font-serif text-[32px] md:text-[46px] leading-tight">{b.title}</h1>
+        <div className="max-w-2xl" style={{ color: "#0E2A4A" }}>
+          <p className="text-[12px] tracking-[0.3em] uppercase mb-3 font-semibold" style={{ color: "#005FA0" }}>
+            {BRAND.enName} · {BRAND.slogan}
+          </p>
+          <h1
+            className="font-serif font-bold leading-[1.15] tracking-tight"
+            style={{
+              fontSize: "clamp(28px, 4.5vw, 52px)",
+              color: "#0A1F38",
+              textShadow: "0 2px 12px rgba(255,255,255,.65), 0 0 1px rgba(255,255,255,.85)",
+            }}
+          >
+            {b.title}
+          </h1>
           <Link
             to={b.link_url || "/products"}
-            className="mt-6 inline-flex items-center gap-2 h-12 px-7 rounded-btn bg-walnut text-cream hover:bg-walnut-d transition-colors text-[15px]"
+            className="mt-6 inline-flex items-center gap-2 h-12 px-7 rounded-btn transition-colors text-[15px] font-medium text-white shadow-[0_4px_16px_rgba(0,179,255,.35)]"
+            style={{ background: "linear-gradient(120deg,#00B3FF 0%,#00E5CC 100%)" }}
           >
             了解更多 <ArrowRight className="w-4 h-4" />
           </Link>

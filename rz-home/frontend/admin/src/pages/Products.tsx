@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   Button,
-  Drawer,
+  Modal,
   Form,
   Input,
   InputNumber,
@@ -214,12 +214,12 @@ export default function Products() {
           },
         }}
       />
-      <Drawer
+      <Modal
         title={editing ? "编辑产品" : "新增产品"}
-        width={640}
+        
         open={open}
-        onClose={() => setOpen(false)}
-        extra={
+        onCancel={() => setOpen(false)}
+        footer={
           <Space>
             <Button onClick={() => setOpen(false)}>取消</Button>
             <Button type="primary" loading={saving} onClick={submit}>
@@ -299,7 +299,7 @@ export default function Products() {
             </Form.Item>
           </Space>
         </Form>
-      </Drawer>
+      </Modal>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, DatePicker, Drawer, Form, Input, InputNumber, Select, Space, Table, Tag, Tabs, message } from "antd";
+import { Button, DatePicker, Modal, Form, Input, InputNumber, Select, Space, Table, Tag, Tabs, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
 import { jobApi } from "../api";
@@ -122,12 +122,12 @@ export default function Jobs() {
           },
         }}
       />
-      <Drawer
+      <Modal
         title={editing ? "编辑职位" : "新增职位"}
-        width={640}
+        
         open={open}
-        onClose={() => setOpen(false)}
-        extra={
+        onCancel={() => setOpen(false)}
+        footer={
           <Space>
             <Button onClick={() => setOpen(false)}>取消</Button>
             <Button type="primary" loading={saving} onClick={submit}>
@@ -184,7 +184,7 @@ export default function Jobs() {
             <Input.TextArea rows={4} />
           </Form.Item>
         </Form>
-      </Drawer>
+      </Modal>
     </div>
   );
 }
