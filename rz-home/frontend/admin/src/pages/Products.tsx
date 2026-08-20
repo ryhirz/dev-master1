@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Button,
-  Modal,
+  Card,
   Form,
   Input,
   InputNumber,
+  Row,
+  Col,
   Select,
   Space,
   Switch,
@@ -13,7 +15,7 @@ import {
   Tag,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusCircleOutlined, CloseOutlined } from "@ant-design/icons";
 import { categoryApi, productApi, seriesApi } from "../api";
 import { errMsg } from "../api/client";
 import { DeleteButton, PageHeader, StatusTag } from "../components/common";
@@ -22,6 +24,7 @@ import { useDelete, usePagedList } from "../hooks/useCrud";
 import type { CategoryItem, ProductItem, SeriesItem } from "../types";
 
 // 产品管理：CRUD + 多图上传(JSON 数组) + 规格动态表单 + 系列/分类筛选
+// 编辑方式：页面内嵌表单卡片（非弹窗），字段按内容长短弹性分栏（短字段 1/2 或 1/3 行，长字段整行）
 export default function Products() {
   const [keyword, setKeyword] = useState("");
   const [seriesFilter, setSeriesFilter] = useState<number | undefined>();
@@ -54,6 +57,7 @@ export default function Products() {
   const [saving, setSaving] = useState(false);
   const [form] = Form.useForm();
   const del = useDelete((id) => productApi.remove(id), reload);
+  const editorRef = useRef<HTMLDivElement>(null);
 
   // specs 动态表单初始化为键值对数组
   const specListToObj = (arr?: { key?: string; value?: string }[]) => {
@@ -78,6 +82,13 @@ export default function Products() {
     }
   }, [open, editing, form]);
 
+  // 展开编辑区后滚动定位到表单顶部
+  useEffect(() => {
+    if (open && editorRef.current) {
+      editorRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [open]);
+
   const openCreate = () => {
     setEditing(null);
     form.resetFields();
@@ -86,6 +97,10 @@ export default function Products() {
   const openEdit = (r: ProductItem) => {
     setEditing(r);
     setOpen(true);
+  };
+  const close = () => {
+    setOpen(false);
+    setEditing(null);
   };
 
   const submit = async () => {
@@ -159,6 +174,119 @@ export default function Products() {
   return (
     <div>
       <PageHeader title="产品" subtitle="产品 CRUD + 多图上传(JSON 数组) + 规格" onAdd={openCreate} />
+
+      {open && (
+        <Card
+          ref={editorRef}
+          className="mb-6"
+          title={editing ? `编辑产品 #${editing.id}` : "新增产品"}
+          extra={
+            <Button size="small" onClick={close} icon={<CloseOutlined />}>
+              收起
+            </Button>
+          }
+          style={{ borderColor: "#00B3FF" }}
+        >
+          <Form form={form} layout="vertical" requiredMark={false}>
+            <Row gutter={16}>
+              <Col xs={24} sm={12}>
+                <Form.Item name="name" label="产品名称" rules={[{ required: true, message: "请输入产品名称" }]}>
+                  <Input maxLength={200} placeholder="如：智能中枢网关" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={12}>
+                <Form.Item name="model_no" label="型号">
+                  <Input maxLength={80} placeholder="如：RZ-2001" />
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} sm={12}>
+                <Form.Item name="series_id" label="所属系列">
+                  <Select allowClear options={seriesOptions} placeholder="选择系列" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={12}>
+                <Form.Item name="category_id" label="所属分类">
+                  <Select allowClear options={catOptions} placeholder="选择分类" />
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} sm={8}>
+                <Form.Item name="price" label="价格(¥)">
+                  <InputNumber min={0} precision={2} style={{ width: "100%" }} placeholder="可留空" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={8}>
+                <Form.Item name="is_recommended" label="首页推荐" valuePropName="checked">
+                  <Switch />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={8}>
+                <Form.Item name="status" label="状态">
+                  <Select
+                    options={[
+                      { value: "active", label: "启用" },
+                      { value: "disabled", label: "禁用" },
+                    ]}
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col span={24}>
+                <Form.Item name="summary" label="摘要">
+                  <Input.TextArea rows={2} maxLength={300} showCount />
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <Form.Item name="description" label="详细描述">
+                  <Input.TextArea rows={4} />
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <Form.Item name="images" label="产品图片（多图，保存为 JSON 数组）">
+                  <ImageUpload multiple max={9} hint="可上传多张，第一张作为封面" />
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <Form.Item label="规格参数">
+                  <Form.List name="specsList">
+                    {(fields, { add, remove }) => (
+                      <div>
+                        {fields.map(({ key, name, ...rest }) => (
+                          <Space key={key} align="baseline" style={{ display: "flex", marginBottom: 8 }}>
+                            <Form.Item
+                              {...rest}
+                              name={[name, "key"]}
+                              rules={[{ required: true, message: "规格名" }]}
+                              style={{ width: 180 }}
+                            >
+                              <Input placeholder="规格名，如：材质" />
+                            </Form.Item>
+                            <Form.Item {...rest} name={[name, "value"]} style={{ width: 240 }}>
+                              <Input placeholder="规格值，如：北美胡桃木" />
+                            </Form.Item>
+                            <MinusCircleOutlined onClick={() => remove(name)} style={{ color: "#999" }} />
+                          </Space>
+                        ))}
+                        <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                          添加规格
+                        </Button>
+                      </div>
+                    )}
+                  </Form.List>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Space>
+              <Button type="primary" loading={saving} onClick={submit}>
+                保存
+              </Button>
+              <Button onClick={close}>取消</Button>
+            </Space>
+          </Form>
+        </Card>
+      )}
+
       <Space style={{ marginBottom: 16 }} wrap>
         <Input.Search
           placeholder="关键词（名称/型号）"
@@ -214,92 +342,6 @@ export default function Products() {
           },
         }}
       />
-      <Modal
-        title={editing ? "编辑产品" : "新增产品"}
-        
-        open={open}
-        onCancel={() => setOpen(false)}
-        footer={
-          <Space>
-            <Button onClick={() => setOpen(false)}>取消</Button>
-            <Button type="primary" loading={saving} onClick={submit}>
-              保存
-            </Button>
-          </Space>
-        }
-      >
-        <Form form={form} layout="vertical" requiredMark={false}>
-          <Form.Item name="name" label="产品名称" rules={[{ required: true, message: "请输入产品名称" }]}>
-            <Input maxLength={200} />
-          </Form.Item>
-          <Space size="large" style={{ display: "flex" }}>
-            <Form.Item name="series_id" label="所属系列" style={{ flex: 1 }}>
-              <Select allowClear options={seriesOptions} placeholder="选择系列" />
-            </Form.Item>
-            <Form.Item name="category_id" label="所属分类" style={{ flex: 1 }}>
-              <Select allowClear options={catOptions} placeholder="选择分类" />
-            </Form.Item>
-          </Space>
-          <Space size="large" style={{ display: "flex" }}>
-            <Form.Item name="model_no" label="型号" style={{ flex: 1 }}>
-              <Input maxLength={80} placeholder="如：RZ-2001" />
-            </Form.Item>
-            <Form.Item name="price" label="价格(¥)" style={{ flex: 1 }}>
-              <InputNumber min={0} precision={2} style={{ width: "100%" }} placeholder="可留空" />
-            </Form.Item>
-          </Space>
-          <Form.Item name="summary" label="摘要">
-            <Input.TextArea rows={2} maxLength={300} />
-          </Form.Item>
-          <Form.Item name="description" label="详细描述">
-            <Input.TextArea rows={4} />
-          </Form.Item>
-          <Form.Item name="images" label="产品图片（多图，保存为 JSON 数组）">
-            <ImageUpload multiple max={9} hint="可上传多张，第一张作为封面" />
-          </Form.Item>
-          <Form.Item label="规格参数">
-            <Form.List name="specsList">
-              {(fields, { add, remove }) => (
-                <div>
-                  {fields.map(({ key, name, ...rest }) => (
-                    <Space key={key} align="baseline" style={{ display: "flex", marginBottom: 8 }}>
-                      <Form.Item
-                        {...rest}
-                        name={[name, "key"]}
-                        rules={[{ required: true, message: "规格名" }]}
-                        style={{ width: 180 }}
-                      >
-                        <Input placeholder="规格名，如：材质" />
-                      </Form.Item>
-                      <Form.Item {...rest} name={[name, "value"]} style={{ width: 220 }}>
-                        <Input placeholder="规格值，如：北美胡桃木" />
-                      </Form.Item>
-                      <MinusCircleOutlined onClick={() => remove(name)} style={{ color: "#999" }} />
-                    </Space>
-                  ))}
-                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                    添加规格
-                  </Button>
-                </div>
-              )}
-            </Form.List>
-          </Form.Item>
-          <Space size="large">
-            <Form.Item name="is_recommended" label="首页推荐" valuePropName="checked">
-              <Switch />
-            </Form.Item>
-            <Form.Item name="status" label="状态">
-              <Select
-                style={{ width: 160 }}
-                options={[
-                  { value: "active", label: "启用" },
-                  { value: "disabled", label: "禁用" },
-                ]}
-              />
-            </Form.Item>
-          </Space>
-        </Form>
-      </Modal>
     </div>
   );
 }
