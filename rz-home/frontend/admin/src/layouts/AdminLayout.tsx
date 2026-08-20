@@ -67,7 +67,7 @@ export default function AdminLayout() {
           >
             R
           </span>
-          {!collapsed && "Rz家居 后台"}
+          {!collapsed && "Rz智能 后台"}
         </div>
         <Menu
           mode="inline"

@@ -9,7 +9,7 @@ def test_home_overview_structure(client):
     assert body["code"] == 0
     data = body["data"]
     assert {"banners", "recommended_products", "company", "latest_cases", "latest_news", "job_open_count"} <= set(data)
-    assert data["company"] and data["company"]["name"] == "Rz家居"
+    assert data["company"] and data["company"]["name"] == "Rz智能家居"
     # 种子应提供可展示内容（无 key 演示）
     assert len(data["recommended_products"]) > 0
     assert len(data["latest_cases"]) > 0

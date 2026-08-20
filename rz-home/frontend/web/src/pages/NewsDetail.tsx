@@ -22,7 +22,7 @@ export default function NewsDetail() {
       </div>
       <div className="prose-rz mt-6">
         <p>{data.content || data.summary}</p>
-        <p>Rz家居持续以“家居美学”为品牌主张，在原创设计与智能生产之间寻找平衡，致力于为消费者带来更可信赖的家居体验。</p>
+        <p>Rz智能家居持续以“全屋智能”为品牌主张，在设计、科技与服务之间寻找平衡，致力于为消费者带来更可信赖的智能生活体验。</p>
       </div>
       <div className="mt-8">
         <Link

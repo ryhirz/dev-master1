@@ -13,7 +13,7 @@ export default function AboutBrand() {
   const { data, loading } = useApi(() => api.brand(), []);
   const content =
     data?.content ||
-    "我们相信，家具不仅是器物，更是生活的容器。从人体工程学到原创设计，从智能生产线到售后服务，Rz家居在每一个环节都倾注匠心——让美，可触可感，可陪伴长久。";
+    "我们相信，好的智能不是堆砌设备，而是让家更懂你。以设计为骨、以科技为翼，Rz智能在每一个环节都倾注匠心——从灯光到安防，从影音到睡眠，让家拥有从容、安静、有温度的高级感。";
 
   return (
     <PageContainer>

@@ -10,13 +10,13 @@ export default function About() {
   const intro =
     overview?.content ||
     company?.intro ||
-    "Rz家居始创于 1953 年，是一家集研发、制造、销售于一体的家居企业。我们以“家居美学”为品牌主张，坚持原创设计与智能生产，致力于为每一个家庭带来温润、可靠、经得起时间的家居体验。";
+    "Rz智能家居始创于 1953 年，2015 年完成智能转型，是一家以全屋智能整装为核心的高端智能家居企业。我们以“全屋智能”为品牌主张，覆盖照明、安防、影音、睡眠与能源五大系统，致力于为每一个家庭带来从容、安静、有温度的高端生活体验。";
   const stats = company
     ? [
         { num: company.founded_year, label: "始创年份" },
         { num: company.honor_count, label: "荣誉奖项" },
         { num: company.production_line_count, label: "智能生产线" },
-        { num: company.founded_year ? new Date().getFullYear() - company.founded_year : 72, label: "载匠心传承" },
+        { num: company.founded_year ? new Date().getFullYear() - company.founded_year : 72, label: "载智能深耕" },
       ]
     : [];
 

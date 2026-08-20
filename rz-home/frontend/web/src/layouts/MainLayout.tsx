@@ -27,7 +27,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     <div className="min-h-full flex flex-col bg-cream text-ink">
       <header className="sticky top-0 z-50 bg-cream/90 backdrop-blur border-b border-line">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-3 shrink-0" aria-label="Rz家居 首页">
+          <Link to="/" className="flex items-center gap-3 shrink-0" aria-label="Rz智能家居 首页">
             <span className="w-10 h-10 rounded-btn bg-walnut text-cream flex items-center justify-center font-serif font-bold text-xl">Rz</span>
             <span className="font-serif text-xl text-walnut-d font-semibold">{BRAND.name}</span>
           </Link>
@@ -175,7 +175,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <span className="font-serif text-lg text-walnut-d font-semibold">{BRAND.name}</span>
             </div>
             <p className="text-xs tracking-[0.25em] text-walnut mb-3">{BRAND.enName} · {BRAND.slogan}</p>
-            <p className="max-w-sm">以匠心造物，以美学筑家。专注原创设计与智能生产，为每一个家庭带来温润可靠的家居体验。</p>
+            <p className="max-w-sm">以设计为骨，以科技为翼。专注高端全屋智能整装，从灯光到安防、从影音到睡眠，为每一个家庭带来从容智慧的生活体验。</p>
           </div>
           <div>
             <div className="text-ink font-medium mb-3">快速导航</div>

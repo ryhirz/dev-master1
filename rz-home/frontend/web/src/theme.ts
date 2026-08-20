@@ -13,9 +13,9 @@ export const COLORS = {
 } as const;
 
 export const BRAND = {
-  name: "Rz家居",
-  enName: "Rz HOME",
-  slogan: "家居美学",
+  name: "Rz智能家居",
+  enName: "Rz SMART HOME",
+  slogan: "全屋智能",
 };
 
 // 品牌渐变占位（无图时用于封面/图集背景，温润胡桃木调）

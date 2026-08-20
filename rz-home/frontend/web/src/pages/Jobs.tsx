@@ -21,7 +21,7 @@ export default function Jobs() {
       <Breadcrumb items={[{ label: "首页", to: "/" }, { label: "招聘" }]} />
       <div className="mb-2">
         <p className="text-walnut tracking-[0.3em] uppercase text-xs mb-2">招聘入口</p>
-        <h1 className="font-serif text-[32px] text-ink">加入 Rz家居</h1>
+        <h1 className="font-serif text-[32px] text-ink">加入 Rz智能</h1>
       </div>
       <Tabs tabs={TABS} active={type} onChange={(k) => { setType(k); setPage(1); }} />
       {loading ? (

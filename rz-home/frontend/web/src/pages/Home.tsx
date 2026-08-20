@@ -9,9 +9,9 @@ import { BRAND } from "../theme";
 import type { Banner } from "../types";
 
 const DEFAULT_BANNERS: Banner[] = [
-  { id: 0, title: "以匠心，筑理想之家", image: "", link_url: "/products", sort_order: 0, status: "active" },
-  { id: 1, title: "实景案例 · 见生活的温度", image: "", link_url: "/cases", sort_order: 1, status: "active" },
-  { id: 2, title: "加入 Rz，与美同行", image: "", link_url: "/jobs", sort_order: 2, status: "active" },
+  { id: 0, title: "全屋智能，重新定义理想之家", image: "", link_url: "/products", sort_order: 0, status: "active" },
+  { id: 1, title: "实景案例 · 智能生活的温度", image: "", link_url: "/cases", sort_order: 1, status: "active" },
+  { id: 2, title: "加入 Rz 智能，与科技同行", image: "", link_url: "/jobs", sort_order: 2, status: "active" },
 ];
 
 function isImg(s?: string | null) {
@@ -92,7 +92,7 @@ export default function Home() {
         { num: company.founded_year, label: "始创年份" },
         { num: company.honor_count, label: "荣誉奖项" },
         { num: company.production_line_count, label: "智能生产线" },
-        { num: company.founded_year ? new Date().getFullYear() - company.founded_year : 72, label: "载匠心传承" },
+        { num: company.founded_year ? new Date().getFullYear() - company.founded_year : 72, label: "载智能深耕" },
       ]
     : [];
 
@@ -103,8 +103,8 @@ export default function Home() {
       <section className="py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
           <p className="text-walnut tracking-[0.3em] uppercase text-xs mb-3">{BRAND.enName} · {BRAND.slogan}</p>
-          <h2 className="font-serif text-[38px] text-ink">以匠心，筑理想之家</h2>
-          <p className="text-muted max-w-2xl mx-auto mt-4 text-[17px]">72 年专注家居制造，原创设计 × 智能生产，让每一件家具都成为生活的注脚。</p>
+          <h2 className="font-serif text-[38px] text-ink">全屋智能，重新定义理想之家</h2>
+          <p className="text-muted max-w-2xl mx-auto mt-4 text-[17px]">70+ 年匠心传承，2015 年智能转型——从灯光到安防，从影音到睡眠，一个中枢掌控全部。</p>
         </div>
       </section>
 
@@ -201,7 +201,7 @@ export default function Home() {
             <div>
               <p className="text-sand text-xs tracking-[0.3em] uppercase mb-2">加入我们</p>
               <h2 className="font-serif text-[28px]">与美同行，正在招募</h2>
-              <p className="opacity-90 mt-2 max-w-md">无论你是资深专家，还是校园新星，Rz家居都为你留有位置。</p>
+              <p className="opacity-90 mt-2 max-w-md">无论你是资深专家，还是校园新星，Rz智能都为你留有位置。</p>
             </div>
             <Link
               to="/jobs"
