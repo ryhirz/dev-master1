@@ -152,6 +152,7 @@ class AboutSectionOut(BaseModel):
     cover_image: Optional[str] = None
     sort_order: int
     status: str
+    created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
 
@@ -216,4 +217,5 @@ class CompanyInfoOut(BaseModel):
     wechat: Optional[str] = None
     icp_no: Optional[str] = None
     intro: Optional[str] = None
+    created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None

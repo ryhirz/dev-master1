@@ -73,6 +73,7 @@ class MessageOut(BaseModel):
     reply: Optional[str] = None
     replied_at: Optional[datetime] = None
     created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
 
 # 公开发起留言 / 求职意向（前端提交）

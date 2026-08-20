@@ -89,6 +89,12 @@ export default function News() {
       render: (v: string | null) => (v ? dayjs(v).format("YYYY-MM-DD HH:mm") : "—"),
     },
     {
+      title: "修改时间",
+      dataIndex: "updated_at",
+      width: 170,
+      render: (v: string | undefined) => (v ? v.slice(0, 16).replace("T", " ") : "—"),
+    },
+    {
       title: "操作",
       width: 140,
       render: (_, r) => (

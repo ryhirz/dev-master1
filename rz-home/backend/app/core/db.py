@@ -83,8 +83,11 @@ def seed() -> None:
         if db.get(CompanyInfo, 1) is None:
             db.add(CompanyInfo(
                 id=1, name="Rz智能家居", founded_year=1953, honor_count=200,
-                production_line_count=6, address="（待填地址）", phone="（待填电话）",
-                email="（待填邮箱）", icp_no="（待填备案号）",
+                production_line_count=6,
+                address="广州市天河区珠江新城国际金融中心（ifc）",
+                phone="400-888-9999",
+                email="contact@rz-home.example",
+                icp_no="（待填备案号）",
                 intro="Rz智能家居始创于 1953 年，2015 年完成智能转型，以全屋智能整装为核心，覆盖照明、安防、影音、睡眠与能源五大系统，为高端家庭提供从设计到交付的一站式智能生活解决方案。",
             ))
             db.commit()

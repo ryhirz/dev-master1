@@ -57,6 +57,12 @@ export default function Series() {
     { title: "排序", dataIndex: "sort_order", width: 80 },
     { title: "状态", dataIndex: "status", width: 100, render: (s: string) => <StatusTag status={s} /> },
     {
+      title: "修改时间",
+      dataIndex: "updated_at",
+      width: 170,
+      render: (v: string | undefined) => (v ? v.slice(0, 16).replace("T", " ") : "—"),
+    },
+    {
       title: "操作",
       width: 140,
       render: (_, r) => (

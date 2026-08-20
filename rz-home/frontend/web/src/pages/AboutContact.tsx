@@ -65,7 +65,33 @@ export default function AboutContact() {
             {data?.email && <p className="flex items-center gap-2"><MailIcon className="w-5 h-5 text-walnut shrink-0" />{data.email}</p>}
             {data?.wechat && <p className="flex items-center gap-2"><MapPin className="w-5 h-5 text-walnut shrink-0" />微信：{data.wechat}</p>}
           </div>
-          <div className="mt-6 h-44 rounded-card bg-sand flex items-center justify-center text-walnut-d font-serif">地图占位</div>
+          <div className="mt-6">
+            <iframe
+              title="公司位置地图"
+              src="https://m.amap.com/marker?position=113.3258,23.1193&name=Rz%E6%99%BA%E8%83%BD%E5%AE%B6%E5%B1%85%EF%BC%88%E7%8F%A0%E6%B1%9F%E6%96%B0%E5%9F%8EIFC%EF%BC%89"
+              className="w-full h-[300px] rounded-card border border-line bg-white"
+              loading="lazy"
+              allow="geolocation"
+            />
+            <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+              <a
+                href="https://www.amap.com/search?query=%E5%B9%BF%E5%B7%9EIFC"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-walnut hover:opacity-80"
+              >
+                <MapPin className="w-4 h-4" /> 在高德地图中查看
+              </a>
+              <a
+                href="https://map.baidu.com/search/%E5%B9%BF%E5%B7%9EIFC"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-walnut hover:opacity-80"
+              >
+                <MapPin className="w-4 h-4" /> 在百度地图中查看
+              </a>
+            </div>
+          </div>
         </div>
         <div>
           <h3 className="text-xl font-semibold text-ink mb-4">在线留言</h3>

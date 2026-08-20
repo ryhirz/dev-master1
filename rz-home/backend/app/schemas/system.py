@@ -24,6 +24,8 @@ class RoleOut(BaseModel):
     id: int
     name: str
     permissions: Dict[str, List[str]] = Field(default_factory=dict)
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
 
 # ---------------- 管理员 ----------------

@@ -79,6 +79,9 @@ class AboutSection(Base):
     cover_image: Mapped[Optional[str]] = mapped_column(String(512), nullable=True)
     sort_order: Mapped[int] = mapped_column(Integer, default=0)
     status: Mapped[str] = mapped_column(String(20), default="active", index=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
@@ -115,6 +118,9 @@ class CompanyInfo(Base):
     wechat: Mapped[Optional[str]] = mapped_column(String(80), nullable=True)
     icp_no: Mapped[Optional[str]] = mapped_column(String(40), nullable=True)
     intro: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
