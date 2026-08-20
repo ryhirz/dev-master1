@@ -1,15 +1,15 @@
-// 设计令牌常量（与 tailwind.config.js / index.css 对齐；M6 科技感配色）
+// 设计令牌常量（与 tailwind.config.js / index.css 对齐；M6.2 白底蓝科技）
 export const COLORS = {
-  cream: "#070B16",
+  cream: "#FFFFFF",
   walnut: "#00B3FF",
   walnutD: "#00E5CC",
-  sand: "#7FB4E0",
-  ink: "#E8F6FF",
-  muted: "#9FB3C8",
-  line: "#1E3A5F",
-  success: "#00E5A8",
-  warning: "#FFC24B",
-  danger: "#FF5C7A",
+  sand: "#F2F8FF",
+  ink: "#0E2A4A",
+  muted: "#5E7390",
+  line: "#D7E9FA",
+  success: "#00C19A",
+  warning: "#F09A24",
+  danger: "#E54856",
 } as const;
 
 export const BRAND = {
@@ -18,6 +18,6 @@ export const BRAND = {
   slogan: "全屋智能",
 };
 
-// 品牌渐变占位（无图时用于封面/图集背景，荧光蓝→薄荷绿科技渐变）
+// 无图占位渐变（白底科技风：白→浅蓝→荧光蓝）
 export const PLACEHOLDER_GRADIENT =
-  "linear-gradient(135deg, #04101F 0%, #0A2A4A 45%, #00B3FF 100%)";
+  "linear-gradient(135deg, #F8FBFF 0%, #E1F4FF 50%, #BFE0FB 100%)";

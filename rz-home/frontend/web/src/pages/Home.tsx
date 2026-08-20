@@ -34,9 +34,9 @@ function Hero({ banners }: { banners: Banner[] }) {
           {isImg(s.image) ? (
             <img src={s.image} alt={s.title} className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full" style={{ background: "linear-gradient(120deg,#04101F,#0A2A4A 45%,#00B3FF)" }} />
+            <div className="w-full h-full" style={{ background: "linear-gradient(135deg,#F8FBFF,#E1F4FF 50%,#BFE0FB)" }} />
           )}
-          <div className="absolute inset-0" style={{ background: "linear-gradient(90deg,rgba(7,11,22,.75),rgba(7,11,22,.15))" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(90deg,rgba(255,255,255,.7),rgba(255,255,255,.15))" }} />
         </div>
       ))}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center">
