@@ -141,7 +141,7 @@ def _seed_catalog(db: Session) -> None:
     from app.models.crm import Job
 
     now = datetime(2026, 8, 1, 0, 0, 0, tzinfo=timezone.utc)
-    U = "https://images.unsplash.com/photo-{id}?w=1200&q=80&auto=format&fit=crop"
+    U = "/static/images/seed/{id}.jpg"
 
     def img(*ids):
         return [U.format(id=i) for i in ids]
@@ -455,9 +455,9 @@ def _seed_catalog(db: Session) -> None:
     # 轮播
     if db.query(Banner).count() == 0:
         db.add_all([
-            Banner(title="全屋智能 2.0 全新上市", image="https://images.unsplash.com/photo-1558002038-1055907df827?w=1920&q=80&auto=format&fit=crop", link_url="/products?series_id=1", sort_order=1),
-            Banner(title="智能照明 · 光随人动", image="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1920&q=80&auto=format&fit=crop", link_url="/products?series_id=2", sort_order=2),
-            Banner(title="高端定制 · 全屋语音控制", image="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80&auto=format&fit=crop", link_url="/products", sort_order=3),
+            Banner(title="全屋智能 2.0 全新上市", image="/static/images/seed/1558002038-1055907df827.jpg", link_url="/products?series_id=1", sort_order=1),
+            Banner(title="智能照明 · 光随人动", image="/static/images/seed/1513694203232-719a280e022f.jpg", link_url="/products?series_id=2", sort_order=2),
+            Banner(title="高端定制 · 全屋语音控制", image="/static/images/seed/1600585154340-be6161a56a0c.jpg", link_url="/products", sort_order=3),
         ])
         db.commit()
 

@@ -45,10 +45,12 @@ register_exception_handlers(app)
 app.include_router(public.router)
 app.include_router(admin.router)
 
-# 静态上传目录（dev）
+# 静态资源（dev）：uploads（用户上传）+ images/seed（内置种子图）
 UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "static", "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
-app.mount("/static/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+os.makedirs(os.path.join(STATIC_DIR, "images", "seed"), exist_ok=True)
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
 @app.get("/health", tags=["system"])
