@@ -42,6 +42,9 @@ class AdminUser(Base):
     status: Mapped[str] = mapped_column(String(20), default="active", index=True)
     last_login_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
 
     role: Mapped["Role"] = relationship("Role")
 

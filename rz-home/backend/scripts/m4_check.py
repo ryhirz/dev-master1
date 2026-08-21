@@ -84,7 +84,6 @@ chk("留言回复+状态变更", s == 200 and d.get("data", {}).get("status") ==
 # ---------- 6. 公司信息 / 关于区块编辑 -> 前台同步 ----------
 s, d = req("PUT", "/admin/company-info", token=token, body={"phone": "400-800-8888", "honor_count": 30})
 chk("公司信息编辑", s == 200 and d.get("data", {}).get("phone") == "400-800-8888")
-s, d = req("GET", "/public-home-placeholder")  # 占位，忽略
 s, d = req("GET", "/contact/info")
 chk("前台 contact/info 同步新电话", s == 200 and d.get("data", {}).get("phone") == "400-800-8888")
 s, d = req("GET", "/home/overview")

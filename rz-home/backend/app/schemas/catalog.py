@@ -5,7 +5,9 @@
 from datetime import datetime
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from app.core.sanitize import sanitize_html
 
 ActiveHidden = str  # 仅占位，使用 Literal 在字段级约束
 
@@ -86,6 +88,11 @@ class ProductCreate(BaseModel):
     is_recommended: bool = False
     status: str = "active"
 
+    @field_validator("description")
+    @classmethod
+    def _sanitize_description(cls, v):
+        return sanitize_html(v)
+
 
 class ProductUpdate(BaseModel):
     series_id: Optional[int] = None
@@ -99,6 +106,11 @@ class ProductUpdate(BaseModel):
     price: Optional[float] = None
     is_recommended: Optional[bool] = None
     status: Optional[str] = None
+
+    @field_validator("description")
+    @classmethod
+    def _sanitize_description(cls, v):
+        return sanitize_html(v)
 
 
 class ProductOut(BaseModel):

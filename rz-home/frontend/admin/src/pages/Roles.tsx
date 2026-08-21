@@ -119,7 +119,7 @@ export default function Roles() {
           },
         }}
       />
-      <Modal
+      <Modal centered
         title={editing ? `编辑角色：${editing.name}` : "新增角色"}
         
         open={open}

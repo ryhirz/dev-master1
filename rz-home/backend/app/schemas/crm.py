@@ -5,7 +5,9 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from app.core.sanitize import sanitize_html
 
 
 # ---------------- 招聘职位 ----------------
@@ -21,6 +23,11 @@ class JobCreate(BaseModel):
     status: str = "active"
     publish_at: Optional[datetime] = None
 
+    @field_validator("description", "requirements")
+    @classmethod
+    def _sanitize_text(cls, v):
+        return sanitize_html(v)
+
 
 class JobUpdate(BaseModel):
     type: Optional[str] = None
@@ -33,6 +40,11 @@ class JobUpdate(BaseModel):
     headcount: Optional[int] = None
     status: Optional[str] = None
     publish_at: Optional[datetime] = None
+
+    @field_validator("description", "requirements")
+    @classmethod
+    def _sanitize_text(cls, v):
+        return sanitize_html(v)
 
 
 class JobOut(BaseModel):

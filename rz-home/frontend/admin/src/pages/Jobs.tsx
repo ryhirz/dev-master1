@@ -128,7 +128,7 @@ export default function Jobs() {
           },
         }}
       />
-      <Modal
+      <Modal centered
         title={editing ? "编辑职位" : "新增职位"}
         
         open={open}

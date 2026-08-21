@@ -108,7 +108,7 @@ export default function Admins() {
           },
         }}
       />
-      <Modal
+      <Modal centered
         title={editing ? "编辑管理员" : "新增管理员"}
         
         open={open}

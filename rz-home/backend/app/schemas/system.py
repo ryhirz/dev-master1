@@ -54,6 +54,7 @@ class AdminUserOut(BaseModel):
     status: str
     last_login_at: Optional[datetime] = None
     created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
 
 # ---------------- 鉴权 ----------------

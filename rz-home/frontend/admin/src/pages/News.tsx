@@ -154,7 +154,7 @@ export default function News() {
           },
         }}
       />
-      <Modal
+      <Modal centered
         title={editing ? "编辑新闻" : "新增新闻"}
         
         open={open}

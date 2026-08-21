@@ -5,7 +5,9 @@
 from datetime import datetime
 from typing import List, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from app.core.sanitize import sanitize_html
 
 
 # ---------------- 案例 ----------------
@@ -20,6 +22,11 @@ class CaseCreate(BaseModel):
     sort_order: int = 0
     status: str = "active"
 
+    @field_validator("content")
+    @classmethod
+    def _sanitize_content(cls, v):
+        return sanitize_html(v)
+
 
 class CaseUpdate(BaseModel):
     title: Optional[str] = Field(default=None, max_length=200)
@@ -31,6 +38,11 @@ class CaseUpdate(BaseModel):
     is_new: Optional[bool] = None
     sort_order: Optional[int] = None
     status: Optional[str] = None
+
+    @field_validator("content")
+    @classmethod
+    def _sanitize_content(cls, v):
+        return sanitize_html(v)
 
 
 class CaseOut(BaseModel):
@@ -61,6 +73,11 @@ class NewsCreate(BaseModel):
     status: str = "draft"  # draft | published
     published_at: Optional[datetime] = None
 
+    @field_validator("content")
+    @classmethod
+    def _sanitize_content(cls, v):
+        return sanitize_html(v)
+
 
 class NewsUpdate(BaseModel):
     title: Optional[str] = Field(default=None, max_length=200)
@@ -72,6 +89,11 @@ class NewsUpdate(BaseModel):
     is_top: Optional[bool] = None
     status: Optional[str] = None
     published_at: Optional[datetime] = None
+
+    @field_validator("content")
+    @classmethod
+    def _sanitize_content(cls, v):
+        return sanitize_html(v)
 
 
 class NewsOut(BaseModel):
@@ -134,6 +156,11 @@ class AboutSectionCreate(BaseModel):
     sort_order: int = 0
     status: str = "active"
 
+    @field_validator("content")
+    @classmethod
+    def _sanitize_content(cls, v):
+        return sanitize_html(v)
+
 
 class AboutSectionUpdate(BaseModel):
     title: Optional[str] = Field(default=None, max_length=200)
@@ -141,6 +168,11 @@ class AboutSectionUpdate(BaseModel):
     cover_image: Optional[str] = Field(default=None, max_length=512)
     sort_order: Optional[int] = None
     status: Optional[str] = None
+
+    @field_validator("content")
+    @classmethod
+    def _sanitize_content(cls, v):
+        return sanitize_html(v)
 
 
 class AboutSectionOut(BaseModel):

@@ -102,7 +102,7 @@ export default function Banners() {
           },
         }}
       />
-      <Modal
+      <Modal centered
         title={editing ? "编辑轮播" : "新增轮播"}
         
         open={open}

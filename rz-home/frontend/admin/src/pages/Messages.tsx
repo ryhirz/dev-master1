@@ -140,7 +140,7 @@ export default function Messages() {
           },
         }}
       />
-      <Modal
+      <Modal centered
         title={`处理留言 #${current?.id ?? ""}`}
         
         open={open}

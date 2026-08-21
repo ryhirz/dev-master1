@@ -107,7 +107,7 @@ export default function Categories() {
           },
         }}
       />
-      <Modal
+      <Modal centered
         title={editing ? "编辑分类" : "新增分类"}
         
         open={open}

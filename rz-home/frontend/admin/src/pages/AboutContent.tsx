@@ -171,7 +171,7 @@ function SectionsPanel() {
           </Card>
         ))}
       </Space>
-      <Modal
+      <Modal centered
         title={`编辑板块：${editing?.code ?? ""}`}
         
         open={open}

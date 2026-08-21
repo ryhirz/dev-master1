@@ -1,4 +1,4 @@
-"""公开接口（16 项）— 严格只读 active/published 数据。
+"""公开接口（17 项）— 严格只读 active/published 数据。
 
 契约来源：《开发技术文档》§5；路径前缀 /api。
 不可见资源（hidden/draft）返回 404 → 由异常处理器映射为 code 3001。

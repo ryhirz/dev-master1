@@ -95,7 +95,7 @@ export default function Series() {
           },
         }}
       />
-      <Modal
+      <Modal centered
         title={editing ? "编辑系列" : "新增系列"}
         
         open={open}

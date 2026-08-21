@@ -125,7 +125,7 @@ export default function Cases() {
           },
         }}
       />
-      <Modal
+      <Modal centered
         title={editing ? "编辑案例" : "新增案例"}
         
         open={open}

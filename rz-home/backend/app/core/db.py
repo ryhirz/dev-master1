@@ -133,7 +133,8 @@ def seed() -> None:
 def _seed_catalog(db: Session) -> None:
     """演示目录种子（M6 升级为高端全屋智能家居）：系列/分类/产品/案例/新闻/轮播/历程/关于/招聘。
 
-    仅当对应表为空时插入（幂等）；图片为 Unsplash 智能家居实景（已逐张验证可访问）。
+    仅当对应表为空时插入（幂等）；图片已本地化到 backend/app/static/images/seed/
+    （28 张，URL 形如 /static/images/seed/{id}.jpg，内网可用，不再依赖外链）。
     """
     from datetime import datetime, timezone
     from app.models.catalog import ProductSeries, Category, Product
