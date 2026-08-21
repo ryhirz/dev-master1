@@ -27,7 +27,7 @@ export default function About() {
         <p className="text-walnut tracking-[0.3em] uppercase text-xs mb-2">关于我们</p>
         <h1 className="font-serif text-[32px] text-ink">关于 Rz</h1>
       </div>
-      <p className="prose-rz max-w-3xl">{intro}</p>
+      <div className="prose-rz max-w-3xl" dangerouslySetInnerHTML={{ __html: intro }} />
       {stats.length > 0 && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
           {stats.map((s, i) => (

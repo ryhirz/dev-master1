@@ -26,7 +26,7 @@ export default function AboutBrand() {
         <p className="text-muted">加载中…</p>
       ) : (
         <>
-          <p className="prose-rz max-w-3xl">{content}</p>
+          <div className="prose-rz max-w-3xl" dangerouslySetInnerHTML={{ __html: content }} />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
             {FEATURES.map(([t, d]) => (
               <div key={t} className="bg-white rounded-card border border-line p-6 shadow-sm">

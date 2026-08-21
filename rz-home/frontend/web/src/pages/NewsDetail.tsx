@@ -21,7 +21,7 @@ export default function NewsDetail() {
         {data.is_top && <Tag variant="brand">置顶</Tag>}
       </div>
       <div className="prose-rz mt-6">
-        <p>{data.content || data.summary}</p>
+        <div dangerouslySetInnerHTML={{ __html: data.content || data.summary || "" }} />
         <p>Rz智能家居持续以“全屋智能”为品牌主张，在设计、科技与服务之间寻找平衡，致力于为消费者带来更可信赖的智能生活体验。</p>
       </div>
       <div className="mt-8">

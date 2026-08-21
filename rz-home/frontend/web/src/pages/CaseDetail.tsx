@@ -45,7 +45,7 @@ export default function CaseDetail() {
             <Tag variant="brand">{data.category}</Tag>
             {data.is_new && <Tag variant="new">新案例</Tag>}
           </div>
-          <p className="prose-rz mt-4">{data.content || data.summary}</p>
+          <div className="prose-rz mt-4" dangerouslySetInnerHTML={{ __html: data.content || data.summary || "" }} />
           <dl className="mt-5 border border-line rounded-btn overflow-hidden">
             <div className="grid grid-cols-2 border-b border-line">
               <dt className="bg-cream px-4 py-3 text-muted">项目分类</dt>

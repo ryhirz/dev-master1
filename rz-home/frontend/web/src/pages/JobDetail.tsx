@@ -66,9 +66,9 @@ export default function JobDetail() {
       </div>
       <div className="prose-rz mt-6">
         <h3 className="text-[20px] text-ink font-semibold mb-2 mt-4">岗位职责</h3>
-        <p>{data.description || "负责相关业务的推进与落地，协同跨部门团队达成目标，并持续优化工作方法与产出质量。"}</p>
+        <div dangerouslySetInnerHTML={{ __html: data.description || "负责相关业务的推进与落地，协同跨部门团队达成目标，并持续优化工作方法与产出质量。" }} />
         <h3 className="text-[20px] text-ink font-semibold mb-2 mt-4">任职要求</h3>
-        <p>{data.requirements || "具备对应岗位的专业能力与经验，良好的沟通协作与学习能力，认同 Rz智能“全屋智能”的品牌理念。"}</p>
+        <div dangerouslySetInnerHTML={{ __html: data.requirements || "具备对应岗位的专业能力与经验，良好的沟通协作与学习能力，认同 Rz智能“全屋智能”的品牌理念。" }} />
       </div>
       <div className="flex gap-3 mt-8">
         <Button onClick={() => setOpen(true)}>投递意向 <ArrowRight className="w-4 h-4" /></Button>
