@@ -35,10 +35,13 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install deps
-        run: |
-          pip install -r requirements.txt
-          pip install pytest httpx
+      # 从锁文件安装。--require-hashes 会强制校验每个包的 sha256：
+      # 任何版本漂移、或被中间人替换过的包，都会直接报错中止。
+      # 这就是"逐字节可复现"的落地方式 —— 依赖不再随"今天 PyPI 上最新是什么"漂移。
+      # 锁文件由 .github/workflows/lockfiles.yml 在同样的 Ubuntu + Python 3.11 上生成，
+      # 测试依赖（pytest / httpx）已包含在锁文件内，无需单独安装。
+      - name: Install deps (from lockfile, hash-verified)
+        run: python -m pip install --require-hashes -r requirements.txt
 
       - name: Lint compile
         run: python -m compileall -q app
