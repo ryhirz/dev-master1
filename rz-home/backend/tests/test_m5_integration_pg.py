@@ -29,14 +29,18 @@ def test_pg_connect_and_tables(pg_engine):
         conn.execute(text("SELECT 1"))
     insp = inspect(pg_engine)
     tables = insp.get_table_names()
-    # 核心表必须存在（迁移已执行）
-    assert {"roles", "admin_users", "products", "cases", "news", "jobs", "messages"} <= set(tables)
+    # 核心表必须存在（迁移已执行）。
+    # 注意：表名与 ORM 的 __tablename__ 一致，为单数形式（admin_user / product / ...），
+    # 不要写成复数，否则断言会在真实 PG 上失败。
+    assert {"role", "admin_user", "product", "cases", "news", "job", "message"} <= set(tables)
+    # 迁移应建满 14 张表
+    assert len(tables) >= 14, f"迁移后应有 14 张表，实际 {len(tables)}：{sorted(tables)}"
 
 
 def test_pg_seed_accounts(pg_engine):
     from sqlalchemy import text
 
     with pg_engine.connect() as conn:
-        rows = conn.execute(text("SELECT username FROM admin_users WHERE status='active'")).fetchall()
+        rows = conn.execute(text("SELECT username FROM admin_user WHERE status='active'")).fetchall()
     names = {r[0] for r in rows}
     assert "admin" in names
