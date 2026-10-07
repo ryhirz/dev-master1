@@ -8,6 +8,7 @@ pydantic==2.9.2
 pydantic-settings==2.5.2
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
+bcrypt==4.0.1                 # 必须锁版本：passlib 1.7.4 不兼容 bcrypt>=4.1（__about__ 被移除，版本探测报错）；bcrypt 5.x 起对 >72 字节密码直接抛 ValueError
 python-multipart==0.0.12
 email-validator==2.2.0
 psycopg2-binary==2.9.9
