@@ -1,0 +1,28 @@
+# Rz家居 后端依赖（M1 脚手架）
+# 双库可移植：Dev SQLite / Prod PostgreSQL
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+sqlalchemy==2.0.35
+alembic==1.13.2
+pydantic==2.9.2
+pydantic-settings==2.5.2
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+# 必须锁 bcrypt 版本：passlib==1.7.4 与 bcrypt>=5.0.0 不兼容。
+# 本机三版本对照实证（passlib 1.7.4 固定）：
+#   bcrypt 4.0.1 -> 短密码 hash/verify 均正常
+#   bcrypt 4.3.0 -> 仅打印 "(trapped) error reading bcrypt version" 告警，hash/verify 仍正常（__about__ 缺失无害）
+#   bcrypt 5.0.0 -> 连 12 字符短密码都抛 ValueError: password cannot be longer than 72 bytes
+# 真因不是"版本探测报错"，而是 bcrypt 5.0.0 起 hashpw 对 >72 字节密码由「静默截断」改为「抛 ValueError」，
+# 而 passlib 初始化时会用长密码做后端自检探测 —— 与用户输入无关，一旦不兼容则全部哈希/校验失败。
+bcrypt==4.0.1
+python-multipart==0.0.12
+email-validator==2.2.0
+psycopg2-binary==2.9.9
+redis==5.1.1
+bleach==6.1.0
+requests==2.32.3
+
+# 测试
+pytest==8.3.2
+httpx==0.27.0

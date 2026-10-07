@@ -19,12 +19,20 @@ Rz家居 · 交付前验证闸门 (Pre-Push Verification Gate)
   python scripts/verify_before_push.py
   python scripts/verify_before_push.py --skip-vitest   # 仅后端
   python scripts/verify_before_push.py --no-m4         # 不起服务也行(m4 标 WARN)
+
+运行时自动解析（本脚本不含任何"本机绝对路径"，换机器/换人可直接用）：
+  python：项目 venv（venv/.venv，Windows 与 POSIX 布局都试）
+          → 当前解释器 sys.executable → PATH。可用环境变量 RZ_PYTHON 覆盖。
+  node  ：PATH → 常见安装位置（Program Files\\nodejs、/usr/bin 等）。
+          可用环境变量 RZ_NODE 覆盖；找不到时前端检查降级为 WARN，不中断。
 """
 
 from __future__ import annotations
 
 import argparse
+import os
 import re
+import shutil
 import subprocess
 import sys
 from dataclasses import dataclass, field
@@ -33,11 +41,67 @@ from pathlib import Path
 BACKEND = Path(__file__).resolve().parent.parent          # .../backend
 ROOT = BACKEND.parent                                      # .../rz-home
 ADMIN = ROOT / "frontend" / "admin"
-PY = (BACKEND / "venv" / "Scripts" / "python.exe").as_posix()
-NODE = r"C:\Users\Icarus\.workbuddy\binaries\node\versions\22.12.0\node.exe"
-VITEST = (ADMIN / "node_modules" / "vitest" / "vitest.mjs").as_posix()
 
 TIMEOUT = 600  # 单步超时(秒)
+
+
+# ---------------------------------------------------------------------------
+# 运行时解析（可移植：不硬编码任何"本机绝对路径"，换机器/换人照样能跑）
+# ---------------------------------------------------------------------------
+# 解析优先级（Python）：
+#   1) 环境变量 RZ_PYTHON 显式指定（CI / 特殊机器用）
+#   2) 项目 venv（venv / .venv，Windows(POSIX) 两种目录布局都试）
+#      —— 保证跑在"项目依赖"上，与旧行为一致
+#   3) 正在运行本脚本的解释器 sys.executable
+#      —— 你本来就是用某个 python 把它跑起来的，那是最合理的默认值
+#   4) PATH 上的 python / python3
+#   全都没有 → 返回 None，对应的检查项报 FAIL/WARN，而不是抛异常崩掉。
+# Node 同理（RZ_NODE → PATH → 常见安装位置）。
+# ---------------------------------------------------------------------------
+def _first_existing(*cands: Path | None) -> Path | None:
+    for c in cands:
+        if c is not None and c.exists():
+            return c
+    return None
+
+
+def resolve_python() -> str | None:
+    env = os.environ.get("RZ_PYTHON")
+    if env and Path(env).exists():
+        return Path(env).as_posix()
+    venv_py = _first_existing(
+        BACKEND / "venv" / "Scripts" / "python.exe",   # Windows venv
+        BACKEND / "venv" / "bin" / "python",           # POSIX venv
+        BACKEND / ".venv" / "Scripts" / "python.exe",
+        BACKEND / ".venv" / "bin" / "python",
+    )
+    if venv_py is not None:
+        return venv_py.as_posix()
+    if sys.executable and Path(sys.executable).exists():
+        return Path(sys.executable).as_posix()
+    found = shutil.which("python") or shutil.which("python3")
+    return Path(found).as_posix() if found else None
+
+
+def resolve_node() -> str | None:
+    env = os.environ.get("RZ_NODE")
+    if env and Path(env).exists():
+        return Path(env).as_posix()
+    found = shutil.which("node")
+    if found:
+        return Path(found).as_posix()
+    common = _first_existing(
+        Path(r"C:\Program Files\nodejs\node.exe"),
+        Path(r"C:\Program Files (x86)\nodejs\node.exe"),
+        Path("/usr/local/bin/node"),
+        Path("/usr/bin/node"),
+    )
+    return common.as_posix() if common else None
+
+
+PY = resolve_python()
+NODE = resolve_node()
+VITEST = (ADMIN / "node_modules" / "vitest" / "vitest.mjs").as_posix()
 
 
 @dataclass
@@ -88,6 +152,9 @@ def run(cmd: list[str], cwd: Path, timeout: int = TIMEOUT) -> tuple[int, str]:
 # 1) 后端单测 pytest
 # ---------------------------------------------------------------------------
 def check_pytest() -> Result:
+    if PY is None:
+        return Result("后端单测 pytest", "FAIL",
+                      "未找到可用 Python 解释器（可用环境变量 RZ_PYTHON 指定）", "")
     rc, out = run([PY, "-m", "pytest", "-q", "-rs"], BACKEND)
     # pytest -q 的摘要在管道中常被吞，改为解析进度行 "....s..[100%]"
     prog = ""
@@ -112,6 +179,9 @@ def check_pytest() -> Result:
 def check_vitest(skip: bool) -> Result:
     if skip:
         return Result("后台前端 Vitest", "WARN", "按 --skip-vitest 跳过", "")
+    if NODE is None:
+        return Result("后台前端 Vitest", "WARN",
+                      "PATH 中未找到 node（可用环境变量 RZ_NODE 指定），跳过前端单测", "")
     if not Path(VITEST).exists():
         return Result("后台前端 Vitest", "WARN",
                       "node_modules/vitest 缺失，未执行(可 npm i 后补跑)", "")
@@ -137,6 +207,8 @@ def check_vitest(skip: bool) -> Result:
 def check_m4(skip: bool) -> Result:
     if skip:
         return Result("联调回归 m4_check", "WARN", "按 --no-m4 跳过", "")
+    if PY is None:
+        return Result("联调回归 m4_check", "WARN", "未找到 Python 解释器，跳过", "")
     rc, out = run([PY, "scripts/m4_check.py"], BACKEND, timeout=120)
     if rc == 124:
         return Result("联调回归 m4_check", "WARN",
@@ -188,6 +260,9 @@ def print_report(gate: Gate) -> None:
     line = "=" * 68
     print(line)
     print("  Rz家居 · 交付前验证闸门 (Pre-Push Verification Gate)")
+    print(line)
+    print(f"  运行时: python = {PY or '(未找到)'}")
+    print(f"          node   = {NODE or '(未找到)'}")
     print(line)
     for r in gate.results:
         tag = {"PASS": "[PASS]", "WARN": "[WARN]", "FAIL": "[FAIL]"}.get(r.status, "[?]")
