@@ -1,5 +1,11 @@
 # Rz 智能家居 · 全屋智能整装系统
 
+[![CI](https://github.com/ryhirz/dev-master1/actions/workflows/ci.yml/badge.svg)](https://github.com/ryhirz/dev-master1/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+
 高端全屋智能家居企业官网 + 运营管理后台的完整全栈实现。访客在前台浏览产品、案例与新闻，提交留言与简历投递；管理员在后台完成内容、产品、招聘、留言的日常运营，操作全程留痕可审计。
 
 > 采用**文档驱动开发**：需求（PRD）→ 设计（UI/UX）→ 接口契约 → 数据模型 → 代码实现，逐层约束，实现以文档为准。
