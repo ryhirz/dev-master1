@@ -8,8 +8,12 @@ on:
 jobs:
   backend:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rz-home/backend
+
     services:
-      # PG 集成测试服务（§九：SQLite 单测 + PG CI 集成）
+      # PostgreSQL 集成测试服务（SQLite 单测 + PG 迁移/集成两条链路）
       postgres:
         image: postgres:16
         env:
@@ -23,60 +27,60 @@ jobs:
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
       - name: Install deps
         run: |
-          cd backend
           pip install -r requirements.txt
           pip install pytest httpx
+
       - name: Lint compile
-        run: |
-          cd backend
-          python -m compileall -q app
+        run: python -m compileall -q app
+
       - name: Test (SQLite 单测)
-        run: |
-          cd backend
-          pytest -q
-      - name: Test (PG 集成，迁移+种子+核心表)
+        run: pytest -q
+
+      - name: Test (PG 迁移 + 种子 + 集成)
         env:
           PG_DATABASE_URL: postgresql+psycopg2://rz:rzpwd@localhost:5432/rz_home
         run: |
-          cd backend
-          # 生产走 Alembic 迁移建库
+          # 生产路径：Alembic 迁移建库
           alembic upgrade head
-          # 种子（幂等）
+          # 幂等种子
           python -c "from app.core.db import init_db, seed; init_db(); seed()"
-          # 集成测试（integration 标记，校验连接/核心表/种子账号）
+          # 集成测试（校验连接 / 核心表 / 种子账号）
           pytest tests/test_m5_integration_pg.py -m integration -q
 
   frontend-web:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rz-home/frontend/web
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
       - run: npm install --legacy-peer-deps
-        working-directory: frontend/web
       - run: npm run typecheck
-        working-directory: frontend/web
       - run: npm run build
-        working-directory: frontend/web
 
   frontend-admin:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rz-home/frontend/admin
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
       - run: npm install --legacy-peer-deps
-        working-directory: frontend/admin
       - run: npm run typecheck
-        working-directory: frontend/admin
       - run: npm run build
-        working-directory: frontend/admin
